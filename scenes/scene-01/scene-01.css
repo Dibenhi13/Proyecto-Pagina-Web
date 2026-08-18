@@ -1,0 +1,745 @@
+/* =========================================================
+   ESCENA 01 — INCOMING TRANSMISSION
+   The Lost Ship
+========================================================= */
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    background: #000000;
+    font-family: "Montserrat", sans-serif;
+}
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+:root {
+    --terminal-green: #00ff38;
+    --terminal-green-soft: rgba(0, 255, 56, 0.75);
+    --terminal-green-dim: rgba(0, 255, 56, 0.45);
+    --terminal-green-faint: rgba(0, 255, 56, 0.14);
+
+    --scene-padding: clamp(12px, 1.6vw, 24px);
+}
+
+
+/* =========================
+   ESCENA GENERAL
+========================= */
+
+.terminal-scene {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background: #000000;
+
+    color: var(--terminal-green);
+}
+
+
+/* =========================
+   FONDO
+========================= */
+
+.terminal-background {
+    position: absolute;
+    inset: 0;
+
+    z-index: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 255, 56, 0.025) 0%,
+            rgba(0, 255, 56, 0.008) 35%,
+            rgba(0, 0, 0, 0) 70%
+        ),
+        #000000;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   SCANLINES
+========================= */
+
+.scanlines {
+    position: absolute;
+    inset: 0;
+
+    z-index: 15;
+
+    pointer-events: none;
+
+    opacity: 0.14;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.025) 0,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    mix-blend-mode: screen;
+}
+
+
+/* =========================
+   NOISE
+========================= */
+
+.terminal-noise {
+    position: absolute;
+    inset: 0;
+
+    z-index: 16;
+
+    pointer-events: none;
+
+    opacity: 0.025;
+
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            rgba(255, 255, 255, 0.05) 0,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+
+    background-size: 4px 4px;
+
+    mix-blend-mode: screen;
+
+    will-change: opacity, transform;
+}
+
+
+/* =========================
+   LÍNEAS DE INTERFERENCIA
+========================= */
+
+.interference-line {
+    position: absolute;
+
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    z-index: 20;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background: rgba(0, 255, 56, 0.5);
+
+    box-shadow:
+        0 0 5px rgba(0, 255, 56, 0.45),
+        0 0 12px rgba(0, 255, 56, 0.15);
+
+    will-change: opacity, transform;
+}
+
+
+.interference-line-1 {
+    top: 30%;
+}
+
+
+.interference-line-2 {
+    top: 68%;
+}
+
+
+/* =========================
+   FRAME PRINCIPAL
+========================= */
+
+.terminal-frame {
+    position: absolute;
+
+    inset: var(--scene-padding);
+
+    z-index: 5;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   LÍNEAS DEL FRAME
+========================= */
+
+.frame-line {
+    position: absolute;
+
+    display: block;
+
+    background: var(--terminal-green);
+
+    box-shadow:
+        0 0 4px rgba(0, 255, 56, 0.55),
+        0 0 10px rgba(0, 255, 56, 0.15);
+
+    opacity: 0;
+
+    will-change: transform, opacity;
+}
+
+
+/* Arriba */
+
+.frame-top {
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    transform-origin: left center;
+}
+
+
+/* Derecha */
+
+.frame-right {
+    top: 0;
+    right: 0;
+
+    width: 1px;
+    height: 100%;
+
+    transform-origin: center top;
+}
+
+
+/* Abajo */
+
+.frame-bottom {
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 1px;
+
+    transform-origin: right center;
+}
+
+
+/* Izquierda */
+
+.frame-left {
+    bottom: 0;
+    left: 0;
+
+    width: 1px;
+    height: 100%;
+
+    transform-origin: center bottom;
+}
+
+
+/* =========================
+   CONTENIDO DE LA TERMINAL
+========================= */
+
+.terminal-content {
+    position: relative;
+
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: min(92%, 760px);
+
+    text-align: center;
+
+    padding: clamp(20px, 3vw, 40px);
+
+    color: var(--terminal-green);
+
+    text-shadow:
+        0 0 4px rgba(0, 255, 56, 0.38),
+        0 0 8px rgba(0, 255, 56, 0.08);
+}
+
+
+/* =========================
+   BLOQUES DE MENSAJES
+========================= */
+
+.terminal-message {
+    width: 100%;
+
+    opacity: 1;
+}
+
+
+.message-1 {
+    margin-bottom: clamp(28px, 4vh, 44px);
+}
+
+
+.message-2 {
+    margin-bottom: clamp(26px, 3.8vh, 40px);
+}
+
+
+.message-3 {
+    margin-bottom: clamp(30px, 4.5vh, 52px);
+}
+
+
+.message-4 {
+    margin-bottom: clamp(38px, 5.5vh, 64px);
+}
+
+
+.message-5 {
+    margin-bottom: clamp(30px, 4vh, 48px);
+}
+
+
+/* =========================
+   LÍNEAS DE TEXTO
+========================= */
+
+.terminal-line {
+    min-height: 1.4em;
+
+    font-size: clamp(0.78rem, 1.05vw, 1rem);
+
+    font-weight: 400;
+
+    line-height: 1.55;
+
+    letter-spacing: -0.015em;
+
+    color: var(--terminal-green);
+
+    text-align: center;
+
+    white-space: normal;
+
+    word-break: normal;
+}
+
+
+/* Separación para el bloque doble */
+
+#line-registered {
+    margin-top: 4px;
+}
+
+
+/* Línea narrativa importante */
+
+.important-line {
+    text-shadow:
+        0 0 5px rgba(0, 255, 56, 0.5),
+        0 0 10px rgba(0, 255, 56, 0.1);
+}
+
+
+/* =========================
+   TEXTO ESCRITO
+========================= */
+
+.typed-text {
+    display: inline;
+}
+
+
+/* =========================
+   CURSOR
+========================= */
+
+.terminal-cursor {
+    display: inline-block;
+
+    margin-left: 3px;
+
+    font-size: 0.8em;
+
+    color: var(--terminal-green);
+
+    opacity: 0;
+
+    transform: translateY(-1px);
+
+    text-shadow:
+        0 0 4px rgba(0, 255, 56, 0.65);
+
+    will-change: opacity;
+}
+
+
+/* =========================
+   BOTÓN
+========================= */
+
+.accept-container {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    min-height: 65px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    will-change: opacity, transform;
+}
+
+
+.accept-transmission {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 250px;
+
+    padding:
+        11px
+        18px;
+
+    border: 2px solid var(--terminal-green);
+
+    background: rgba(0, 255, 56, 0.02);
+
+    color: var(--terminal-green);
+
+    font-family: inherit;
+
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+
+    font-weight: 500;
+
+    letter-spacing: 0.015em;
+
+    cursor: pointer;
+
+    text-transform: uppercase;
+
+    box-shadow:
+        0 0 4px rgba(0, 255, 56, 0.35),
+        inset 0 0 6px rgba(0, 255, 56, 0.035);
+
+    text-shadow:
+        0 0 4px rgba(0, 255, 56, 0.5);
+
+    transition:
+        background 160ms ease,
+        box-shadow 160ms ease,
+        text-shadow 160ms ease,
+        transform 160ms ease;
+
+    will-change:
+        transform,
+        opacity,
+        box-shadow;
+}
+
+
+/* =========================
+   HOVER DEL BOTÓN
+========================= */
+
+.accept-transmission:hover:not(:disabled) {
+    background: rgba(0, 255, 56, 0.07);
+
+    box-shadow:
+        0 0 6px rgba(0, 255, 56, 0.7),
+        0 0 18px rgba(0, 255, 56, 0.17),
+        inset 0 0 8px rgba(0, 255, 56, 0.06);
+
+    text-shadow:
+        0 0 5px rgba(0, 255, 56, 0.8),
+        0 0 12px rgba(0, 255, 56, 0.2);
+}
+
+
+/* Click */
+
+.accept-transmission:active:not(:disabled) {
+    transform: scale(0.985);
+}
+
+
+/* Botón bloqueado */
+
+.accept-transmission:disabled {
+    cursor: default;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   TEXTO DEL BOTÓN
+========================= */
+
+.accept-text {
+    display: inline-block;
+
+    will-change:
+        transform,
+        opacity;
+}
+
+
+/* =========================
+   FLASH VERDE
+========================= */
+
+.terminal-flash {
+    position: absolute;
+    inset: 0;
+
+    z-index: 40;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background: var(--terminal-green);
+
+    mix-blend-mode: screen;
+
+    will-change: opacity;
+}
+
+
+/* =========================
+   OVERLAY DE TRANSICIÓN
+========================= */
+
+.transition-overlay {
+    position: absolute;
+    inset: 0;
+
+    z-index: 45;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 255, 56, 0.06) 45%,
+            rgba(0, 255, 56, 0.12) 50%,
+            rgba(0, 255, 56, 0.06) 55%,
+            transparent 100%
+        );
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+/* =========================
+   FOCUS
+========================= */
+
+button:focus-visible {
+    outline:
+        1px solid
+        var(--terminal-green);
+
+    outline-offset: 6px;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .terminal-content {
+        width: min(90%, 660px);
+
+        padding: 30px 22px;
+    }
+
+
+    .terminal-line {
+        font-size: clamp(
+            0.74rem,
+            1.8vw,
+            0.95rem
+        );
+    }
+
+
+    .accept-transmission {
+        min-width: 230px;
+
+        font-size: 1rem;
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    :root {
+        --scene-padding: 10px;
+    }
+
+
+    .terminal-content {
+        width: 92%;
+
+        padding:
+            24px
+            14px;
+    }
+
+
+    .terminal-line {
+        font-size: 0.72rem;
+
+        line-height: 1.6;
+    }
+
+
+    .message-1 {
+        margin-bottom: 25px;
+    }
+
+
+    .message-2 {
+        margin-bottom: 24px;
+    }
+
+
+    .message-3 {
+        margin-bottom: 30px;
+    }
+
+
+    .message-4 {
+        margin-bottom: 38px;
+    }
+
+
+    .message-5 {
+        margin-bottom: 28px;
+    }
+
+
+    .accept-container {
+        min-height: 58px;
+    }
+
+
+    .accept-transmission {
+        min-width: auto;
+
+        width: min(100%, 270px);
+
+        padding:
+            10px
+            14px;
+
+        font-size: 0.92rem;
+    }
+
+
+    .scanlines {
+        opacity: 0.1;
+    }
+
+
+    .terminal-noise {
+        opacity: 0.018;
+    }
+
+}
+
+
+/* =========================
+   PANTALLAS MUY PEQUEÑAS
+========================= */
+
+@media (max-width: 380px) {
+
+    .terminal-content {
+        width: 94%;
+    }
+
+
+    .terminal-line {
+        font-size: 0.66rem;
+    }
+
+
+    .accept-transmission {
+        font-size: 0.82rem;
+    }
+
+}
+
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+
+}

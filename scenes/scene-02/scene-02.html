@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Surveillance Interface | The Lost Ship</title>
+
+
+    <!-- Montserrat temporal -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="scene-02.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         ESCENA 02
+         SURVEILLANCE INTERFACE
+    =================================================== -->
+
+    <main
+        id="scene-02"
+        class="surveillance-scene"
+    >
+
+
+        <!-- Fondo -->
+        <div
+            class="system-background"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- Scanlines -->
+        <div
+            class="system-scanlines"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- Noise -->
+        <div
+            class="system-noise"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- Interferencia global -->
+        <div
+            id="global-interference"
+            class="global-interference"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             INTERFAZ PRINCIPAL
+        =================================================== -->
+
+        <section
+            id="surveillance-interface"
+            class="surveillance-interface"
+        >
+
+
+            <!-- ==============================================
+                 HEADER
+            =============================================== -->
+
+            <header
+                class="system-header"
+            >
+
+
+                <div
+                    class="status-item status-connection"
+                >
+
+                    <span
+                        id="connection-status"
+                        class="status-value"
+                    >
+                        LOADING...
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="status-item status-signal"
+                >
+
+                    <span
+                        id="signal-label"
+                        class="status-label"
+                    >
+                        SIGNAL STRENGTH:
+                    </span>
+
+                    <span
+                        id="signal-strength"
+                        class="status-value"
+                    >
+                        76%
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="status-item status-data"
+                >
+
+                    <span
+                        id="data-label"
+                        class="status-label"
+                    >
+                        DATA STREAM:
+                    </span>
+
+                    <span
+                        id="data-status"
+                        class="status-value"
+                    >
+                        ACTIVE
+                    </span>
+
+                </div>
+
+
+            </header>
+
+
+
+            <!-- ==============================================
+                 CUERPO
+            =============================================== -->
+
+            <div
+                class="system-body"
+            >
+
+
+                <!-- ==========================================
+                     CAMERAS
+                =========================================== -->
+
+                <aside
+                    id="camera-panel"
+                    class="camera-panel"
+                >
+
+                    <h2
+                        id="camera-panel-title"
+                        class="panel-title"
+                    >
+                        CAMERAS
+                    </h2>
+
+
+                    <nav
+                        class="camera-list"
+                        aria-label="Surveillance cameras"
+                    >
+
+                        <button
+                            class="camera-button active"
+                            type="button"
+                            data-camera="cam01"
+                        >
+                            CAM 01
+                        </button>
+
+
+                        <button
+                            class="camera-button"
+                            type="button"
+                            data-camera="cam02"
+                        >
+                            CAM 02
+                        </button>
+
+
+                        <button
+                            class="camera-button"
+                            type="button"
+                            data-camera="cam03"
+                        >
+                            CAM 03
+                        </button>
+
+                    </nav>
+
+                </aside>
+
+
+
+                <!-- ==========================================
+                     LIVE FEED
+                =========================================== -->
+
+                <section
+                    id="live-feed-panel"
+                    class="live-feed-panel"
+                >
+
+
+                    <div
+                        class="feed-header"
+                    >
+
+                        <span
+                            id="live-feed-label"
+                            class="live-feed-label"
+                        >
+                            LIVE FEED
+                        </span>
+
+
+                        <span
+                            class="live-indicator"
+                            aria-hidden="true"
+                        >
+
+                            <span
+                                class="live-dot"
+                            ></span>
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- Video -->
+
+                    <div
+                        id="video-container"
+                        class="video-container"
+                    >
+
+                        <video
+                            id="camera-video"
+                            class="camera-video"
+                            autoplay
+                            muted
+                            loop
+                            playsinline
+                        ></video>
+
+
+                        <!-- Placeholder mientras no haya videos -->
+
+                        <div
+                            id="video-placeholder"
+                            class="video-placeholder"
+                        >
+
+                            <span>
+                                CAM 01
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="video-scanlines"
+                            aria-hidden="true"
+                        ></div>
+
+
+                        <div
+                            class="video-noise"
+                            aria-hidden="true"
+                        ></div>
+
+
+                        <div
+                            id="video-static"
+                            class="video-static"
+                            aria-hidden="true"
+                        ></div>
+
+
+                        <div
+                            id="switching-feed"
+                            class="switching-feed"
+                            aria-hidden="true"
+                        >
+                            SWITCHING FEED...
+                        </div>
+
+
+                        <div
+                            id="feed-anomaly"
+                            class="feed-anomaly"
+                            aria-hidden="true"
+                        ></div>
+
+                    </div>
+
+
+
+                    <div
+                        class="feed-footer"
+                    >
+
+                        <span
+                            id="camera-name"
+                            class="camera-name"
+                        >
+                            EXTERNAL CAM 01
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- ==========================================
+                     SYSTEM LOGS
+                =========================================== -->
+
+                <aside
+                    id="logs-panel"
+                    class="logs-panel"
+                >
+
+
+                    <div
+                        class="logs-content"
+                    >
+
+                        <h2
+                            id="logs-title"
+                            class="panel-title"
+                        >
+                            SYSTEM LOGS
+                        </h2>
+
+
+                        <div
+                            id="system-logs"
+                            class="system-logs"
+                            aria-live="polite"
+                        >
+
+
+                            <p
+                                id="log-01"
+                                class="system-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span class="log-text"></span>
+
+                            </p>
+
+
+                            <p
+                                id="log-02"
+                                class="system-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span class="log-text"></span>
+
+                            </p>
+
+
+                            <p
+                                id="log-03"
+                                class="system-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span class="log-text"></span>
+
+                            </p>
+
+
+                            <p
+                                id="log-04"
+                                class="system-log important-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span class="log-text"></span>
+
+                            </p>
+
+
+                            <p
+                                id="log-05"
+                                class="system-log warning-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span class="log-text"></span>
+
+                            </p>
+
+
+                            <p
+                                id="log-cursor"
+                                class="system-log log-cursor"
+                                aria-hidden="true"
+                            >
+
+                                &gt;
+
+                                <span
+                                    class="cursor-block"
+                                >
+                                    █
+                                </span>
+
+                            </p>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ACCESS LOGS -->
+
+                    <div
+                        class="access-logs-container"
+                    >
+
+                        <button
+                            id="access-logs-button"
+                            class="access-logs-button"
+                            type="button"
+                        >
+                            ACCESS LOGS
+                        </button>
+
+                    </div>
+
+
+                </aside>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             ARCHIVED LOGS
+        =================================================== -->
+
+        <section
+            id="archived-logs-modal"
+            class="archived-logs-modal"
+            aria-hidden="true"
+        >
+
+
+            <div
+                class="archived-logs-window"
+            >
+
+
+                <!-- Header -->
+
+                <header
+                    class="archived-logs-header"
+                >
+
+                    <h2
+                        id="archived-logs-title"
+                    >
+                        ARCHIVED LOGS
+                    </h2>
+
+
+                    <button
+                        id="close-logs-button"
+                        class="close-logs-button"
+                        type="button"
+                        aria-label="Close archived logs"
+                    >
+                        ×
+                    </button>
+
+                </header>
+
+
+
+                <!-- Lista -->
+
+                <div
+                    class="archived-logs-list"
+                >
+
+
+                    <button
+                        class="archived-log-item"
+                        type="button"
+                        data-log="01"
+                    >
+
+                        <span class="log-id">
+                            LOG_01
+                        </span>
+
+                        <span class="log-description">
+                            SYSTEM DIAGNOSTIC
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="archived-log-item"
+                        type="button"
+                        data-log="02"
+                    >
+
+                        <span class="log-id">
+                            LOG_02
+                        </span>
+
+                        <span class="log-description">
+                            NAVIGATION REPORT
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="archived-log-item"
+                        type="button"
+                        data-log="03"
+                    >
+
+                        <span class="log-id">
+                            LOG_03
+                        </span>
+
+                        <span class="log-description">
+                            CREW AUDIO
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="archived-log-item corrupted"
+                        type="button"
+                        data-log="04"
+                    >
+
+                        <span class="log-id">
+                            LOG_04
+                        </span>
+
+                        <span class="log-description">
+                            [CORRUPTED]
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- ==========================================
+                     CONTENIDO DEL LOG
+                =========================================== -->
+
+                <div
+                    id="log-details"
+                    class="log-details"
+                    aria-live="polite"
+                >
+
+
+                    <!-- Placeholder -->
+
+                    <div
+                        id="log-details-placeholder"
+                        class="log-details-placeholder"
+                    >
+                        SELECT LOG FILE
+                    </div>
+
+
+
+                    <!-- Contenido -->
+
+                    <div
+                        id="log-details-content"
+                        class="log-details-content"
+                    >
+
+
+                        <div
+                            class="log-details-heading"
+                        >
+
+                            <span
+                                id="selected-log-id"
+                                class="selected-log-id"
+                            ></span>
+
+
+                            <span
+                                id="selected-log-title"
+                                class="selected-log-title"
+                            ></span>
+
+                        </div>
+
+
+
+                        <div
+                            class="log-details-metadata"
+                        >
+
+                            <p>
+
+                                <span
+                                    id="log-date-label"
+                                    class="metadata-label"
+                                >
+                                    DATE:
+                                </span>
+
+                                <span
+                                    id="selected-log-date"
+                                ></span>
+
+                            </p>
+
+
+                            <p>
+
+                                <span
+                                    id="log-status-label"
+                                    class="metadata-label"
+                                >
+                                    STATUS:
+                                </span>
+
+                                <span
+                                    id="selected-log-status"
+                                ></span>
+
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- Texto -->
+
+                        <div
+                            id="selected-log-body"
+                            class="selected-log-body"
+                        ></div>
+
+
+
+                        <!-- ==================================
+                             AUDIO CORRUPTED LOG
+                        =================================== -->
+
+                        <div
+                            id="corrupted-audio-container"
+                            class="corrupted-audio-container"
+                        >
+
+                            <button
+                                id="play-corrupted-audio"
+                                class="play-corrupted-audio"
+                                type="button"
+                            >
+
+                                <span
+                                    id="corrupted-audio-text"
+                                >
+                                    PLAY AUDIO
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             AUDIO
+        =================================================== -->
+
+        <audio
+            id="corrupted-audio"
+            preload="metadata"
+        >
+
+            <source
+                src="../../assets/audio/corrupted-log.mp3"
+                type="audio/mpeg"
+            >
+
+        </audio>
+
+
+
+        <!-- Transición -->
+
+        <div
+            id="scene-transition"
+            class="scene-transition"
+            aria-hidden="true"
+        ></div>
+
+
+    </main>
+
+
+
+    <!-- GSAP -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    ></script>
+
+
+    <!-- ScrollTrigger -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+    ></script>
+
+
+    <!-- Animaciones -->
+
+    <script
+        src="scene-02-animations.js"
+    ></script>
+
+
+    <!-- Lógica -->
+
+    <script
+        src="scene-02.js"
+    ></script>
+
+
+</body>
+
+</html>

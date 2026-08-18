@@ -1,0 +1,1206 @@
+/* =========================================================
+   ESCENA 02 — SURVEILLANCE INTERFACE
+   The Lost Ship
+========================================================= */
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    background: #020202;
+    color: #00ff38;
+    font-family: "Montserrat", sans-serif;
+}
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+:root {
+
+    --green: #00ff38;
+
+    --green-bright:
+        rgba(0, 255, 56, 1);
+
+    --green-soft:
+        rgba(0, 255, 56, 0.75);
+
+    --green-medium:
+        rgba(0, 255, 56, 0.48);
+
+    --green-dim:
+        rgba(0, 255, 56, 0.28);
+
+    --green-faint:
+        rgba(0, 255, 56, 0.08);
+
+    --black:
+        #020202;
+
+    --outer-padding:
+        clamp(12px, 1.8vw, 28px);
+}
+
+
+/* =========================
+   ESCENA
+========================= */
+
+.surveillance-scene {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background: var(--black);
+
+    color: var(--green);
+}
+
+
+/* =========================
+   FONDO
+========================= */
+
+.system-background {
+    position: absolute;
+    inset: 0;
+
+    z-index: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 255, 56, 0.018) 0%,
+            rgba(0, 255, 56, 0.006) 45%,
+            rgba(0, 0, 0, 0) 72%
+        ),
+        #020202;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   SCANLINES
+========================= */
+
+.system-scanlines {
+    position: absolute;
+    inset: 0;
+
+    z-index: 40;
+
+    pointer-events: none;
+
+    opacity: 0.09;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.025) 0,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    mix-blend-mode: screen;
+}
+
+
+/* =========================
+   NOISE
+========================= */
+
+.system-noise {
+    position: absolute;
+    inset: 0;
+
+    z-index: 41;
+
+    pointer-events: none;
+
+    opacity: 0.022;
+
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            rgba(255, 255, 255, 0.05) 0,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+
+    background-size: 4px 4px;
+
+    mix-blend-mode: screen;
+}
+
+
+/* =========================
+   INTERFERENCIA
+========================= */
+
+.global-interference {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 3px;
+
+    z-index: 50;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    background:
+        rgba(0, 255, 56, 0.65);
+
+    box-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.45);
+}
+
+
+/* =========================
+   INTERFAZ PRINCIPAL
+========================= */
+
+.surveillance-interface {
+    position: relative;
+
+    z-index: 10;
+
+    width:
+        calc(100% - (var(--outer-padding) * 2));
+
+    min-height:
+        calc(100vh - (var(--outer-padding) * 2));
+
+    margin:
+        var(--outer-padding);
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 0, 0, 0.92);
+
+    box-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.12);
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.system-header {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1.4fr
+        1.8fr;
+
+    align-items: center;
+
+    min-height: 42px;
+
+    border-bottom:
+        1px solid
+        var(--green);
+
+    padding:
+        0
+        clamp(16px, 2vw, 30px);
+
+    font-size:
+        clamp(
+            0.58rem,
+            0.82vw,
+            0.78rem
+        );
+}
+
+
+.status-item {
+    display: flex;
+
+    align-items: center;
+
+    color:
+        var(--green-soft);
+
+    text-shadow:
+        0 0 4px
+        rgba(0, 255, 56, 0.32);
+}
+
+
+.status-signal,
+.status-data {
+    gap: 4px;
+}
+
+
+.status-value {
+    color: var(--green);
+}
+
+
+.status-label {
+    color: var(--green-soft);
+}
+
+
+/* =========================
+   BODY GRID
+========================= */
+
+.system-body {
+    flex: 1;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(115px, 14%)
+        minmax(0, 1fr)
+        minmax(210px, 21%);
+}
+
+
+/* =========================
+   TITLES
+========================= */
+
+.panel-title {
+    font-size:
+        clamp(
+            0.7rem,
+            1vw,
+            0.95rem
+        );
+
+    font-weight: 500;
+
+    color: var(--green);
+
+    text-shadow:
+        0 0 4px
+        rgba(0, 255, 56, 0.35);
+}
+
+
+/* =========================================================
+   CAMERAS
+========================================================= */
+
+.camera-panel {
+    border-right:
+        1px solid
+        var(--green);
+
+    padding:
+        clamp(14px, 2vw, 22px);
+}
+
+
+.camera-panel .panel-title {
+    margin-bottom: 16px;
+}
+
+
+.camera-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.camera-button {
+    width: 100%;
+
+    min-height: 42px;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        transparent;
+
+    color:
+        var(--green-soft);
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        background 150ms ease,
+        box-shadow 150ms ease,
+        color 150ms ease;
+}
+
+
+.camera-button:hover,
+.camera-button.active {
+    color:
+        var(--green);
+
+    background:
+        rgba(0, 255, 56, 0.05);
+
+    box-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.2);
+}
+
+
+/* =========================================================
+   LIVE FEED
+========================================================= */
+
+.live-feed-panel {
+    display: flex;
+    flex-direction: column;
+
+    padding:
+        clamp(18px, 2.2vw, 34px);
+}
+
+
+.feed-header {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    margin-bottom: 8px;
+}
+
+
+.live-feed-label,
+.camera-name {
+    font-size:
+        clamp(
+            0.52rem,
+            0.75vw,
+            0.7rem
+        );
+
+    color:
+        var(--green-soft);
+}
+
+
+.live-dot {
+    display: block;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 5px
+        var(--green);
+}
+
+
+.video-container {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio:
+        16 / 9;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        #000;
+}
+
+
+.camera-video {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    filter:
+        brightness(0.82)
+        contrast(1.12)
+        saturate(0.85);
+}
+
+
+.video-placeholder {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        #000;
+
+    color:
+        var(--green-medium);
+}
+
+
+.video-scanlines {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    opacity: 0.18;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.025) 0,
+            rgba(255,255,255,0.025) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+}
+
+
+.video-noise {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 6;
+
+    pointer-events: none;
+
+    opacity: 0.025;
+
+    background-image:
+        repeating-radial-gradient(
+            circle,
+            rgba(255,255,255,0.08) 0,
+            rgba(255,255,255,0.08) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+
+    background-size:
+        4px 4px;
+}
+
+
+.video-static {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 10;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.15) 0,
+            rgba(255,255,255,0.15) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+}
+
+
+.switching-feed {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 12;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background:
+        rgba(0,0,0,0.7);
+
+    opacity: 0;
+
+    color:
+        var(--green);
+}
+
+
+.feed-anomaly {
+    position: absolute;
+
+    z-index: 11;
+
+    left: 62%;
+    top: 18%;
+
+    width: 9%;
+    height: 58%;
+
+    opacity: 0;
+
+    background:
+        rgba(0,0,0,0.7);
+
+    filter:
+        blur(2px);
+}
+
+
+.feed-footer {
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   SYSTEM LOGS
+========================================================= */
+
+.logs-panel {
+    display: flex;
+    flex-direction: column;
+
+    border-left:
+        1px solid
+        var(--green);
+}
+
+
+.logs-content {
+    flex: 1;
+
+    padding:
+        clamp(14px, 1.6vw, 22px);
+}
+
+
+.logs-content .panel-title {
+    margin-bottom: 8px;
+}
+
+
+.system-logs {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.system-log {
+    display: flex;
+
+    gap: 4px;
+
+    font-size:
+        clamp(
+            0.48rem,
+            0.66vw,
+            0.64rem
+        );
+
+    line-height: 1.45;
+
+    color:
+        var(--green-soft);
+
+    opacity: 0;
+}
+
+
+.log-arrow {
+    color:
+        var(--green);
+}
+
+
+.warning-log,
+.important-log {
+    color:
+        var(--green);
+}
+
+
+.log-cursor {
+    opacity: 0;
+}
+
+
+/* =========================
+   ACCESS LOGS
+========================= */
+
+.access-logs-container {
+    padding:
+        clamp(14px, 1.6vw, 22px);
+
+    border-top:
+        1px solid
+        var(--green);
+}
+
+
+.access-logs-button {
+    width: 100%;
+
+    min-height: 42px;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        transparent;
+
+    color:
+        var(--green);
+
+    font-family:
+        inherit;
+
+    cursor:
+        pointer;
+}
+
+
+.access-logs-button:hover {
+    background:
+        rgba(0,255,56,0.05);
+
+    box-shadow:
+        0 0 8px
+        rgba(0,255,56,0.2);
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.archived-logs-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background:
+        rgba(0,0,0,0.88);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+}
+
+
+.archived-logs-window {
+    width:
+        min(
+            90vw,
+            650px
+        );
+
+    max-height:
+        88vh;
+
+    overflow-y: auto;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        #000;
+
+    box-shadow:
+        0 0 14px
+        rgba(0,255,56,0.12);
+}
+
+
+.archived-logs-header {
+    display: flex;
+
+    align-items: center;
+    justify-content:
+        space-between;
+
+    padding:
+        12px 16px;
+
+    border-bottom:
+        1px solid
+        var(--green);
+}
+
+
+.archived-logs-header h2 {
+    font-size:
+        0.85rem;
+
+    font-weight:
+        500;
+}
+
+
+.close-logs-button {
+    border: none;
+
+    background:
+        transparent;
+
+    color:
+        var(--green);
+
+    font-size:
+        1.2rem;
+
+    cursor:
+        pointer;
+}
+
+
+/* =========================
+   LOG LIST
+========================= */
+
+.archived-logs-list {
+    display: flex;
+
+    flex-direction:
+        column;
+
+    padding: 16px;
+}
+
+
+.archived-log-item {
+    display: grid;
+
+    grid-template-columns:
+        90px
+        1fr;
+
+    gap: 14px;
+
+    width: 100%;
+
+    padding:
+        13px 12px;
+
+    border: none;
+
+    border-bottom:
+        1px solid
+        var(--green-dim);
+
+    background:
+        transparent;
+
+    color:
+        var(--green-soft);
+
+    font-family:
+        inherit;
+
+    text-align:
+        left;
+
+    cursor:
+        pointer;
+}
+
+
+.archived-log-item:hover {
+    color:
+        var(--green);
+
+    background:
+        rgba(0,255,56,0.04);
+}
+
+
+.archived-log-item.corrupted {
+    opacity:
+        0.75;
+}
+
+
+/* =========================================================
+   LOG DETAILS
+========================================================= */
+
+.log-details {
+    min-height:
+        210px;
+
+    padding:
+        18px;
+
+    border-top:
+        1px solid
+        var(--green);
+}
+
+
+.log-details-placeholder {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    min-height:
+        170px;
+
+    color:
+        var(--green-dim);
+
+    font-size:
+        0.7rem;
+
+    letter-spacing:
+        0.08em;
+}
+
+
+.log-details-content {
+    display: none;
+
+    opacity: 0;
+}
+
+
+.log-details-heading {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom:
+        16px;
+
+    color:
+        var(--green);
+}
+
+
+.selected-log-title {
+    color:
+        var(--green-soft);
+}
+
+
+.log-details-metadata {
+    margin-bottom:
+        18px;
+
+    font-size:
+        0.65rem;
+
+    line-height:
+        1.6;
+}
+
+
+.metadata-label {
+    color:
+        var(--green);
+
+    margin-right:
+        5px;
+}
+
+
+.selected-log-body {
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap: 8px;
+
+    font-size:
+        clamp(
+            0.58rem,
+            0.8vw,
+            0.72rem
+        );
+
+    line-height:
+        1.6;
+
+    color:
+        var(--green-soft);
+}
+
+
+.corrupted-line {
+    color:
+        var(--green);
+
+    text-shadow:
+        0 0 5px
+        rgba(0,255,56,0.4);
+}
+
+
+/* =========================================================
+   CORRUPTED AUDIO
+========================================================= */
+
+.corrupted-audio-container {
+    display: none;
+
+    margin-top:
+        22px;
+
+    padding-top:
+        14px;
+
+    border-top:
+        1px solid
+        var(--green);
+}
+
+
+.play-corrupted-audio {
+    width:
+        100%;
+
+    min-height:
+        40px;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        transparent;
+
+    color:
+        var(--green);
+
+    font-family:
+        inherit;
+
+    font-size:
+        clamp(
+            0.62rem,
+            0.9vw,
+            0.82rem
+        );
+
+    cursor:
+        pointer;
+
+    text-shadow:
+        0 0 4px
+        rgba(0,255,56,0.4);
+
+    transition:
+        background 150ms ease,
+        box-shadow 150ms ease;
+}
+
+
+.play-corrupted-audio:hover {
+    background:
+        rgba(0,255,56,0.06);
+
+    box-shadow:
+        0 0 10px
+        rgba(0,255,56,0.25);
+}
+
+
+/* =========================================================
+   TRANSITION
+========================================================= */
+
+.scene-transition {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 150;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        #000;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+    body {
+        overflow:
+            auto;
+    }
+
+    .system-body {
+        grid-template-columns:
+            110px
+            1fr;
+
+        grid-template-areas:
+            "cams feed"
+            "logs logs";
+    }
+
+    .camera-panel {
+        grid-area:
+            cams;
+    }
+
+    .live-feed-panel {
+        grid-area:
+            feed;
+    }
+
+    .logs-panel {
+        grid-area:
+            logs;
+
+        border-left:
+            none;
+
+        border-top:
+            1px solid
+            var(--green);
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    :root {
+        --outer-padding:
+            8px;
+    }
+
+    .system-header {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            4px;
+
+        padding:
+            10px;
+    }
+
+    .system-body {
+        grid-template-columns:
+            1fr;
+
+        grid-template-areas:
+            "cams"
+            "feed"
+            "logs";
+    }
+
+    .camera-panel {
+        border-right:
+            none;
+
+        border-bottom:
+            1px solid
+            var(--green);
+    }
+
+    .camera-list {
+        flex-direction:
+            row;
+
+        gap:
+            8px;
+    }
+
+    .video-container {
+        aspect-ratio:
+            4 / 3;
+    }
+
+    .archived-log-item {
+        grid-template-columns:
+            75px
+            1fr;
+    }
+
+}

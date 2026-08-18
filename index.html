@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>The Lost Ship</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+    <section id="scene-1" class="scene intro-scene">
+        <!-- STARS BABYYY -->
+        <div class="space-background">
+            <div id="stars-back" class="stars-layer stars-back"></div>
+            <div id="stars-middle" class="stars-layer stars-middle"></div>
+            <div id="stars-front" class="stars-layer stars-front"></div>
+        </div>
+        <div class="noise-overlay"></div>
+
     
+        <main class="intro-content">
+            <h1 id="main-title" class="main-title">The Lost Ship</h1>
+            <p id="author" class="author">by Dibenhi Garza</p>
+
+            <div class="language-selector" aria-label="Language selector">
+                <button id="language-en" class="language-button active" type="button" data-language="en">EN</button>
+                <span class="language-divider">/</span>
+                <button id="language-es" class="language-button" type="button" data-language="es">ES</button>
+            </div>
+
+            <button id="transmission-button" class="transmission-button" type="button">Click to Read Transmission</button>
+        </main>
+
+        <div id="glitch-layer-1" class="glitch-layer glitch-layer-1"></div>
+        <div id="glitch-layer-2" class="glitch-layer glitch-layer-2"></div>
+        <div id="glitch-layer-3" class="glitch-layer glitch-layer-3"></div>
+        <div id="transition-flash" class="transition-flash"></div>
+    </section>
+
+    <!-- GSAP LIBRARY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

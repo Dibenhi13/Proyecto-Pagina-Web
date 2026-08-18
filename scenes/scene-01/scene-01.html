@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Incoming Transmission | The Lost Ship</title>
+
+
+    <!-- Montserrat temporal -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS de Escena 1 -->
+    <link
+        rel="stylesheet"
+        href="scene-01.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         ESCENA 01
+         INCOMING TRANSMISSION / TERMINAL DE ACCESO
+    =================================================== -->
+
+    <main
+        id="scene-01"
+        class="terminal-scene"
+    >
+
+
+        <!-- ==========================================
+             FONDO
+        =========================================== -->
+
+        <div
+            class="terminal-background"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- ==========================================
+             SCANLINES
+        =========================================== -->
+
+        <div
+            class="scanlines"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- ==========================================
+             NOISE / INTERFERENCIA
+        =========================================== -->
+
+        <div
+            class="terminal-noise"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- ==========================================
+             MICRO INTERFERENCIAS HORIZONTALES
+        =========================================== -->
+
+        <div
+            id="interference-line-1"
+            class="interference-line interference-line-1"
+            aria-hidden="true"
+        ></div>
+
+        <div
+            id="interference-line-2"
+            class="interference-line interference-line-2"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- ==========================================
+             BORDE DE LA TERMINAL
+        =========================================== -->
+
+        <div
+            id="terminal-frame"
+            class="terminal-frame"
+        >
+
+            <!-- Línea superior -->
+            <span
+                class="frame-line frame-top"
+                aria-hidden="true"
+            ></span>
+
+            <!-- Línea derecha -->
+            <span
+                class="frame-line frame-right"
+                aria-hidden="true"
+            ></span>
+
+            <!-- Línea inferior -->
+            <span
+                class="frame-line frame-bottom"
+                aria-hidden="true"
+            ></span>
+
+            <!-- Línea izquierda -->
+            <span
+                class="frame-line frame-left"
+                aria-hidden="true"
+            ></span>
+
+
+            <!-- ======================================
+                 CONTENIDO DE LA TERMINAL
+            ======================================= -->
+
+            <section
+                class="terminal-content"
+                aria-label="Incoming transmission information"
+            >
+
+
+                <!-- ==================================
+                     MENSAJE 1
+                =================================== -->
+
+                <div
+                    class="terminal-message message-1"
+                >
+
+                    <p
+                        id="line-incoming"
+                        class="terminal-line"
+                    >
+
+                        <span
+                            class="typed-text"
+                        ></span>
+
+                        <span
+                            class="terminal-cursor"
+                            aria-hidden="true"
+                        >
+                            █
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================
+                     MENSAJE 2
+                =================================== -->
+
+                <div
+                    class="terminal-message message-2"
+                >
+
+                    <p
+                        id="line-vessel"
+                        class="terminal-line"
+                    >
+
+                        <span
+                            class="typed-text"
+                        ></span>
+
+                        <span
+                            class="terminal-cursor"
+                            aria-hidden="true"
+                        >
+                            █
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================
+                     MENSAJE 3
+                     INFORMACIÓN DE LA SEÑAL
+                =================================== -->
+
+                <div
+                    class="terminal-message message-3"
+                >
+
+                    <p
+                        id="line-origin"
+                        class="terminal-line"
+                    >
+
+                        <span
+                            class="typed-text"
+                        ></span>
+
+                        <span
+                            class="terminal-cursor"
+                            aria-hidden="true"
+                        >
+                            █
+                        </span>
+
+                    </p>
+
+
+                    <p
+                        id="line-registered"
+                        class="terminal-line"
+                    >
+
+                        <span
+                            class="typed-text"
+                        ></span>
+
+                        <span
+                            class="terminal-cursor"
+                            aria-hidden="true"
+                        >
+                            █
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================
+                     MENSAJE 4
+                     REVELACIÓN NARRATIVA
+                =================================== -->
+
+                <div
+                    class="terminal-message message-4"
+                >
+
+                    <p
+                        id="line-crew"
+                        class="terminal-line important-line"
+                    >
+
+                        <span
+                            class="typed-text"
+                        ></span>
+
+                        <span
+                            class="terminal-cursor"
+                            aria-hidden="true"
+                        >
+                            █
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================
+                     MENSAJE 5
+                =================================== -->
+
+                <div
+                    class="terminal-message message-5"
+                >
+
+                    <p
+                        id="line-awaiting"
+                        class="terminal-line"
+                    >
+
+                        <span
+                            class="typed-text"
+                        ></span>
+
+                        <span
+                            class="terminal-cursor"
+                            aria-hidden="true"
+                        >
+                            █
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <!-- ==================================
+                     BOTÓN
+                =================================== -->
+
+                <div
+                    id="accept-container"
+                    class="accept-container"
+                >
+
+                    <button
+                        id="accept-transmission"
+                        class="accept-transmission"
+                        type="button"
+                        disabled
+                    >
+
+                        <span
+                            id="accept-text"
+                            class="accept-text"
+                        >
+                            ACCEPT TRANSMISSION
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+
+        <!-- ==========================================
+             FLASH VERDE DE CONFIRMACIÓN
+        =========================================== -->
+
+        <div
+            id="terminal-flash"
+            class="terminal-flash"
+            aria-hidden="true"
+        ></div>
+
+
+        <!-- ==========================================
+             CAPA DE TRANSICIÓN
+        =========================================== -->
+
+        <div
+            id="transition-overlay"
+            class="transition-overlay"
+            aria-hidden="true"
+        ></div>
+
+
+    </main>
+
+
+    <!-- ==================================================
+         GSAP
+    =================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    ></script>
+
+
+    <!-- Animaciones de Escena 1 -->
+    <script src="scene-01-animations.js"></script>
+
+
+    <!-- Lógica de Escena 1 -->
+    <script src="scene-01.js"></script>
+
+
+</body>
+
+</html>
