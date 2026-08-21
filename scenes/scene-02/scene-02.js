@@ -134,6 +134,10 @@ let cameraChanging = false;
 
 let audioHasPlayed = false;
 
+let corruptedAudioPlaying = false;
+
+let sceneTransitioning = false;
+
 
 // =========================================================
 // CÁMARAS
@@ -1155,9 +1159,31 @@ function openArchivedLogs() {
 function closeArchivedLogs() {
 
     /*
-        Si el audio estaba reproduciéndose,
-        lo detenemos al cerrar.
+        Mientras el audio corrupto esté sonando
+        o estemos entrando a Scene 04,
+        el usuario NO puede abandonar el archivo.
     */
+
+    if (
+        corruptedAudioPlaying ||
+        sceneTransitioning
+    ) {
+
+        if (
+            window.Scene02Animations &&
+            window.Scene02Animations
+                .playLockedModalFeedback
+        ) {
+
+            window.Scene02Animations
+                .playLockedModalFeedback();
+
+        }
+
+        return;
+
+    }
+
 
     corruptedAudio.pause();
 
@@ -1189,6 +1215,32 @@ function showArchivedLog(
     logNumber
 ) {
 
+    /*
+        El audio corrupto bloquea
+        toda navegación dentro del modal.
+    */
+
+    if (
+        corruptedAudioPlaying ||
+        sceneTransitioning
+    ) {
+
+        if (
+            window.Scene02Animations &&
+            window.Scene02Animations
+                .playLockedModalFeedback
+        ) {
+
+            window.Scene02Animations
+                .playLockedModalFeedback();
+
+        }
+
+        return;
+
+    }
+
+
     const languageData =
         archivedLogsData[
             currentLanguage
@@ -1206,11 +1258,6 @@ function showArchivedLog(
     }
 
 
-    /*
-        Si cambiamos de archivo,
-        detener audio anterior.
-    */
-
     corruptedAudio.pause();
 
     corruptedAudio.currentTime =
@@ -1219,11 +1266,12 @@ function showArchivedLog(
 
     corruptedAudioText.textContent =
         audioHasPlayed
-            ? translations[currentLanguage]
-                .replayAudio
-
-            : translations[currentLanguage]
-                .playAudio;
+            ? translations[
+                currentLanguage
+            ].replayAudio
+            : translations[
+                currentLanguage
+            ].playAudio;
 
 
     logDetailsPlaceholder.style.display =
@@ -1289,10 +1337,6 @@ function showArchivedLog(
     );
 
 
-    /*
-        Solo LOG_04 muestra audio.
-    */
-
     corruptedAudioContainer.style.display =
         log.audio
             ? "block"
@@ -1323,18 +1367,34 @@ function toggleCorruptedAudio() {
 
 
     /*
-        Si ya está reproduciéndose:
-        reiniciamos desde el principio.
+        Una vez comenzada la transición
+        ya no aceptamos ninguna interacción.
     */
 
-    if (!corruptedAudio.paused) {
-
-        corruptedAudio.currentTime =
-            0;
+    if (sceneTransitioning) {
 
         return;
 
     }
+
+
+    /*
+        Si ya está reproduciéndose,
+        NO permitimos reiniciar ni pausar.
+
+        El usuario queda obligado
+        a escuchar el archivo completo.
+    */
+
+    if (corruptedAudioPlaying) {
+
+        return;
+
+    }
+
+
+    corruptedAudioPlaying =
+        true;
 
 
     corruptedAudioText.textContent =
@@ -1342,11 +1402,34 @@ function toggleCorruptedAudio() {
 
 
     /*
-        Micro feedback visual.
+        Una vez que empieza el audio,
+        bloqueamos visualmente las opciones
+        para comunicar que el sistema
+        tomó el control.
     */
+
+    closeLogsButton.classList.add(
+        "audio-locked"
+    );
+
+
+    archivedLogItems.forEach(
+        item => {
+
+            item.classList.add(
+                "audio-locked"
+            );
+
+        }
+    );
+
 
     window.Scene02Animations
         .playAudioButtonFeedback();
+
+
+    corruptedAudio.currentTime =
+        0;
 
 
     corruptedAudio
@@ -1355,14 +1438,33 @@ function toggleCorruptedAudio() {
             () => {
 
                 /*
-                    Si todavía no existe
-                    corrupted-log.mp3,
-                    simplemente restauramos
-                    el botón.
+                    Si no existe el asset,
+                    restauramos la interfaz
+                    para no dejarla bloqueada.
                 */
+
+                corruptedAudioPlaying =
+                    false;
+
 
                 corruptedAudioText.textContent =
                     text.playAudio;
+
+
+                closeLogsButton.classList.remove(
+                    "audio-locked"
+                );
+
+
+                archivedLogItems.forEach(
+                    item => {
+
+                        item.classList.remove(
+                            "audio-locked"
+                        );
+
+                    }
+                );
 
             }
         );
@@ -1374,12 +1476,24 @@ function toggleCorruptedAudio() {
 // AUDIO EVENTS
 // =========================================================
 
+// =========================================================
+// AUDIO EVENTS
+// =========================================================
+
 corruptedAudio.addEventListener(
     "ended",
 
-    () => {
+    async () => {
 
         audioHasPlayed =
+            true;
+
+
+        corruptedAudioPlaying =
+            false;
+
+
+        sceneTransitioning =
             true;
 
 
@@ -1387,6 +1501,68 @@ corruptedAudio.addEventListener(
             translations[
                 currentLanguage
             ].replayAudio;
+
+
+        /*
+            Desde este momento ya no existe
+            ninguna posibilidad de cerrar
+            el archivo o regresar a las cámaras.
+        */
+
+        corruptedAudioButton.disabled =
+            true;
+
+
+        closeLogsButton.disabled =
+            true;
+
+
+        accessLogsButton.disabled =
+            true;
+
+
+        cameraButtons.forEach(
+            button => {
+
+                button.disabled =
+                    true;
+
+            }
+        );
+
+
+        archivedLogItems.forEach(
+            item => {
+
+                item.disabled =
+                    true;
+
+            }
+        );
+
+
+        /*
+            Glitch de transición.
+        */
+
+        if (
+            window.Scene02Animations &&
+            window.Scene02Animations
+                .playScene04Transition
+        ) {
+
+            await window.Scene02Animations
+                .playScene04Transition();
+
+        }
+
+
+        /*
+            Scene 04
+        */
+
+        window.location.href =
+            "../scene-04/scene-04.html";
 
     }
 );

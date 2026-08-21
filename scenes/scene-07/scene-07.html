@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>System Contact | The Lost Ship</title>
+
+
+    <!-- Montserrat temporal -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="scene-07.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         SCENE 07
+         NARRATIVE BREAK / DIRECT SYSTEM CONTACT
+    =================================================== -->
+
+    <main
+        id="scene-07"
+        class="system-contact-scene"
+    >
+
+
+        <!-- ==================================================
+             BACKGROUND
+        =================================================== -->
+
+        <div
+            class="scene-background"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="scene-scanlines"
+            class="scene-scanlines"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="scene-noise"
+            class="scene-noise"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             MAIN FRAME
+        =================================================== -->
+
+        <section
+            id="system-frame"
+            class="system-frame"
+        >
+
+
+            <!-- ==================================================
+                 MAIN CONTENT
+            =================================================== -->
+
+            <div
+                id="system-content"
+                class="system-content"
+            >
+
+
+                <!-- ==============================================
+                     SYSTEM MESSAGES
+                =============================================== -->
+
+                <section
+                    id="message-section"
+                    class="message-section"
+                    aria-live="polite"
+                >
+
+
+                    <p
+                        id="message-01"
+                        class="system-message"
+                    >
+                    </p>
+
+
+                    <p
+                        id="message-02"
+                        class="system-message"
+                    >
+                    </p>
+
+
+                    <p
+                        id="message-03"
+                        class="system-message system-message-important"
+                    >
+                    </p>
+
+
+                </section>
+
+
+
+                <!-- ==============================================
+                     DIVIDER
+                =============================================== -->
+
+                <div
+                    id="system-divider"
+                    class="system-divider"
+                    aria-hidden="true"
+                ></div>
+
+
+
+                <!-- ==============================================
+                     QUESTION SECTION
+                =============================================== -->
+
+                <section
+                    id="question-section"
+                    class="question-section"
+                    aria-label="System questions"
+                >
+
+
+                    <button
+                        class="question-option"
+                        type="button"
+                        data-question="meaning"
+                    >
+
+                        <span
+                            class="question-arrow"
+                        >
+                            &gt;
+                        </span>
+
+                        <span
+                            class="question-prefix"
+                        >
+                            ASK:
+                        </span>
+
+                        <span
+                            id="question-meaning-text"
+                            class="question-text"
+                        >
+                            "What do you mean?"
+                        </span>
+
+                    </button>
+
+
+
+                    <button
+                        class="question-option"
+                        type="button"
+                        data-question="identity"
+                    >
+
+                        <span
+                            class="question-arrow"
+                        >
+                            &gt;
+                        </span>
+
+                        <span
+                            class="question-prefix"
+                        >
+                            ASK:
+                        </span>
+
+                        <span
+                            id="question-identity-text"
+                            class="question-text"
+                        >
+                            "Who are you?"
+                        </span>
+
+                    </button>
+
+
+
+                    <button
+                        class="question-option"
+                        type="button"
+                        data-question="crew"
+                    >
+
+                        <span
+                            class="question-arrow"
+                        >
+                            &gt;
+                        </span>
+
+                        <span
+                            class="question-prefix"
+                        >
+                            ASK:
+                        </span>
+
+                        <span
+                            id="question-crew-text"
+                            class="question-text"
+                        >
+                            "Where is the crew?"
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- ==========================================
+                         CURSOR
+                    =========================================== -->
+
+                    <div
+                        id="question-cursor"
+                        class="question-cursor"
+                        aria-hidden="true"
+                    >
+
+                        <span>
+                            &gt;
+                        </span>
+
+                        <span
+                            id="cursor-block"
+                            class="cursor-block"
+                        >
+                            █
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- ==============================================
+                     SELECTED QUESTION
+                     Appears after click
+                =============================================== -->
+
+                <section
+                    id="selected-question-section"
+                    class="selected-question-section"
+                    aria-hidden="true"
+                >
+
+
+                    <p
+                        id="selected-question"
+                        class="selected-question"
+                    >
+                    </p>
+
+
+                    <p
+                        id="processing-message"
+                        class="processing-message"
+                    >
+                    </p>
+
+
+                </section>
+
+
+
+                <!-- ==============================================
+                     SYSTEM RESPONSE
+                =============================================== -->
+
+                <section
+                    id="system-response-section"
+                    class="system-response-section"
+                    aria-hidden="true"
+                >
+
+
+                    <p
+                        id="system-response"
+                        class="system-response"
+                    >
+                    </p>
+
+
+                    <div
+                        id="response-cursor"
+                        class="response-cursor"
+                        aria-hidden="true"
+                    >
+
+                        <span>
+                            &gt;
+                        </span>
+
+                        <span
+                            class="cursor-block"
+                        >
+                            █
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- ==============================================
+                     CONTROL LOSS MESSAGES
+                =============================================== -->
+
+                <section
+                    id="control-loss-section"
+                    class="control-loss-section"
+                    aria-hidden="true"
+                >
+
+
+                    <p
+                        id="control-message-01"
+                        class="control-message"
+                    >
+                    </p>
+
+
+                    <p
+                        id="control-message-02"
+                        class="control-message"
+                    >
+                    </p>
+
+
+                    <p
+                        id="control-message-03"
+                        class="control-message corrupted-control-message"
+                    >
+                    </p>
+
+
+                </section>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             SYSTEM ERROR TEXT
+             Used during corruption
+        =================================================== -->
+
+        <div
+            id="system-error-text"
+            class="system-error-text"
+            aria-hidden="true"
+        >
+            ERR_██
+        </div>
+
+
+
+        <!-- ==================================================
+             INTERFERENCE LINES
+        =================================================== -->
+
+        <div
+            id="interference-line-01"
+            class="interference-line interference-line-01"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="interference-line-02"
+            class="interference-line interference-line-02"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="interference-line-03"
+            class="interference-line interference-line-03"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             GLITCH LAYERS
+        =================================================== -->
+
+        <div
+            id="glitch-layer-01"
+            class="glitch-layer glitch-layer-01"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-02"
+            class="glitch-layer glitch-layer-02"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-03"
+            class="glitch-layer glitch-layer-03"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-04"
+            class="glitch-layer glitch-layer-04"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             FLASH
+        =================================================== -->
+
+        <div
+            id="system-flash"
+            class="system-flash"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             FINAL TRANSITION
+             Scene 07 -> Scene 08
+        =================================================== -->
+
+        <div
+            id="scene-transition"
+            class="scene-transition"
+            aria-hidden="true"
+        ></div>
+
+
+    </main>
+
+
+
+    <!-- ==================================================
+         AUDIO
+         Optional ambience / impact sounds
+    =================================================== -->
+
+    <audio
+        id="response-impact-audio"
+        preload="auto"
+    >
+
+        <source
+            src="../../assets/audio/scene-07-impact.mp3"
+            type="audio/mpeg"
+        >
+
+    </audio>
+
+
+    <audio
+        id="scene-corruption-audio"
+        preload="auto"
+    >
+
+        <source
+            src="../../assets/audio/scene-07-corruption.mp3"
+            type="audio/mpeg"
+        >
+
+    </audio>
+
+
+
+    <!-- ==================================================
+         GSAP
+    =================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    ></script>
+
+
+
+    <!-- ==================================================
+         ANIMATIONS
+    =================================================== -->
+
+    <script
+        src="scene-07-animations.js"
+    ></script>
+
+
+
+    <!-- ==================================================
+         LOGIC
+    =================================================== -->
+
+    <script
+        src="scene-07.js"
+    ></script>
+
+
+</body>
+
+</html>

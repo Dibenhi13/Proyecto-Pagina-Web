@@ -10,10 +10,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Surveillance Interface | The Lost Ship</title>
+    <title>System Instability | The Lost Ship</title>
 
 
     <!-- Montserrat temporal -->
+
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com"
@@ -32,9 +33,10 @@
 
 
     <!-- CSS -->
+
     <link
         rel="stylesheet"
-        href="scene-02.css"
+        href="scene-04.css"
     >
 
 </head>
@@ -44,41 +46,56 @@
 
 
     <!-- ==================================================
-         ESCENA 02
-         SURVEILLANCE INTERFACE
+         ESCENA 04
+         CORRUPTED SURVEILLANCE INTERFACE
     =================================================== -->
 
     <main
-        id="scene-02"
-        class="surveillance-scene"
+        id="scene-04"
+        class="surveillance-scene corrupted-scene"
     >
 
 
-        <!-- Fondo -->
+        <!-- ==================================================
+             FONDO / INTERFERENCIA
+        =================================================== -->
+
         <div
             class="system-background"
             aria-hidden="true"
         ></div>
 
 
-        <!-- Scanlines -->
         <div
             class="system-scanlines"
             aria-hidden="true"
         ></div>
 
 
-        <!-- Noise -->
         <div
+            id="system-noise"
             class="system-noise"
             aria-hidden="true"
         ></div>
 
 
-        <!-- Interferencia global -->
+        <!-- Líneas de interferencia -->
+
         <div
-            id="global-interference"
-            class="global-interference"
+            id="interference-line-01"
+            class="interference-line interference-line-01"
+            aria-hidden="true"
+        ></div>
+
+        <div
+            id="interference-line-02"
+            class="interference-line interference-line-02"
+            aria-hidden="true"
+        ></div>
+
+        <div
+            id="interference-line-03"
+            class="interference-line interference-line-03"
             aria-hidden="true"
         ></div>
 
@@ -99,6 +116,7 @@
             =============================================== -->
 
             <header
+                id="system-header"
                 class="system-header"
             >
 
@@ -111,7 +129,7 @@
                         id="connection-status"
                         class="status-value"
                     >
-                        LOADING...
+                        CONNECTED
                     </span>
 
                 </div>
@@ -132,7 +150,7 @@
                         id="signal-strength"
                         class="status-value"
                     >
-                        76%
+                        64%
                     </span>
 
                 </div>
@@ -172,14 +190,15 @@
             >
 
 
-                <!-- ==========================================
+                <!-- ==================================================
                      CAMERAS
-                =========================================== -->
+                =================================================== -->
 
                 <aside
                     id="camera-panel"
                     class="camera-panel"
                 >
+
 
                     <h2
                         id="camera-panel-title"
@@ -194,8 +213,9 @@
                         aria-label="Surveillance cameras"
                     >
 
+
                         <button
-                            class="camera-button active"
+                            class="camera-button locked-camera active"
                             type="button"
                             data-camera="cam01"
                         >
@@ -204,7 +224,7 @@
 
 
                         <button
-                            class="camera-button"
+                            class="camera-button locked-camera"
                             type="button"
                             data-camera="cam02"
                         >
@@ -213,28 +233,44 @@
 
 
                         <button
-                            class="camera-button"
+                            class="camera-button locked-camera"
                             type="button"
                             data-camera="cam03"
                         >
                             CAM 03
                         </button>
 
+
                     </nav>
+
+
+
+                    <!-- Mensaje de acceso denegado -->
+
+                    <div
+                        id="camera-denied-message"
+                        class="denied-message"
+                        aria-live="polite"
+                    >
+                        ACCESS DENIED
+                    </div>
+
 
                 </aside>
 
 
 
-                <!-- ==========================================
+                <!-- ==================================================
                      LIVE FEED
-                =========================================== -->
+                =================================================== -->
 
                 <section
                     id="live-feed-panel"
                     class="live-feed-panel"
                 >
 
+
+                    <!-- Header del feed -->
 
                     <div
                         class="feed-header"
@@ -254,6 +290,7 @@
                         >
 
                             <span
+                                id="live-dot"
                                 class="live-dot"
                             ></span>
 
@@ -270,6 +307,7 @@
                         class="video-container"
                     >
 
+
                         <video
                             id="camera-video"
                             class="camera-video"
@@ -280,7 +318,8 @@
                         ></video>
 
 
-                        <!-- Placeholder mientras no haya videos -->
+
+                        <!-- Placeholder por si no está el asset -->
 
                         <div
                             id="video-placeholder"
@@ -294,6 +333,9 @@
                         </div>
 
 
+
+                        <!-- Capas del feed -->
+
                         <div
                             class="video-scanlines"
                             aria-hidden="true"
@@ -301,6 +343,7 @@
 
 
                         <div
+                            id="video-noise"
                             class="video-noise"
                             aria-hidden="true"
                         ></div>
@@ -313,14 +356,18 @@
                         ></div>
 
 
-                        <div
-                            id="switching-feed"
-                            class="switching-feed"
-                            aria-hidden="true"
-                        >
-                            SWITCHING FEED...
-                        </div>
 
+                        <!-- Freeze / corte negro -->
+
+                        <div
+                            id="video-blackout"
+                            class="video-blackout"
+                            aria-hidden="true"
+                        ></div>
+
+
+
+                        <!-- Anomalía -->
 
                         <div
                             id="feed-anomaly"
@@ -328,9 +375,24 @@
                             aria-hidden="true"
                         ></div>
 
+
+
+                        <!-- Glitch text -->
+
+                        <div
+                            id="feed-error-message"
+                            class="feed-error-message"
+                            aria-hidden="true"
+                        >
+                            SIGNAL ERROR
+                        </div>
+
+
                     </div>
 
 
+
+                    <!-- Footer -->
 
                     <div
                         class="feed-footer"
@@ -350,9 +412,9 @@
 
 
 
-                <!-- ==========================================
+                <!-- ==================================================
                      SYSTEM LOGS
-                =========================================== -->
+                =================================================== -->
 
                 <aside
                     id="logs-panel"
@@ -364,12 +426,14 @@
                         class="logs-content"
                     >
 
+
                         <h2
                             id="logs-title"
                             class="panel-title"
                         >
                             SYSTEM LOGS
                         </h2>
+
 
 
                         <div
@@ -380,7 +444,7 @@
 
 
                             <p
-                                id="log-01"
+                                id="system-log-01"
                                 class="system-log"
                             >
 
@@ -388,13 +452,15 @@
                                     &gt;
                                 </span>
 
-                                <span class="log-text"></span>
+                                <span
+                                    class="system-log-text"
+                                ></span>
 
                             </p>
 
 
                             <p
-                                id="log-02"
+                                id="system-log-02"
                                 class="system-log"
                             >
 
@@ -402,41 +468,15 @@
                                     &gt;
                                 </span>
 
-                                <span class="log-text"></span>
+                                <span
+                                    class="system-log-text"
+                                ></span>
 
                             </p>
 
 
                             <p
-                                id="log-03"
-                                class="system-log"
-                            >
-
-                                <span class="log-arrow">
-                                    &gt;
-                                </span>
-
-                                <span class="log-text"></span>
-
-                            </p>
-
-
-                            <p
-                                id="log-04"
-                                class="system-log important-log"
-                            >
-
-                                <span class="log-arrow">
-                                    &gt;
-                                </span>
-
-                                <span class="log-text"></span>
-
-                            </p>
-
-
-                            <p
-                                id="log-05"
+                                id="system-log-03"
                                 class="system-log warning-log"
                             >
 
@@ -444,13 +484,34 @@
                                     &gt;
                                 </span>
 
-                                <span class="log-text"></span>
+                                <span
+                                    class="system-log-text"
+                                ></span>
 
                             </p>
 
 
                             <p
-                                id="log-cursor"
+                                id="system-log-04"
+                                class="system-log corrupted-system-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+
+                            </p>
+
+
+
+                            <!-- Cursor -->
+
+                            <p
+                                id="system-log-cursor"
                                 class="system-log log-cursor"
                                 aria-hidden="true"
                             >
@@ -458,6 +519,7 @@
                                 &gt;
 
                                 <span
+                                    id="cursor-block"
                                     class="cursor-block"
                                 >
                                     █
@@ -468,11 +530,14 @@
 
                         </div>
 
+
                     </div>
 
 
 
-                    <!-- ACCESS LOGS -->
+                    <!-- ==========================================
+                         ACCESS LOGS
+                    =========================================== -->
 
                     <div
                         class="access-logs-container"
@@ -494,12 +559,33 @@
 
             </div>
 
+
         </section>
 
 
 
         <!-- ==================================================
-             ARCHIVED LOGS
+             ACCESS DENIED GLOBAL
+        =================================================== -->
+
+        <div
+            id="system-denied-message"
+            class="system-denied-message"
+            aria-hidden="true"
+        >
+
+            <span
+                id="system-denied-text"
+            >
+                ACCESS DENIED
+            </span>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             ARCHIVED LOGS MODAL
         =================================================== -->
 
         <section
@@ -510,15 +596,19 @@
 
 
             <div
+                id="archived-logs-window"
                 class="archived-logs-window"
             >
 
 
-                <!-- Header -->
+                <!-- ==========================================
+                     HEADER
+                =========================================== -->
 
                 <header
                     class="archived-logs-header"
                 >
+
 
                     <h2
                         id="archived-logs-title"
@@ -536,79 +626,109 @@
                         ×
                     </button>
 
+
                 </header>
 
 
 
-                <!-- Lista -->
+                <!-- ==========================================
+                     LISTA DE ARCHIVOS
+                =========================================== -->
 
                 <div
                     class="archived-logs-list"
                 >
 
 
+                    <!-- LOG 05 -->
+
                     <button
                         class="archived-log-item"
                         type="button"
-                        data-log="01"
+                        data-log="05"
                     >
 
-                        <span class="log-id">
-                            LOG_01
+                        <span
+                            class="log-id"
+                        >
+                            LOG_05
                         </span>
 
-                        <span class="log-description">
-                            SYSTEM DIAGNOSTIC
+                        <span
+                            class="log-description"
+                        >
+                            MISSION REPORT
                         </span>
 
                     </button>
 
 
+
+                    <!-- LOG 06 -->
+
                     <button
                         class="archived-log-item"
                         type="button"
-                        data-log="02"
+                        data-log="06"
                     >
 
-                        <span class="log-id">
-                            LOG_02
+                        <span
+                            class="log-id"
+                        >
+                            LOG_06
                         </span>
 
-                        <span class="log-description">
-                            NAVIGATION REPORT
+                        <span
+                            class="log-description"
+                        >
+                            NAVIGATION UPDATE
                         </span>
 
                     </button>
 
 
+
+                    <!-- LOG 07 -->
+
                     <button
                         class="archived-log-item"
                         type="button"
-                        data-log="03"
+                        data-log="07"
                     >
 
-                        <span class="log-id">
-                            LOG_03
+                        <span
+                            class="log-id"
+                        >
+                            LOG_07
                         </span>
 
-                        <span class="log-description">
-                            CREW AUDIO
+                        <span
+                            class="log-description"
+                        >
+                            CREW STATUS
                         </span>
 
                     </button>
 
+
+
+                    <!-- LOG 08 -->
 
                     <button
                         class="archived-log-item corrupted"
                         type="button"
-                        data-log="04"
+                        data-log="08"
                     >
 
-                        <span class="log-id">
-                            LOG_04
+                        <span
+                            class="log-id"
+                        >
+                            LOG_08
                         </span>
 
-                        <span class="log-description">
+                        <span
+                            class="log-description"
+                        >
                             [CORRUPTED]
                         </span>
 
@@ -619,9 +739,9 @@
 
 
 
-                <!-- ==========================================
+                <!-- ==================================================
                      CONTENIDO DEL LOG
-                =========================================== -->
+                =================================================== -->
 
                 <div
                     id="log-details"
@@ -649,6 +769,10 @@
                     >
 
 
+                        <!-- ==========================================
+                             TÍTULO
+                        =========================================== -->
+
                         <div
                             class="log-details-heading"
                         >
@@ -668,9 +792,14 @@
 
 
 
+                        <!-- ==========================================
+                             METADATA
+                        =========================================== -->
+
                         <div
                             class="log-details-metadata"
                         >
+
 
                             <p>
 
@@ -703,11 +832,14 @@
 
                             </p>
 
+
                         </div>
 
 
 
-                        <!-- Texto -->
+                        <!-- ==========================================
+                             BODY
+                        =========================================== -->
 
                         <div
                             id="selected-log-body"
@@ -716,14 +848,23 @@
 
 
 
-                        <!-- ==================================
-                             AUDIO CORRUPTED LOG
-                        =================================== -->
+                        <!-- ==================================================
+                             AUDIO — SOLO LOG_08
+                        =================================================== -->
 
                         <div
                             id="corrupted-audio-container"
                             class="corrupted-audio-container"
                         >
+
+
+                            <div
+                                id="audio-warning"
+                                class="audio-warning"
+                            >
+                                AUDIO FRAGMENT AVAILABLE
+                            </div>
+
 
                             <button
                                 id="play-corrupted-audio"
@@ -738,6 +879,45 @@
                                 </span>
 
                             </button>
+
+
+
+                            <!-- Visualización -->
+
+                            <div
+                                id="audio-status"
+                                class="audio-status"
+                                aria-hidden="true"
+                            >
+
+
+                                <span
+                                    id="audio-status-label"
+                                    class="audio-status-label"
+                                >
+                                    AUDIO STREAM
+                                </span>
+
+
+                                <div
+                                    id="audio-signal"
+                                    class="audio-signal"
+                                >
+
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
@@ -773,7 +953,47 @@
 
 
 
-        <!-- Transición -->
+        <!-- ==================================================
+             GLITCH LAYERS
+        =================================================== -->
+
+        <div
+            id="glitch-layer-01"
+            class="glitch-layer glitch-layer-01"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-02"
+            class="glitch-layer glitch-layer-02"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-03"
+            class="glitch-layer glitch-layer-03"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             FLASH
+        =================================================== -->
+
+        <div
+            id="system-flash"
+            class="system-flash"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             TRANSICIÓN FUTURA
+        =================================================== -->
 
         <div
             id="scene-transition"
@@ -786,31 +1006,30 @@
 
 
 
-    <!-- GSAP -->
+    <!-- ==================================================
+         GSAP
+    =================================================== -->
 
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
     ></script>
 
 
-    <!-- ScrollTrigger -->
+    <!-- ==================================================
+         ANIMACIONES
+    =================================================== -->
 
     <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+        src="scene-04-animations.js"
     ></script>
 
 
-    <!-- Animaciones -->
+    <!-- ==================================================
+         LÓGICA
+    =================================================== -->
 
     <script
-        src="scene-02-animations.js"
-    ></script>
-
-
-    <!-- Lógica -->
-
-    <script
-        src="scene-02.js"
+        src="scene-04.js"
     ></script>
 
 

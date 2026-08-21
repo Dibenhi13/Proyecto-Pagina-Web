@@ -1,0 +1,1338 @@
+/* =========================================================
+   ESCENA 07 — NARRATIVE BREAK
+   Direct System Contact
+   The Lost Ship
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+
+body {
+    overflow: hidden;
+
+    background:
+        #020202;
+
+    color:
+        #00ff38;
+
+    font-family:
+        "Montserrat",
+        sans-serif;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+
+    --green:
+        #00ff38;
+
+    --green-soft:
+        rgba(0, 255, 56, 0.78);
+
+    --green-medium:
+        rgba(0, 255, 56, 0.5);
+
+    --green-dim:
+        rgba(0, 255, 56, 0.28);
+
+    --green-faint:
+        rgba(0, 255, 56, 0.08);
+
+    --black:
+        #020202;
+
+}
+
+
+/* =========================================================
+   MAIN SCENE
+========================================================= */
+
+.system-contact-scene {
+
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        var(--black);
+
+    color:
+        var(--green);
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.scene-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 255, 56, 0.018) 0%,
+            rgba(0, 255, 56, 0.006) 34%,
+            transparent 70%
+        ),
+        #020202;
+
+}
+
+
+/* =========================================================
+   SCANLINES
+========================================================= */
+
+.scene-scanlines {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 30;
+
+    pointer-events: none;
+
+    opacity:
+        0.11;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.022) 0,
+            rgba(255, 255, 255, 0.022) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+
+    mix-blend-mode:
+        screen;
+
+}
+
+
+/* =========================================================
+   NOISE
+========================================================= */
+
+.scene-noise {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 31;
+
+    pointer-events: none;
+
+    opacity:
+        0.02;
+
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            rgba(255, 255, 255, 0.07) 0,
+            rgba(255, 255, 255, 0.07) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    background-size:
+        5px 5px;
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   MAIN FRAME
+========================================================= */
+
+.system-frame {
+
+    position: absolute;
+
+    top:
+        clamp(
+            18px,
+            2.7vh,
+            28px
+        );
+
+    left:
+        clamp(
+            18px,
+            2.7vw,
+            28px
+        );
+
+    right:
+        clamp(
+            18px,
+            2.7vw,
+            28px
+        );
+
+    bottom:
+        clamp(
+            18px,
+            2.7vh,
+            28px
+        );
+
+    z-index: 10;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 0, 0, 0.97);
+
+    box-shadow:
+        0 0 9px
+        rgba(0, 255, 56, 0.12),
+        inset 0 0 8px
+        rgba(0, 255, 56, 0.015);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        border-color,
+        box-shadow;
+
+}
+
+
+/* =========================================================
+   SYSTEM CONTENT
+========================================================= */
+
+.system-content {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width:
+        min(
+            48vw,
+            630px
+        );
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        stretch;
+
+}
+
+
+/* =========================================================
+   MESSAGE SECTION
+========================================================= */
+
+.message-section {
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        clamp(
+            25px,
+            4vh,
+            38px
+        );
+
+    text-align:
+        center;
+
+}
+
+
+/* =========================================================
+   SYSTEM MESSAGES
+========================================================= */
+
+.system-message {
+
+    max-width:
+        620px;
+
+    min-height:
+        1.4em;
+
+    color:
+        var(--green-soft);
+
+    font-size:
+        clamp(
+            0.72rem,
+            1.08vw,
+            0.96rem
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1.6;
+
+    text-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.28);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        text-shadow;
+
+}
+
+
+.system-message-important {
+
+    max-width:
+        500px;
+
+    color:
+        var(--green);
+
+    text-shadow:
+        0 0 7px
+        rgba(0, 255, 56, 0.36);
+
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.system-divider {
+
+    width:
+        72%;
+
+    height:
+        1px;
+
+    margin:
+        clamp(
+            32px,
+            5vh,
+            48px
+        )
+        auto
+        18px;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.3);
+
+    transform:
+        scaleX(0);
+
+    transform-origin:
+        center;
+
+    opacity: 0;
+
+    will-change:
+        transform,
+        opacity,
+        filter;
+
+}
+
+
+/* =========================================================
+   QUESTIONS
+========================================================= */
+
+.question-section {
+
+    width:
+        72%;
+
+    margin:
+        0
+        auto;
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        flex-start;
+
+    gap:
+        11px;
+
+    opacity: 0;
+
+    pointer-events:
+        none;
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   QUESTION OPTION
+========================================================= */
+
+.question-option {
+
+    position: relative;
+
+    width: auto;
+
+    border: none;
+
+    padding:
+        2px
+        4px;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    background:
+        transparent;
+
+    color:
+        var(--green-soft);
+
+    font-family:
+        inherit;
+
+    font-size:
+        clamp(
+            0.61rem,
+            0.86vw,
+            0.77rem
+        );
+
+    line-height:
+        1.45;
+
+    text-align:
+        left;
+
+    cursor:
+        pointer;
+
+    opacity: 0;
+
+    text-shadow:
+        0 0 3px
+        rgba(0, 255, 56, 0.25);
+
+    transition:
+        color 100ms ease,
+        text-shadow 100ms ease,
+        background 100ms ease;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+.question-option:hover {
+
+    color:
+        var(--green);
+
+    background:
+        rgba(0, 255, 56, 0.025);
+
+    text-shadow:
+        0 0 6px
+        rgba(0, 255, 56, 0.46);
+
+}
+
+
+.question-option:focus-visible {
+
+    outline:
+        1px solid
+        var(--green);
+
+    outline-offset:
+        3px;
+
+}
+
+
+.question-option:disabled {
+
+    cursor:
+        default;
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   QUESTION COMPONENTS
+========================================================= */
+
+.question-arrow {
+
+    color:
+        var(--green);
+
+}
+
+
+.question-prefix {
+
+    color:
+        var(--green);
+
+}
+
+
+.question-text {
+
+    color:
+        inherit;
+
+}
+
+
+/* =========================================================
+   QUESTION CURSOR
+========================================================= */
+
+.question-cursor {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    gap:
+        4px;
+
+    min-height:
+        1.2em;
+
+    padding-left:
+        4px;
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.61rem,
+            0.86vw,
+            0.77rem
+        );
+
+    opacity: 0;
+
+}
+
+
+.cursor-block {
+
+    display:
+        inline-block;
+
+    font-size:
+        0.8em;
+
+    opacity: 0;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   SELECTED QUESTION SECTION
+========================================================= */
+
+.selected-question-section {
+
+    width:
+        72%;
+
+    margin:
+        0
+        auto;
+
+    display: none;
+
+    flex-direction:
+        column;
+
+    align-items:
+        flex-start;
+
+    gap:
+        15px;
+
+    opacity: 0;
+
+}
+
+
+.selected-question {
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.62rem,
+            0.88vw,
+            0.78rem
+        );
+
+    line-height:
+        1.5;
+
+    text-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.3);
+
+}
+
+
+/* =========================================================
+   PROCESSING
+========================================================= */
+
+.processing-message {
+
+    min-height:
+        1.2em;
+
+    color:
+        var(--green-medium);
+
+    font-size:
+        clamp(
+            0.52rem,
+            0.7vw,
+            0.63rem
+        );
+
+    letter-spacing:
+        0.04em;
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   RESPONSE
+========================================================= */
+
+.system-response-section {
+
+    width:
+        100%;
+
+    display: none;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        20px;
+
+    text-align:
+        center;
+
+    opacity: 0;
+
+}
+
+
+.system-response {
+
+    max-width:
+        600px;
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.82rem,
+            1.25vw,
+            1.1rem
+        );
+
+    line-height:
+        1.6;
+
+    text-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.46);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        text-shadow;
+
+}
+
+
+/* =========================================================
+   RESPONSE CURSOR
+========================================================= */
+
+.response-cursor {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    gap:
+        4px;
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.6rem,
+            0.8vw,
+            0.72rem
+        );
+
+    opacity: 0;
+
+}
+
+
+/* =========================================================
+   CONTROL LOSS
+========================================================= */
+
+.control-loss-section {
+
+    width:
+        72%;
+
+    margin:
+        30px
+        auto
+        0;
+
+    display: none;
+
+    flex-direction:
+        column;
+
+    align-items:
+        flex-start;
+
+    gap:
+        10px;
+
+    opacity: 0;
+
+}
+
+
+.control-message {
+
+    min-height:
+        1.2em;
+
+    color:
+        var(--green-medium);
+
+    font-size:
+        clamp(
+            0.5rem,
+            0.68vw,
+            0.62rem
+        );
+
+    line-height:
+        1.4;
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+.control-message::before {
+
+    content:
+        "> ";
+
+    color:
+        var(--green);
+
+}
+
+
+.corrupted-control-message {
+
+    color:
+        var(--green);
+
+    text-shadow:
+        0 0 6px
+        rgba(0, 255, 56, 0.48);
+
+}
+
+
+/* =========================================================
+   SYSTEM ERROR TEXT
+========================================================= */
+
+.system-error-text {
+
+    position: fixed;
+
+    top:
+        50%;
+
+    left:
+        50%;
+
+    z-index: 70;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            1rem,
+            2.2vw,
+            2rem
+        );
+
+    letter-spacing:
+        0.12em;
+
+    pointer-events:
+        none;
+
+    opacity: 0;
+
+    text-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.55);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   INTERFERENCE LINES
+========================================================= */
+
+.interference-line {
+
+    position: fixed;
+
+    left: 0;
+
+    width: 100%;
+
+    z-index: 75;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.38);
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+.interference-line-01 {
+
+    top:
+        24%;
+
+    height:
+        1px;
+
+}
+
+
+.interference-line-02 {
+
+    top:
+        52%;
+
+    height:
+        2px;
+
+}
+
+
+.interference-line-03 {
+
+    top:
+        81%;
+
+    height:
+        1px;
+
+}
+
+
+/* =========================================================
+   GLITCH LAYERS
+========================================================= */
+
+.glitch-layer {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 90;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 255, 56, 0.055);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform,
+        clip-path;
+
+}
+
+
+.glitch-layer-01 {
+
+    clip-path:
+        inset(
+            11% 0
+            75% 0
+        );
+
+}
+
+
+.glitch-layer-02 {
+
+    clip-path:
+        inset(
+            34% 0
+            50% 0
+        );
+
+}
+
+
+.glitch-layer-03 {
+
+    clip-path:
+        inset(
+            59% 0
+            25% 0
+        );
+
+}
+
+
+.glitch-layer-04 {
+
+    clip-path:
+        inset(
+            81% 0
+            8% 0
+        );
+
+}
+
+
+/* =========================================================
+   FLASH
+========================================================= */
+
+.system-flash {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        var(--green);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   SCENE TRANSITION
+========================================================= */
+
+.scene-transition {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 120;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        #000;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .system-content {
+
+        width:
+            min(
+                64vw,
+                620px
+            );
+
+    }
+
+
+    .question-section,
+    .selected-question-section,
+    .control-loss-section {
+
+        width:
+            82%;
+
+    }
+
+
+    .system-divider {
+
+        width:
+            82%;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .system-frame {
+
+        top:
+            12px;
+
+        left:
+            12px;
+
+        right:
+            12px;
+
+        bottom:
+            12px;
+
+    }
+
+
+    .system-content {
+
+        width:
+            82vw;
+
+    }
+
+
+    .message-section {
+
+        gap:
+            20px;
+
+    }
+
+
+    .system-message {
+
+        font-size:
+            0.68rem;
+
+        line-height:
+            1.55;
+
+    }
+
+
+    .system-divider {
+
+        width:
+            100%;
+
+        margin-top:
+            30px;
+
+    }
+
+
+    .question-section,
+    .selected-question-section,
+    .control-loss-section {
+
+        width:
+            100%;
+
+    }
+
+
+    .question-option {
+
+        font-size:
+            0.59rem;
+
+    }
+
+
+    .system-response {
+
+        font-size:
+            0.78rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .system-content {
+
+        width:
+            78vw;
+
+    }
+
+
+    .message-section {
+
+        gap:
+            16px;
+
+    }
+
+
+    .system-message {
+
+        font-size:
+            0.62rem;
+
+    }
+
+
+    .question-option {
+
+        gap:
+            3px;
+
+        font-size:
+            0.53rem;
+
+    }
+
+
+    .selected-question {
+
+        font-size:
+            0.55rem;
+
+    }
+
+
+    .system-response {
+
+        font-size:
+            0.7rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+    }
+
+}

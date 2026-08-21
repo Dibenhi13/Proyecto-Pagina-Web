@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Recovered Archives | The Lost Ship</title>
+
+
+    <!-- Montserrat temporal -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="scene-05.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         ESCENA 05
+         GUIDED EXPLORATION / RECOVERED ARCHIVES
+    =================================================== -->
+
+    <main
+        id="scene-05"
+        class="archive-scene"
+    >
+
+
+        <!-- ==================================================
+             FONDO
+        =================================================== -->
+
+        <div
+            class="system-background"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            class="system-scanlines"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="system-noise"
+            class="system-noise"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             INTERFERENCIA GLOBAL
+        =================================================== -->
+
+        <div
+            id="interference-line-01"
+            class="interference-line interference-line-01"
+            aria-hidden="true"
+        ></div>
+
+        <div
+            id="interference-line-02"
+            class="interference-line interference-line-02"
+            aria-hidden="true"
+        ></div>
+
+        <div
+            id="interference-line-03"
+            class="interference-line interference-line-03"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             INTERFAZ
+        =================================================== -->
+
+        <section
+            id="archive-interface"
+            class="archive-interface"
+        >
+
+
+            <!-- ==============================================
+                 HEADER
+            =============================================== -->
+
+            <header
+                id="system-header"
+                class="system-header"
+            >
+
+
+                <div
+                    class="status-item status-connection"
+                >
+
+                    <span
+                        id="connection-status"
+                        class="status-value"
+                    >
+                        LOADING...
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="status-item status-signal"
+                >
+
+                    <span
+                        id="signal-label"
+                        class="status-label"
+                    >
+                        SIGNAL STRENGTH:
+                    </span>
+
+                    <span
+                        id="signal-strength"
+                        class="status-value"
+                    >
+                        76%
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="status-item status-data"
+                >
+
+                    <span
+                        id="data-label"
+                        class="status-label"
+                    >
+                        DATA STREAM:
+                    </span>
+
+                    <span
+                        id="data-status"
+                        class="status-value"
+                    >
+                        ACTIVE
+                    </span>
+
+                </div>
+
+
+            </header>
+
+
+
+            <!-- ==============================================
+                 CUERPO PRINCIPAL
+            =============================================== -->
+
+            <div
+                class="system-body"
+            >
+
+
+                <!-- ==================================================
+                     PANEL IZQUIERDO — CAMERAS
+                =================================================== -->
+
+                <aside
+                    id="camera-panel"
+                    class="camera-panel"
+                >
+
+
+                    <h2
+                        id="camera-panel-title"
+                        class="panel-title"
+                    >
+                        CAMERAS
+                    </h2>
+
+
+                    <nav
+                        class="camera-list"
+                        aria-label="Surveillance cameras"
+                    >
+
+
+                        <button
+                            class="camera-button active"
+                            type="button"
+                            data-camera="cam01"
+                        >
+                            CAM 01
+                        </button>
+
+
+                        <button
+                            class="camera-button"
+                            type="button"
+                            data-camera="cam02"
+                        >
+                            CAM 02
+                        </button>
+
+
+                        <button
+                            class="camera-button"
+                            type="button"
+                            data-camera="cam03"
+                        >
+                            CAM 03
+                        </button>
+
+
+                    </nav>
+
+
+                </aside>
+
+
+
+                <!-- ==================================================
+                     PANEL CENTRAL
+                =================================================== -->
+
+                <section
+                    id="archive-panel"
+                    class="archive-panel"
+                >
+
+
+                    <!-- ==========================================
+                         GRID DE ARCHIVOS
+                    =========================================== -->
+
+                    <div
+                        id="archive-grid"
+                        class="archive-grid"
+                    >
+
+
+                        <!-- ======================================
+                             FASE 01
+                             DESBLOQUEADOS DESDE EL INICIO
+                        ======================================= -->
+
+
+                        <!-- CHAT 01 -->
+
+                        <button
+                            class="archive-file unlocked"
+                            type="button"
+                            data-file="chat01"
+                            data-phase="1"
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                CHAT
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                CHAT_01
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                RECOVERED
+                            </span>
+
+                        </button>
+
+
+
+                        <!-- AUDIO 01 -->
+
+                        <button
+                            class="archive-file unlocked"
+                            type="button"
+                            data-file="audio01"
+                            data-phase="1"
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                AUDIO
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                AUDIO_01
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                RECOVERED
+                            </span>
+
+                        </button>
+
+
+
+                        <!-- VIDEO 01 -->
+
+                        <button
+                            class="archive-file unlocked"
+                            type="button"
+                            data-file="video01"
+                            data-phase="1"
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                VIDEO
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                VIDEO_01
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                RECOVERED
+                            </span>
+
+                        </button>
+
+
+
+                        <!-- ======================================
+                             FASE 02
+                             BLOQUEADOS AL INICIO
+                        ======================================= -->
+
+
+                        <!-- CHAT 02 -->
+
+                        <button
+                            class="archive-file locked"
+                            type="button"
+                            data-file="chat02"
+                            data-phase="2"
+                            disabled
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                CHAT
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                CHAT_02
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                LOCKED
+                            </span>
+
+                        </button>
+
+
+
+                        <!-- AUDIO 02 -->
+
+                        <button
+                            class="archive-file locked"
+                            type="button"
+                            data-file="audio02"
+                            data-phase="2"
+                            disabled
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                AUDIO
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                AUDIO_02
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                LOCKED
+                            </span>
+
+                        </button>
+
+
+
+                        <!-- VIDEO 02 -->
+
+                        <button
+                            class="archive-file locked"
+                            type="button"
+                            data-file="video02"
+                            data-phase="2"
+                            disabled
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                VIDEO
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                VIDEO_02
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                LOCKED
+                            </span>
+
+                        </button>
+
+
+
+                        <!-- ======================================
+                             FASE 03
+                        ======================================= -->
+
+
+                        <!-- IMAGE 01 -->
+
+                        <button
+                            class="archive-file locked corrupted-file"
+                            type="button"
+                            data-file="image01"
+                            data-phase="3"
+                            disabled
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                IMAGE
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                IMAGE_01
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                CORRUPTED
+                            </span>
+
+                        </button>
+
+
+
+                        <!-- ARCHIVE 01 -->
+
+                        <button
+                            class="archive-file locked corrupted-file"
+                            type="button"
+                            data-file="archive01"
+                            data-phase="3"
+                            disabled
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                ARCHIVE
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                ARCHIVE_01
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                CORRUPTED
+                            </span>
+
+                        </button>
+
+
+
+                        <!-- SLOT / FRAGMENTO FINAL -->
+
+                        <button
+                            class="archive-file locked final-file"
+                            type="button"
+                            data-file="fragment01"
+                            data-phase="3"
+                            disabled
+                        >
+
+                            <span
+                                class="file-type"
+                            >
+                                UNKNOWN
+                            </span>
+
+                            <span
+                                class="file-name"
+                            >
+                                ▒▒▒▒▒▒▒
+                            </span>
+
+                            <span
+                                class="file-status"
+                            >
+                                LOCKED
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- ==================================================
+                     PANEL DERECHO — SYSTEM LOGS
+                =================================================== -->
+
+                <aside
+                    id="logs-panel"
+                    class="logs-panel"
+                >
+
+
+                    <div
+                        class="logs-content"
+                    >
+
+
+                        <h2
+                            id="logs-title"
+                            class="panel-title"
+                        >
+                            SYSTEM LOGS
+                        </h2>
+
+
+
+                        <div
+                            id="system-logs"
+                            class="system-logs"
+                            aria-live="polite"
+                        >
+
+
+                            <p
+                                id="system-log-01"
+                                class="system-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+
+                            </p>
+
+
+                            <p
+                                id="system-log-02"
+                                class="system-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+
+                            </p>
+
+
+                            <p
+                                id="system-log-03"
+                                class="system-log warning-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+
+                            </p>
+
+
+                            <p
+                                id="system-log-04"
+                                class="system-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+
+                            </p>
+
+
+                            <p
+                                id="system-log-05"
+                                class="system-log"
+                            >
+
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+
+                            </p>
+
+
+
+                            <!-- Cursor -->
+
+                            <p
+                                id="system-log-cursor"
+                                class="system-log log-cursor"
+                                aria-hidden="true"
+                            >
+
+                                &gt;
+
+                                <span
+                                    id="cursor-block"
+                                    class="cursor-block"
+                                >
+                                    █
+                                </span>
+
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ==========================================
+                         ACCESS LOGS
+                    =========================================== -->
+
+                    <div
+                        class="access-logs-container"
+                    >
+
+                        <button
+                            id="access-logs-button"
+                            class="access-logs-button"
+                            type="button"
+                        >
+                            ACCESS LOGS
+                        </button>
+
+
+                        <div
+                            id="recovery-progress"
+                            class="recovery-progress"
+                        >
+
+                            <span
+                                id="recovery-progress-label"
+                            >
+                                ARCHIVE RECOVERY
+                            </span>
+
+                            <span
+                                id="recovery-progress-value"
+                            >
+                                0%
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </aside>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             CAMERA VIEW MODAL
+        =================================================== -->
+
+        <section
+            id="camera-modal"
+            class="content-modal camera-modal"
+            aria-hidden="true"
+        >
+
+
+            <div
+                class="content-window camera-window"
+            >
+
+
+                <header
+                    class="content-window-header"
+                >
+
+                    <span
+                        id="camera-modal-title"
+                    >
+                        CAM 01
+                    </span>
+
+
+                    <button
+                        id="close-camera-modal"
+                        class="modal-close-button"
+                        type="button"
+                        aria-label="Close camera"
+                    >
+                        ×
+                    </button>
+
+
+                </header>
+
+
+
+                <div
+                    class="camera-feed-container"
+                >
+
+
+                    <video
+                        id="camera-video"
+                        class="camera-video"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                    ></video>
+
+
+                    <div
+                        id="camera-video-placeholder"
+                        class="camera-video-placeholder"
+                    >
+                        SIGNAL UNAVAILABLE
+                    </div>
+
+
+                    <div
+                        class="camera-video-scanlines"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div
+                        id="camera-video-static"
+                        class="camera-video-static"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div
+                        id="camera-feed-anomaly"
+                        class="camera-feed-anomaly"
+                        aria-hidden="true"
+                    ></div>
+
+
+                </div>
+
+
+                <footer
+                    class="camera-feed-footer"
+                >
+
+                    <span
+                        id="camera-feed-label"
+                    >
+                        EXTERNAL CAM 01
+                    </span>
+
+                </footer>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             ARCHIVE CONTENT MODAL
+        =================================================== -->
+
+        <section
+            id="file-modal"
+            class="content-modal file-modal"
+            aria-hidden="true"
+        >
+
+
+            <div
+                id="file-window"
+                class="content-window file-window"
+            >
+
+
+                <!-- Header -->
+
+                <header
+                    class="content-window-header"
+                >
+
+
+                    <div
+                        class="file-window-heading"
+                    >
+
+                        <span
+                            id="opened-file-name"
+                        >
+                            CHAT_01
+                        </span>
+
+
+                        <span
+                            id="opened-file-status"
+                            class="opened-file-status"
+                        >
+                            RECOVERED
+                        </span>
+
+
+                    </div>
+
+
+                    <button
+                        id="close-file-modal"
+                        class="modal-close-button"
+                        type="button"
+                        aria-label="Close file"
+                    >
+                        ×
+                    </button>
+
+
+                </header>
+
+
+
+                <!-- ==================================================
+                     CHAT CONTENT
+                =================================================== -->
+
+                <div
+                    id="chat-content"
+                    class="file-content chat-content"
+                >
+
+
+                    <div
+                        id="chat-header"
+                        class="chat-header"
+                    >
+                        [CREW CHAT // INTERNAL]
+                    </div>
+
+
+                    <div
+                        id="chat-messages"
+                        class="chat-messages"
+                    ></div>
+
+
+                </div>
+
+
+
+                <!-- ==================================================
+                     AUDIO CONTENT
+                =================================================== -->
+
+                <div
+                    id="audio-content"
+                    class="file-content audio-content"
+                >
+
+
+                    <div
+                        class="damaged-playback-label"
+                        id="damaged-playback-label"
+                    >
+                        DAMAGED PLAYBACK
+                    </div>
+
+
+                    <button
+                        id="play-file-audio"
+                        class="play-file-audio"
+                        type="button"
+                    >
+
+                        <span
+                            id="file-audio-button-text"
+                        >
+                            PLAY AUDIO
+                        </span>
+
+                    </button>
+
+
+
+                    <div
+                        id="audio-visualizer"
+                        class="audio-visualizer"
+                        aria-hidden="true"
+                    >
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ==================================================
+                     VIDEO CONTENT
+                =================================================== -->
+
+                <div
+                    id="video-content"
+                    class="file-content video-content"
+                >
+
+
+                    <div
+                        class="recovered-video-container"
+                    >
+
+
+                        <video
+                            id="recovered-video"
+                            class="recovered-video"
+                            controls
+                            playsinline
+                        ></video>
+
+
+                        <div
+                            id="recovered-video-placeholder"
+                            class="recovered-video-placeholder"
+                        >
+                            VIDEO FRAGMENT UNAVAILABLE
+                        </div>
+
+
+                        <div
+                            class="recovered-video-scanlines"
+                            aria-hidden="true"
+                        ></div>
+
+
+                        <div
+                            id="recovered-video-static"
+                            class="recovered-video-static"
+                            aria-hidden="true"
+                        ></div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ==================================================
+                     IMAGE CONTENT
+                =================================================== -->
+
+                <div
+                    id="image-content"
+                    class="file-content image-content"
+                >
+
+
+                    <div
+                        class="recovered-image-container"
+                    >
+
+
+                        <img
+                            id="recovered-image"
+                            class="recovered-image"
+                            src=""
+                            alt="Recovered archive fragment"
+                        >
+
+
+                        <div
+                            id="image-placeholder"
+                            class="image-placeholder"
+                        >
+                            IMAGE DATA CORRUPTED
+                        </div>
+
+
+                        <div
+                            class="image-scanlines"
+                            aria-hidden="true"
+                        ></div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ==================================================
+                     ARCHIVE / TEXT CONTENT
+                =================================================== -->
+
+                <div
+                    id="archive-content"
+                    class="file-content archive-content"
+                >
+
+                    <div
+                        id="archive-text"
+                        class="archive-text"
+                    ></div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             AUDIOS
+        =================================================== -->
+
+        <audio
+            id="audio-file-01"
+            preload="metadata"
+        >
+
+            <source
+                src="../../assets/audio/AUDIO_TEST.mp3"
+                type="audio/mpeg"
+            >
+
+        </audio>
+
+
+        <audio
+            id="audio-file-02"
+            preload="metadata"
+        >
+
+            <source
+                src="../../assets/audio/AUDIO_TEST.mp3"
+                type="audio/mpeg"
+            >
+
+        </audio>
+
+
+
+        <!-- ==================================================
+             FINAL SECURITY ALERT
+        =================================================== -->
+
+        <section
+            id="security-alert"
+            class="security-alert"
+            aria-hidden="true"
+        >
+
+
+            <div
+                id="security-alert-window"
+                class="security-alert-window"
+            >
+
+
+                <div
+                    id="security-alert-primary"
+                    class="security-alert-primary"
+                >
+                    UNAUTHORIZED ACCESS DETECTED
+                </div>
+
+
+                <div
+                    id="security-alert-secondary"
+                    class="security-alert-secondary"
+                >
+                    SYSTEM INTEGRITY COMPROMISED
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             GLITCH LAYERS
+        =================================================== -->
+
+        <div
+            id="glitch-layer-01"
+            class="glitch-layer glitch-layer-01"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-02"
+            class="glitch-layer glitch-layer-02"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-03"
+            class="glitch-layer glitch-layer-03"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             FLASH
+        =================================================== -->
+
+        <div
+            id="system-flash"
+            class="system-flash"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             TRANSICIÓN A SCENE 06
+        =================================================== -->
+
+        <div
+            id="scene-transition"
+            class="scene-transition"
+            aria-hidden="true"
+        ></div>
+
+
+    </main>
+
+
+
+    <!-- ==================================================
+         GSAP
+    =================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    ></script>
+
+
+
+    <!-- ==================================================
+         ANIMACIONES
+    =================================================== -->
+
+    <script
+        src="scene-05-animations.js"
+    ></script>
+
+
+
+    <!-- ==================================================
+         LÓGICA
+    =================================================== -->
+
+    <script
+        src="scene-05.js"
+    ></script>
+
+
+</body>
+
+</html>

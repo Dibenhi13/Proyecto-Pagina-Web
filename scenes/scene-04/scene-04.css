@@ -1,0 +1,2689 @@
+/* =========================================================
+   ESCENA 04 — CORRUPTED SURVEILLANCE INTERFACE
+   The Lost Ship
+========================================================= */
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    overflow: hidden;
+
+    background:
+        #020202;
+
+    color:
+        #00ff38;
+
+    font-family:
+        "Montserrat",
+        sans-serif;
+}
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+:root {
+
+    --green:
+        #00ff38;
+
+    --green-bright:
+        rgba(0, 255, 56, 1);
+
+    --green-soft:
+        rgba(0, 255, 56, 0.72);
+
+    --green-medium:
+        rgba(0, 255, 56, 0.48);
+
+    --green-dim:
+        rgba(0, 255, 56, 0.27);
+
+    --green-faint:
+        rgba(0, 255, 56, 0.08);
+
+    --black:
+        #020202;
+
+    --outer-padding:
+        clamp(12px, 1.8vw, 28px);
+
+}
+
+
+/* =========================================================
+   ESCENA
+========================================================= */
+
+.surveillance-scene {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        var(--black);
+
+    color:
+        var(--green);
+
+}
+
+
+/* =========================================================
+   FONDO
+========================================================= */
+
+.system-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            rgba(0, 255, 56, 0.025) 0%,
+            rgba(0, 255, 56, 0.008) 40%,
+            rgba(0, 0, 0, 0) 74%
+        ),
+
+        #020202;
+
+}
+
+
+/* =========================================================
+   SCANLINES
+========================================================= */
+
+.system-scanlines {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 40;
+
+    pointer-events: none;
+
+    opacity:
+        0.15;
+
+    background:
+
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.025) 0,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    mix-blend-mode:
+        screen;
+
+}
+
+
+/* =========================================================
+   NOISE
+========================================================= */
+
+.system-noise {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 41;
+
+    pointer-events: none;
+
+    opacity:
+        0.045;
+
+    background-image:
+
+        repeating-radial-gradient(
+            circle at 0 0,
+            rgba(255, 255, 255, 0.08) 0,
+            rgba(255, 255, 255, 0.08) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+
+    background-size:
+        4px 4px;
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   INTERFERENCE LINES
+========================================================= */
+
+.interference-line {
+
+    position: absolute;
+
+    left: 0;
+
+    width: 100%;
+
+    z-index: 55;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 255, 56, 0.5);
+
+    box-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.4);
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+.interference-line-01 {
+
+    top: 20%;
+
+    height: 2px;
+
+}
+
+
+.interference-line-02 {
+
+    top: 54%;
+
+    height: 1px;
+
+}
+
+
+.interference-line-03 {
+
+    top: 81%;
+
+    height: 3px;
+
+}
+
+
+/* =========================================================
+   INTERFAZ PRINCIPAL
+========================================================= */
+
+.surveillance-interface {
+
+    position: relative;
+
+    z-index: 10;
+
+    width:
+        calc(
+            100% -
+            (var(--outer-padding) * 2)
+        );
+
+    min-height:
+        calc(
+            100vh -
+            (var(--outer-padding) * 2)
+        );
+
+    margin:
+        var(--outer-padding);
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 0, 0, 0.94);
+
+    box-shadow:
+
+        0 0 7px
+        rgba(0, 255, 56, 0.14),
+
+        inset 0 0 8px
+        rgba(0, 255, 56, 0.015);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.system-header {
+
+    display: grid;
+
+    grid-template-columns:
+
+        1fr
+        1.4fr
+        1.8fr;
+
+    align-items: center;
+
+    min-height:
+        42px;
+
+    padding:
+
+        0
+        clamp(16px, 2vw, 30px);
+
+    border-bottom:
+
+        1px solid
+        var(--green);
+
+    font-size:
+
+        clamp(
+            0.56rem,
+            0.82vw,
+            0.76rem
+        );
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.34);
+
+}
+
+
+.status-item {
+
+    display: flex;
+
+    align-items: center;
+
+    min-width: 0;
+
+    color:
+        var(--green-soft);
+
+}
+
+
+.status-signal,
+.status-data {
+
+    gap: 4px;
+
+}
+
+
+.status-label {
+
+    color:
+        var(--green-soft);
+
+    white-space:
+        nowrap;
+
+}
+
+
+.status-value {
+
+    color:
+        var(--green);
+
+    white-space:
+        nowrap;
+
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.system-body {
+
+    flex: 1;
+
+    display: grid;
+
+    grid-template-columns:
+
+        minmax(115px, 14%)
+        minmax(0, 1fr)
+        minmax(210px, 21%);
+
+    min-height: 0;
+
+}
+
+
+/* =========================================================
+   PANEL TITLES
+========================================================= */
+
+.panel-title {
+
+    font-size:
+
+        clamp(
+            0.7rem,
+            1vw,
+            0.95rem
+        );
+
+    font-weight:
+        500;
+
+    color:
+        var(--green);
+
+    text-shadow:
+
+        0 0 5px
+        rgba(0, 255, 56, 0.4);
+
+}
+
+
+/* =========================================================
+   CAMERAS
+========================================================= */
+
+.camera-panel {
+
+    position: relative;
+
+    border-right:
+
+        1px solid
+        var(--green);
+
+    padding:
+
+        clamp(
+            14px,
+            2vw,
+            22px
+        );
+
+}
+
+
+.camera-panel .panel-title {
+
+    margin-bottom:
+        16px;
+
+}
+
+
+.camera-list {
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        18px;
+
+}
+
+
+/* =========================================================
+   CAMERA BUTTONS
+========================================================= */
+
+.camera-button {
+
+    width: 100%;
+
+    min-height:
+        42px;
+
+    border:
+
+        1px solid
+        var(--green);
+
+    background:
+        transparent;
+
+    color:
+        var(--green-soft);
+
+    font-family:
+        inherit;
+
+    font-size:
+
+        clamp(
+            0.66rem,
+            0.9vw,
+            0.8rem
+        );
+
+    cursor:
+        pointer;
+
+    text-shadow:
+
+        0 0 3px
+        rgba(0, 255, 56, 0.28);
+
+    transition:
+
+        background 150ms ease,
+        color 150ms ease,
+        opacity 150ms ease,
+        box-shadow 150ms ease;
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+.camera-button:hover {
+
+    color:
+        var(--green);
+
+    background:
+        rgba(0, 255, 56, 0.04);
+
+    box-shadow:
+
+        0 0 8px
+        rgba(0, 255, 56, 0.2);
+
+}
+
+
+.camera-button.active {
+
+    color:
+        var(--green);
+
+    background:
+        rgba(0, 255, 56, 0.035);
+
+    box-shadow:
+
+        inset 0 0 7px
+        rgba(0, 255, 56, 0.05);
+
+}
+
+
+/*
+    Parecen utilizables,
+    pero Scene 04 bloqueará el cambio
+    desde JavaScript.
+*/
+
+.camera-button.locked-camera {
+
+    opacity:
+        0.86;
+
+}
+
+
+/* =========================================================
+   ACCESS DENIED — CAMERA
+========================================================= */
+
+.denied-message {
+
+    margin-top:
+        16px;
+
+    font-size:
+
+        clamp(
+            0.5rem,
+            0.66vw,
+            0.62rem
+        );
+
+    color:
+        var(--green);
+
+    text-align:
+        center;
+
+    text-shadow:
+
+        0 0 5px
+        rgba(0, 255, 56, 0.45);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    will-change:
+
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   LIVE FEED
+========================================================= */
+
+.live-feed-panel {
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    min-width: 0;
+
+    padding:
+
+        clamp(
+            18px,
+            2.2vw,
+            34px
+        );
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   FEED HEADER
+========================================================= */
+
+.feed-header {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    margin-bottom:
+        8px;
+
+}
+
+
+.live-feed-label,
+.camera-name {
+
+    font-size:
+
+        clamp(
+            0.52rem,
+            0.75vw,
+            0.7rem
+        );
+
+    color:
+        var(--green-soft);
+
+    text-shadow:
+
+        0 0 3px
+        rgba(0, 255, 56, 0.25);
+
+}
+
+
+.live-indicator {
+
+    display: flex;
+
+    align-items:
+        center;
+
+}
+
+
+.live-dot {
+
+    display: block;
+
+    width:
+        5px;
+
+    height:
+        5px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--green);
+
+    box-shadow:
+
+        0 0 6px
+        var(--green);
+
+    will-change:
+
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   VIDEO CONTAINER
+========================================================= */
+
+.video-container {
+
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio:
+        16 / 9;
+
+    overflow: hidden;
+
+    border:
+
+        1px solid
+        var(--green);
+
+    background:
+        #000;
+
+    box-shadow:
+
+        inset 0 0 7px
+        rgba(0, 255, 56, 0.025);
+
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.camera-video {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit:
+        cover;
+
+    filter:
+
+        brightness(0.78)
+        contrast(1.14)
+        saturate(0.78);
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.video-placeholder {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #000;
+
+    color:
+        var(--green-medium);
+
+    font-size:
+
+        clamp(
+            0.7rem,
+            1vw,
+            0.9rem
+        );
+
+}
+
+
+/* =========================================================
+   VIDEO SCANLINES
+========================================================= */
+
+.video-scanlines {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    opacity:
+        0.21;
+
+    background:
+
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.03) 0,
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+
+}
+
+
+/* =========================================================
+   VIDEO NOISE
+========================================================= */
+
+.video-noise {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 6;
+
+    pointer-events: none;
+
+    opacity:
+        0.05;
+
+    background-image:
+
+        repeating-radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.09) 0,
+            rgba(255, 255, 255, 0.09) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+
+    background-size:
+        4px 4px;
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   STATIC
+========================================================= */
+
+.video-static {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 10;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.18) 0,
+            rgba(255, 255, 255, 0.18) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   VIDEO BLACKOUT
+========================================================= */
+
+.video-blackout {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 11;
+
+    pointer-events: none;
+
+    background:
+        #000;
+
+    opacity: 0;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   FEED ANOMALY
+========================================================= */
+
+.feed-anomaly {
+
+    position: absolute;
+
+    z-index: 12;
+
+    left:
+        63%;
+
+    top:
+        16%;
+
+    width:
+        8%;
+
+    height:
+        62%;
+
+    pointer-events:
+        none;
+
+    opacity: 0;
+
+    background:
+
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.05),
+            rgba(0, 0, 0, 0.78),
+            rgba(0, 0, 0, 0.08)
+        );
+
+    filter:
+
+        blur(2px);
+
+    will-change:
+
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   FEED ERROR
+========================================================= */
+
+.feed-error-message {
+
+    position: absolute;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    z-index: 14;
+
+    transform:
+
+        translate(
+            -50%,
+            -50%
+        );
+
+    color:
+        var(--green);
+
+    font-size:
+
+        clamp(
+            0.58rem,
+            0.85vw,
+            0.78rem
+        );
+
+    letter-spacing:
+        0.04em;
+
+    text-shadow:
+
+        0 0 6px
+        rgba(0, 255, 56, 0.5);
+
+    opacity: 0;
+
+    pointer-events:
+        none;
+
+    white-space:
+        nowrap;
+
+}
+
+
+/* =========================================================
+   FEED FOOTER
+========================================================= */
+
+.feed-footer {
+
+    margin-top:
+        10px;
+
+}
+
+
+/* =========================================================
+   SYSTEM LOGS
+========================================================= */
+
+.logs-panel {
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    min-width: 0;
+
+    border-left:
+
+        1px solid
+        var(--green);
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+.logs-content {
+
+    flex: 1;
+
+    padding:
+
+        clamp(
+            14px,
+            1.6vw,
+            22px
+        );
+
+}
+
+
+.logs-content .panel-title {
+
+    margin-bottom:
+        9px;
+
+}
+
+
+.system-logs {
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        5px;
+
+}
+
+
+/* =========================================================
+   SYSTEM LOG
+========================================================= */
+
+.system-log {
+
+    display: flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        4px;
+
+    min-height:
+        1.25em;
+
+    font-size:
+
+        clamp(
+            0.48rem,
+            0.66vw,
+            0.64rem
+        );
+
+    line-height:
+        1.45;
+
+    color:
+        var(--green-soft);
+
+    opacity: 0;
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+.log-arrow {
+
+    flex-shrink: 0;
+
+    color:
+        var(--green);
+
+}
+
+
+.warning-log {
+
+    color:
+        var(--green);
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.35);
+
+}
+
+
+.corrupted-system-log {
+
+    color:
+        var(--green);
+
+    text-shadow:
+
+        0 0 5px
+        rgba(0, 255, 56, 0.38);
+
+}
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+.log-cursor {
+
+    opacity: 0;
+
+}
+
+
+.cursor-block {
+
+    display:
+        inline-block;
+
+    font-size:
+        0.78em;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   ACCESS LOGS
+========================================================= */
+
+.access-logs-container {
+
+    padding:
+
+        clamp(
+            14px,
+            1.6vw,
+            22px
+        );
+
+    border-top:
+
+        1px solid
+        var(--green);
+
+}
+
+
+.access-logs-button {
+
+    width: 100%;
+
+    min-height:
+        42px;
+
+    border:
+
+        1px solid
+        var(--green);
+
+    background:
+        transparent;
+
+    color:
+        var(--green);
+
+    font-family:
+        inherit;
+
+    font-size:
+
+        clamp(
+            0.58rem,
+            0.78vw,
+            0.72rem
+        );
+
+    cursor:
+        pointer;
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.35);
+
+    transition:
+
+        background 150ms ease,
+        box-shadow 150ms ease;
+
+}
+
+
+.access-logs-button:hover {
+
+    background:
+
+        rgba(0, 255, 56, 0.055);
+
+    box-shadow:
+
+        0 0 9px
+        rgba(0, 255, 56, 0.22);
+
+}
+
+
+/* =========================================================
+   SYSTEM ACCESS DENIED
+========================================================= */
+
+.system-denied-message {
+
+    position: fixed;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    z-index:
+        120;
+
+    transform:
+
+        translate(
+            -50%,
+            -50%
+        );
+
+    padding:
+
+        10px
+        20px;
+
+    border:
+
+        1px solid
+        var(--green);
+
+    background:
+
+        rgba(0, 0, 0, 0.94);
+
+    color:
+        var(--green);
+
+    font-size:
+
+        clamp(
+            0.62rem,
+            1vw,
+            0.84rem
+        );
+
+    letter-spacing:
+        0.05em;
+
+    text-shadow:
+
+        0 0 6px
+        rgba(0, 255, 56, 0.48);
+
+    box-shadow:
+
+        0 0 12px
+        rgba(0, 255, 56, 0.14);
+
+    opacity: 0;
+
+    pointer-events:
+        none;
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   ARCHIVED LOGS MODAL
+========================================================= */
+
+.archived-logs-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index:
+        100;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        24px;
+
+    background:
+
+        rgba(0, 0, 0, 0.9);
+
+    opacity: 0;
+
+    visibility:
+        hidden;
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   ARCHIVED WINDOW
+========================================================= */
+
+.archived-logs-window {
+
+    width:
+
+        min(
+            90vw,
+            680px
+        );
+
+    max-height:
+        88vh;
+
+    overflow-y:
+        auto;
+
+    border:
+
+        1px solid
+        var(--green);
+
+    background:
+        #000;
+
+    box-shadow:
+
+        0 0 16px
+        rgba(0, 255, 56, 0.16);
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+/* =========================================================
+   CUSTOM SCROLLBAR — ARCHIVED LOGS
+========================================================= */
+
+.archived-logs-window {
+    scrollbar-width: thin;
+    scrollbar-color:
+        rgba(0, 255, 56, 0.55)
+        rgba(0, 255, 56, 0.04);
+}
+
+
+/* Chrome / Edge / Safari */
+
+.archived-logs-window::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+.archived-logs-window::-webkit-scrollbar-track {
+    background:
+        rgba(0, 255, 56, 0.025);
+
+    border-left:
+        1px solid
+        rgba(0, 255, 56, 0.12);
+}
+
+
+.archived-logs-window::-webkit-scrollbar-thumb {
+    background:
+        rgba(0, 255, 56, 0.42);
+
+    border:
+        1px solid
+        rgba(0, 255, 56, 0.6);
+}
+
+
+.archived-logs-window::-webkit-scrollbar-thumb:hover {
+    background:
+        rgba(0, 255, 56, 0.65);
+}
+
+
+/* =========================================================
+   ARCHIVED HEADER
+========================================================= */
+
+.archived-logs-header {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    padding:
+
+        12px
+        16px;
+
+    border-bottom:
+
+        1px solid
+        var(--green);
+
+}
+
+
+.archived-logs-header h2 {
+
+    font-size:
+        0.85rem;
+
+    font-weight:
+        500;
+
+    color:
+        var(--green);
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.35);
+
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.close-logs-button {
+
+    border:
+        none;
+
+    background:
+        transparent;
+
+    color:
+        var(--green);
+
+    font-family:
+        inherit;
+
+    font-size:
+        1.2rem;
+
+    cursor:
+        pointer;
+
+    transition:
+
+        opacity 150ms ease,
+        text-shadow 150ms ease;
+
+}
+
+
+.close-logs-button:hover {
+
+    text-shadow:
+
+        0 0 7px
+        rgba(0, 255, 56, 0.6);
+
+}
+
+
+/* =========================================================
+   ARCHIVED LOG LIST
+========================================================= */
+
+.archived-logs-list {
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    padding:
+        16px;
+
+}
+
+
+/* =========================================================
+   ARCHIVED LOG ITEM
+========================================================= */
+
+.archived-log-item {
+
+    display: grid;
+
+    grid-template-columns:
+
+        90px
+        1fr;
+
+    gap:
+        14px;
+
+    width: 100%;
+
+    padding:
+
+        13px
+        12px;
+
+    border:
+        none;
+
+    border-bottom:
+
+        1px solid
+        var(--green-dim);
+
+    background:
+        transparent;
+
+    color:
+        var(--green-soft);
+
+    font-family:
+        inherit;
+
+    font-size:
+        0.72rem;
+
+    text-align:
+        left;
+
+    cursor:
+        pointer;
+
+    transition:
+
+        background 150ms ease,
+        color 150ms ease,
+        opacity 150ms ease;
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+.archived-log-item:hover {
+
+    color:
+        var(--green);
+
+    background:
+
+        rgba(0, 255, 56, 0.045);
+
+}
+
+
+.archived-log-item.corrupted {
+
+    color:
+        var(--green);
+
+    opacity:
+        0.78;
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.32);
+
+}
+
+
+/* =========================================================
+   LOG DETAILS
+========================================================= */
+
+.log-details {
+
+    min-height:
+        230px;
+
+    padding:
+        18px;
+
+    border-top:
+
+        1px solid
+        var(--green);
+
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.log-details-placeholder {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        185px;
+
+    color:
+        var(--green-dim);
+
+    font-size:
+        0.7rem;
+
+    letter-spacing:
+        0.08em;
+
+}
+
+
+/* =========================================================
+   LOG DETAILS CONTENT
+========================================================= */
+
+.log-details-content {
+
+    display:
+        none;
+
+    opacity:
+        0;
+
+    will-change:
+
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   LOG HEADING
+========================================================= */
+
+.log-details-heading {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    margin-bottom:
+        16px;
+
+    color:
+        var(--green);
+
+}
+
+
+.selected-log-id {
+
+    color:
+        var(--green);
+
+}
+
+
+.selected-log-title {
+
+    color:
+        var(--green-soft);
+
+}
+
+
+/* =========================================================
+   METADATA
+========================================================= */
+
+.log-details-metadata {
+
+    margin-bottom:
+        18px;
+
+    font-size:
+        0.65rem;
+
+    line-height:
+        1.65;
+
+    color:
+        var(--green-soft);
+
+}
+
+
+.metadata-label {
+
+    margin-right:
+        5px;
+
+    color:
+        var(--green);
+
+}
+
+
+/* =========================================================
+   LOG BODY
+========================================================= */
+
+.selected-log-body {
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        8px;
+
+    font-size:
+
+        clamp(
+            0.58rem,
+            0.8vw,
+            0.72rem
+        );
+
+    line-height:
+        1.6;
+
+    color:
+        var(--green-soft);
+
+}
+
+
+.selected-log-body p {
+
+    min-height:
+        1em;
+
+}
+
+
+/* =========================================================
+   CORRUPTED LOG CONTENT
+========================================================= */
+
+.corrupted-line {
+
+    color:
+        var(--green);
+
+    text-shadow:
+
+        0 0 5px
+        rgba(0, 255, 56, 0.44);
+
+}
+
+
+/* =========================================================
+   AUDIO CONTAINER
+========================================================= */
+
+.corrupted-audio-container {
+
+    display:
+        none;
+
+    margin-top:
+        22px;
+
+    padding-top:
+        14px;
+
+    border-top:
+
+        1px solid
+        var(--green);
+
+}
+
+
+/* =========================================================
+   AUDIO WARNING
+========================================================= */
+
+.audio-warning {
+
+    margin-bottom:
+        10px;
+
+    font-size:
+
+        clamp(
+            0.5rem,
+            0.7vw,
+            0.64rem
+        );
+
+    color:
+        var(--green-soft);
+
+    text-align:
+        center;
+
+    letter-spacing:
+        0.04em;
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.3);
+
+}
+
+
+/* =========================================================
+   AUDIO BUTTON
+========================================================= */
+
+.play-corrupted-audio {
+
+    width: 100%;
+
+    min-height:
+        42px;
+
+    border:
+
+        1px solid
+        var(--green);
+
+    background:
+
+        rgba(0, 255, 56, 0.01);
+
+    color:
+        var(--green);
+
+    font-family:
+        inherit;
+
+    font-size:
+
+        clamp(
+            0.62rem,
+            0.9vw,
+            0.82rem
+        );
+
+    cursor:
+        pointer;
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.4);
+
+    box-shadow:
+
+        inset 0 0 6px
+        rgba(0, 255, 56, 0.02);
+
+    transition:
+
+        background 150ms ease,
+        box-shadow 150ms ease,
+        opacity 150ms ease;
+
+    will-change:
+
+        opacity,
+        transform,
+        box-shadow;
+
+}
+
+
+.play-corrupted-audio:hover {
+
+    background:
+
+        rgba(0, 255, 56, 0.065);
+
+    box-shadow:
+
+        0 0 11px
+        rgba(0, 255, 56, 0.26),
+
+        inset 0 0 7px
+        rgba(0, 255, 56, 0.04);
+
+}
+
+
+/* =========================================================
+   AUDIO STATUS
+========================================================= */
+
+.audio-status {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        12px;
+
+    margin-top:
+        11px;
+
+    opacity: 0;
+
+    font-size:
+
+        clamp(
+            0.48rem,
+            0.65vw,
+            0.6rem
+        );
+
+    color:
+        var(--green-soft);
+
+    pointer-events:
+        none;
+
+}
+
+
+.audio-status-label {
+
+    white-space:
+        nowrap;
+
+}
+
+
+/* =========================================================
+   AUDIO SIGNAL
+========================================================= */
+
+.audio-signal {
+
+    display: flex;
+
+    align-items:
+        center;
+
+    gap:
+        3px;
+
+    height:
+        15px;
+
+}
+
+
+.audio-signal span {
+
+    display: block;
+
+    width:
+        2px;
+
+    height:
+        4px;
+
+    background:
+        var(--green);
+
+    box-shadow:
+
+        0 0 3px
+        rgba(0, 255, 56, 0.42);
+
+    transform-origin:
+        center;
+
+    opacity:
+        0.5;
+
+    will-change:
+
+        transform,
+        opacity;
+
+}
+
+
+/* =========================================================
+   AUDIO LOCKED STATES
+========================================================= */
+
+.audio-locked {
+
+    cursor:
+        default !important;
+
+}
+
+
+.close-logs-button.audio-locked {
+
+    opacity:
+        0.42;
+
+}
+
+
+.archived-log-item.audio-locked {
+
+    opacity:
+        0.38;
+
+}
+
+
+/* =========================================================
+   GLITCH LAYERS
+========================================================= */
+
+.glitch-layer {
+
+    position:
+        fixed;
+
+    inset: 0;
+
+    z-index:
+        130;
+
+    pointer-events:
+        none;
+
+    opacity: 0;
+
+    background:
+
+        rgba(0, 255, 56, 0.055);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+
+        opacity,
+        transform,
+        clip-path;
+
+}
+
+
+.glitch-layer-01 {
+
+    clip-path:
+
+        inset(
+            12% 0
+            72% 0
+        );
+
+}
+
+
+.glitch-layer-02 {
+
+    clip-path:
+
+        inset(
+            43% 0
+            38% 0
+        );
+
+}
+
+
+.glitch-layer-03 {
+
+    clip-path:
+
+        inset(
+            72% 0
+            10% 0
+        );
+
+}
+
+
+/* =========================================================
+   FLASH
+========================================================= */
+
+.system-flash {
+
+    position:
+        fixed;
+
+    inset: 0;
+
+    z-index:
+        140;
+
+    pointer-events:
+        none;
+
+    opacity: 0;
+
+    background:
+        var(--green);
+
+    mix-blend-mode:
+        screen;
+
+}
+
+
+/* =========================================================
+   TRANSITION
+========================================================= */
+
+.scene-transition {
+
+    position:
+        fixed;
+
+    inset: 0;
+
+    z-index:
+        150;
+
+    pointer-events:
+        none;
+
+    opacity: 0;
+
+    background:
+        #000;
+
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+button:focus-visible {
+
+    outline:
+
+        1px solid
+        var(--green);
+
+    outline-offset:
+        4px;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 950px) {
+
+    .system-body {
+
+        grid-template-columns:
+
+            120px
+            minmax(0, 1fr)
+            190px;
+
+    }
+
+
+    .live-feed-panel {
+
+        padding:
+            20px;
+
+    }
+
+
+    .camera-panel,
+    .logs-content,
+    .access-logs-container {
+
+        padding:
+            14px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET VERTICAL
+========================================================= */
+
+@media (max-width: 760px) {
+
+    body {
+
+        overflow:
+            auto;
+
+    }
+
+
+    .surveillance-scene {
+
+        overflow:
+            visible;
+
+    }
+
+
+    .system-header {
+
+        grid-template-columns:
+
+            1fr
+            1fr;
+
+        gap:
+
+            5px
+            14px;
+
+        padding:
+
+            10px
+            14px;
+
+    }
+
+
+    .status-data {
+
+        grid-column:
+            1 / -1;
+
+    }
+
+
+    .system-body {
+
+        grid-template-columns:
+
+            110px
+            1fr;
+
+        grid-template-areas:
+
+            "cams feed"
+            "logs logs";
+
+    }
+
+
+    .camera-panel {
+
+        grid-area:
+            cams;
+
+    }
+
+
+    .live-feed-panel {
+
+        grid-area:
+            feed;
+
+    }
+
+
+    .logs-panel {
+
+        grid-area:
+            logs;
+
+        border-left:
+            none;
+
+        border-top:
+
+            1px solid
+            var(--green);
+
+        min-height:
+            220px;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+    :root {
+
+        --outer-padding:
+            8px;
+
+    }
+
+
+    .system-header {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            4px;
+
+        font-size:
+            0.56rem;
+
+    }
+
+
+    .status-data {
+
+        grid-column:
+            auto;
+
+    }
+
+
+    .system-body {
+
+        grid-template-columns:
+            1fr;
+
+        grid-template-areas:
+
+            "cams"
+            "feed"
+            "logs";
+
+    }
+
+
+    .camera-panel {
+
+        border-right:
+            none;
+
+        border-bottom:
+
+            1px solid
+            var(--green);
+
+    }
+
+
+    .camera-list {
+
+        flex-direction:
+            row;
+
+        gap:
+            8px;
+
+    }
+
+
+    .camera-button {
+
+        min-height:
+            36px;
+
+        font-size:
+            0.6rem;
+
+    }
+
+
+    .live-feed-panel {
+
+        padding:
+
+            14px
+            12px;
+
+    }
+
+
+    .video-container {
+
+        aspect-ratio:
+            4 / 3;
+
+    }
+
+
+    .archived-log-item {
+
+        grid-template-columns:
+
+            76px
+            1fr;
+
+        gap:
+            10px;
+
+    }
+
+
+    .archived-logs-modal {
+
+        padding:
+            12px;
+
+    }
+
+
+    .archived-logs-window {
+
+        width:
+            100%;
+
+        max-height:
+            92vh;
+
+    }
+
+
+    .system-denied-message {
+
+        width:
+
+            calc(
+                100% - 40px
+            );
+
+        text-align:
+            center;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .camera-list {
+
+        gap:
+            5px;
+
+    }
+
+
+    .camera-button {
+
+        padding:
+
+            6px
+            4px;
+
+        font-size:
+            0.54rem;
+
+    }
+
+
+    .system-log {
+
+        font-size:
+            0.52rem;
+
+    }
+
+
+    .selected-log-body {
+
+        font-size:
+            0.62rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+    }
+
+}

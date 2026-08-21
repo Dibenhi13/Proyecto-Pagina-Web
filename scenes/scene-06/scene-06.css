@@ -1,0 +1,2188 @@
+/* =========================================================
+   ESCENA 06 — COMPROMISED TRANSMISSION
+   The Lost Ship
+========================================================= */
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: #020202;
+    color: #00ff38;
+
+    font-family:
+        "Montserrat",
+        sans-serif;
+}
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+:root {
+    --green:
+        #00ff38;
+
+    --green-soft:
+        rgba(0, 255, 56, 0.75);
+
+    --green-medium:
+        rgba(0, 255, 56, 0.5);
+
+    --green-dim:
+        rgba(0, 255, 56, 0.28);
+
+    --green-faint:
+        rgba(0, 255, 56, 0.08);
+
+    --green-dark:
+        rgba(0, 255, 56, 0.035);
+
+    --black:
+        #020202;
+
+    --outer-padding:
+        clamp(12px, 1.7vw, 26px);
+}
+
+
+/* =========================================================
+   ESCENA
+========================================================= */
+
+.transmission-scene {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow-x: hidden;
+    overflow-y: visible;
+
+    padding-bottom:
+        30px;
+
+    background:
+        var(--black);
+
+    color:
+        var(--green);
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.system-background {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(0, 255, 56, 0.035) 0%,
+            rgba(0, 255, 56, 0.012) 38%,
+            rgba(0, 0, 0, 0) 75%
+        ),
+        #020202;
+}
+
+
+/* =========================================================
+   GLOBAL SCANLINES
+========================================================= */
+
+.system-scanlines {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 40;
+
+    pointer-events: none;
+
+    opacity:
+        0.19;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.03) 0,
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    mix-blend-mode:
+        screen;
+}
+
+
+/* =========================================================
+   GLOBAL NOISE
+========================================================= */
+
+.system-noise {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 41;
+
+    pointer-events: none;
+
+    opacity:
+        0.08;
+
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            rgba(255, 255, 255, 0.1) 0,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+
+    background-size:
+        4px 4px;
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+/* =========================================================
+   INTERFERENCE LINES
+========================================================= */
+
+.interference-line {
+    position: fixed;
+
+    left: 0;
+
+    width: 100%;
+
+    z-index: 55;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 255, 56, 0.58);
+
+    box-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.44);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+.interference-line-01 {
+    top: 18%;
+    height: 2px;
+}
+
+
+.interference-line-02 {
+    top: 51%;
+    height: 1px;
+}
+
+
+.interference-line-03 {
+    top: 79%;
+    height: 3px;
+}
+
+
+/* =========================================================
+   PRINCIPAL INTERFACE
+========================================================= */
+
+.transmission-interface {
+    position: relative;
+
+    z-index: 10;
+
+    width:
+        calc(
+            100% -
+            (var(--outer-padding) * 2)
+        );
+
+    min-height:
+        calc(
+            100vh -
+            (var(--outer-padding) * 2)
+        );
+
+    margin:
+        var(--outer-padding);
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 0, 0, 0.955);
+
+    box-shadow:
+        0 0 9px
+        rgba(0, 255, 56, 0.18),
+        inset 0 0 10px
+        rgba(0, 255, 56, 0.025);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.system-header {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1.45fr
+        1.8fr;
+
+    align-items: center;
+
+    min-height:
+        42px;
+
+    padding:
+        0
+        clamp(16px, 2vw, 30px);
+
+    border-bottom:
+        1px solid
+        var(--green);
+
+    font-size:
+        clamp(
+            0.55rem,
+            0.8vw,
+            0.74rem
+        );
+
+    text-shadow:
+        0 0 4px
+        rgba(0, 255, 56, 0.36);
+}
+
+
+.status-item {
+    display: flex;
+
+    align-items: center;
+
+    min-width: 0;
+
+    color:
+        var(--green-soft);
+}
+
+
+.status-signal,
+.status-data {
+    gap: 4px;
+}
+
+
+.status-label {
+    color:
+        var(--green-soft);
+
+    white-space: nowrap;
+}
+
+
+.status-value {
+    color:
+        var(--green);
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   SYSTEM BODY
+========================================================= */
+
+.system-body {
+    flex: 1;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(115px, 14%)
+        minmax(0, 1fr)
+        minmax(215px, 22%);
+
+    min-height: 0;
+}
+
+
+/* =========================================================
+   PANEL TITLES
+========================================================= */
+
+.panel-title {
+    font-size:
+        clamp(
+            0.68rem,
+            0.95vw,
+            0.9rem
+        );
+
+    font-weight: 500;
+
+    color:
+        var(--green);
+
+    text-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.42);
+}
+
+
+/* =========================================================
+   CAMERA PANEL
+========================================================= */
+
+.camera-panel {
+    position: relative;
+
+    border-right:
+        1px solid
+        var(--green);
+
+    padding:
+        clamp(14px, 1.8vw, 21px);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+.camera-panel .panel-title {
+    margin-bottom:
+        16px;
+}
+
+
+.camera-list {
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        18px;
+}
+
+
+/* =========================================================
+   CAMERA BUTTONS
+========================================================= */
+
+.camera-button {
+    width: 100%;
+
+    min-height:
+        42px;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        transparent;
+
+    color:
+        var(--green-soft);
+
+    font-family:
+        inherit;
+
+    font-size:
+        clamp(
+            0.64rem,
+            0.88vw,
+            0.78rem
+        );
+
+    cursor:
+        pointer;
+
+    text-shadow:
+        0 0 3px
+        rgba(0, 255, 56, 0.3);
+
+    transition:
+        background 150ms ease,
+        color 150ms ease,
+        box-shadow 150ms ease,
+        opacity 150ms ease;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+.camera-button:hover {
+    color:
+        var(--green);
+
+    background:
+        rgba(0, 255, 56, 0.045);
+
+    box-shadow:
+        0 0 9px
+        rgba(0, 255, 56, 0.2);
+}
+
+
+/* =========================================================
+   DENIED MESSAGE
+========================================================= */
+
+.denied-message {
+    margin-top:
+        16px;
+
+    text-align:
+        center;
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.48rem,
+            0.64vw,
+            0.6rem
+        );
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.4);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+/* =========================================================
+   CENTRAL PANEL
+========================================================= */
+
+.transmission-panel {
+    min-width: 0;
+
+    padding:
+        clamp(18px, 2.1vw, 30px);
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        clamp(14px, 1.5vw, 20px);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+/* =========================================================
+   TRANSCRIPT PANEL
+========================================================= */
+
+.transcript-panel {
+    position: relative;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 255, 56, 0.009);
+
+    padding:
+        clamp(14px, 1.8vw, 22px);
+
+    box-shadow:
+        inset 0 0 8px
+        rgba(0, 255, 56, 0.025);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+/* =========================================================
+   TRANSCRIPT HEADER
+========================================================= */
+
+.transcript-header {
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        12px;
+
+    margin-bottom:
+        18px;
+}
+
+
+.transcript-title {
+    font-size:
+        clamp(
+            0.68rem,
+            0.95vw,
+            0.88rem
+        );
+
+    font-weight:
+        500;
+
+    color:
+        var(--green);
+
+    text-shadow:
+        0 0 4px
+        rgba(0, 255, 56, 0.4);
+}
+
+
+.transcript-status {
+    color:
+        var(--green-medium);
+
+    font-size:
+        clamp(
+            0.47rem,
+            0.64vw,
+            0.58rem
+        );
+
+    letter-spacing:
+        0.05em;
+}
+
+
+/* =========================================================
+   TRANSCRIPT CONTENT
+========================================================= */
+
+.transcript-content {
+    min-height:
+        112px;
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        8px;
+
+    padding-bottom:
+        16px;
+
+    border-bottom:
+        1px solid
+        var(--green-dim);
+}
+
+
+.transcript-line {
+    min-height:
+        1.2em;
+
+    color:
+        var(--green-soft);
+
+    font-size:
+        clamp(
+            0.62rem,
+            0.85vw,
+            0.76rem
+        );
+
+    line-height:
+        1.5;
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+.corrupted-transcript-line {
+    color:
+        var(--green);
+
+    text-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.46);
+}
+
+
+/* =========================================================
+   AUDIO PLAYBACK
+========================================================= */
+
+.audio-playback {
+    padding-top:
+        14px;
+}
+
+
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
+
+.play-transmission-audio {
+    width: 100%;
+
+    min-height:
+        42px;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 255, 56, 0.01);
+
+    color:
+        var(--green);
+
+    font-family:
+        inherit;
+
+    font-size:
+        clamp(
+            0.6rem,
+            0.82vw,
+            0.75rem
+        );
+
+    cursor:
+        pointer;
+
+    text-shadow:
+        0 0 4px
+        rgba(0, 255, 56, 0.38);
+
+    transition:
+        background 150ms ease,
+        box-shadow 150ms ease,
+        opacity 150ms ease;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        box-shadow;
+}
+
+
+.play-transmission-audio:hover {
+    background:
+        rgba(0, 255, 56, 0.06);
+
+    box-shadow:
+        0 0 11px
+        rgba(0, 255, 56, 0.25);
+}
+
+
+.play-transmission-audio:disabled {
+    cursor:
+        default;
+
+    opacity:
+        0.7;
+}
+
+
+/* =========================================================
+   AUDIO PROGRESS
+========================================================= */
+
+.audio-progress-container {
+    margin-top:
+        12px;
+}
+
+
+.audio-progress-track {
+    position: relative;
+
+    width: 100%;
+
+    height:
+        7px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        var(--green-dim);
+
+    background:
+        rgba(0, 255, 56, 0.02);
+}
+
+
+.audio-progress-bar {
+    width: 0%;
+
+    height: 100%;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 6px
+        rgba(0, 255, 56, 0.5);
+
+    will-change:
+        width,
+        opacity;
+}
+
+
+/* =========================================================
+   AUDIO DAMAGE MARKS
+========================================================= */
+
+.audio-damage {
+    position: absolute;
+
+    top: 0;
+
+    width:
+        2px;
+
+    height: 100%;
+
+    background:
+        #000;
+
+    opacity:
+        0.9;
+}
+
+
+.audio-damage-01 {
+    left:
+        29%;
+}
+
+
+.audio-damage-02 {
+    left:
+        57%;
+}
+
+
+.audio-damage-03 {
+    left:
+        81%;
+}
+
+
+/* =========================================================
+   PLAYBACK STATUS
+========================================================= */
+
+.playback-status {
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        14px;
+
+    margin-top:
+        11px;
+
+    color:
+        var(--green-medium);
+
+    font-size:
+        clamp(
+            0.47rem,
+            0.62vw,
+            0.58rem
+        );
+}
+
+
+/* =========================================================
+   AUDIO VISUALIZER
+========================================================= */
+
+.audio-visualizer {
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        flex-end;
+
+    gap:
+        3px;
+
+    min-width:
+        70px;
+
+    height:
+        18px;
+
+    opacity: 0;
+}
+
+
+.audio-visualizer span {
+    display: block;
+
+    width:
+        2px;
+
+    height:
+        4px;
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 3px
+        rgba(0, 255, 56, 0.4);
+
+    transform-origin:
+        center;
+
+    opacity:
+        0.55;
+
+    will-change:
+        transform,
+        opacity;
+}
+
+
+/* =========================================================
+   VIDEO GRID
+========================================================= */
+
+.video-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap:
+        clamp(10px, 1vw, 14px);
+
+    padding-bottom:
+        8px;
+}
+
+
+/* =========================================================
+   VIDEO FEED
+========================================================= */
+
+.video-feed {
+    min-width: 0;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        #000;
+
+    box-shadow:
+        inset 0 0 7px
+        rgba(0, 255, 56, 0.025);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+/* =========================================================
+   VIDEO HEADER
+========================================================= */
+
+.video-feed-header {
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        8px;
+
+    min-height:
+        30px;
+
+    padding:
+        0
+        10px;
+
+    border-bottom:
+        1px solid
+        var(--green-dim);
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.49rem,
+            0.64vw,
+            0.6rem
+        );
+}
+
+
+.video-feed-status {
+    color:
+        var(--green-medium);
+
+    font-size:
+        0.9em;
+}
+
+
+/* =========================================================
+   VIDEO CONTAINER
+========================================================= */
+
+.video-feed-container {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio:
+        16 / 9;
+
+    overflow: hidden;
+
+    background:
+        #000;
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.scene06-video {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit:
+        cover;
+
+    opacity:
+        0.82;
+
+    filter:
+        brightness(0.67)
+        contrast(1.22)
+        saturate(0.7);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+/* =========================================================
+   VIDEO PLACEHOLDER
+========================================================= */
+
+.video-placeholder {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #000;
+
+    color:
+        var(--green-medium);
+
+    font-size:
+        clamp(
+            0.52rem,
+            0.68vw,
+            0.62rem
+        );
+}
+
+
+/* =========================================================
+   VIDEO SCANLINES
+========================================================= */
+
+.video-scanlines {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    opacity:
+        0.27;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.04) 0,
+            rgba(255, 255, 255, 0.04) 1px,
+            transparent 1px,
+            transparent 3px
+        );
+}
+
+
+/* =========================================================
+   VIDEO STATIC
+========================================================= */
+
+.video-static {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 7;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.18) 0,
+            rgba(255, 255, 255, 0.18) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity;
+}
+
+
+/* =========================================================
+   VIDEO BLACKOUT
+========================================================= */
+
+.video-blackout {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 8;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        #000;
+
+    will-change:
+        opacity;
+}
+
+
+/* =========================================================
+   VIDEO ANOMALIES
+========================================================= */
+
+.video-anomaly {
+    position: absolute;
+
+    z-index: 6;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.05),
+            rgba(0, 0, 0, 0.82),
+            rgba(0, 0, 0, 0.08)
+        );
+
+    filter:
+        blur(2px);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+.video-anomaly-01 {
+    left:
+        71%;
+
+    top:
+        18%;
+
+    width:
+        7%;
+
+    height:
+        58%;
+}
+
+
+.video-anomaly-02 {
+    left:
+        24%;
+
+    top:
+        23%;
+
+    width:
+        9%;
+
+    height:
+        53%;
+}
+
+
+/* =========================================================
+   VIDEO ERROR MESSAGE
+========================================================= */
+
+.video-error-message {
+    position: absolute;
+
+    left:
+        50%;
+
+    top:
+        50%;
+
+    z-index: 10;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.5rem,
+            0.68vw,
+            0.62rem
+        );
+
+    white-space:
+        nowrap;
+
+    text-shadow:
+        0 0 6px
+        rgba(0, 255, 56, 0.5);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+/* =========================================================
+   LOGS PANEL
+========================================================= */
+
+.logs-panel {
+    display: flex;
+
+    flex-direction:
+        column;
+
+    min-width: 0;
+
+    border-left:
+        1px solid
+        var(--green);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+.logs-content {
+    flex: 1;
+
+    padding:
+        clamp(14px, 1.6vw, 22px);
+}
+
+
+.logs-content .panel-title {
+    margin-bottom:
+        9px;
+}
+
+
+/* =========================================================
+   SYSTEM LOGS
+========================================================= */
+
+.system-logs {
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        5px;
+}
+
+
+.system-log {
+    display: flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        4px;
+
+    min-height:
+        1.25em;
+
+    color:
+        var(--green-soft);
+
+    font-size:
+        clamp(
+            0.47rem,
+            0.64vw,
+            0.61rem
+        );
+
+    line-height:
+        1.45;
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+.log-arrow {
+    flex-shrink: 0;
+
+    color:
+        var(--green);
+}
+
+
+.warning-log {
+    color:
+        var(--green);
+
+    text-shadow:
+        0 0 4px
+        rgba(0, 255, 56, 0.38);
+}
+
+
+.corrupted-system-log {
+    color:
+        var(--green);
+
+    text-shadow:
+        0 0 6px
+        rgba(0, 255, 56, 0.48);
+}
+
+
+/* =========================================================
+   CURSOR
+========================================================= */
+
+.log-cursor {
+    opacity: 0;
+}
+
+
+.cursor-block {
+    display:
+        inline-block;
+
+    font-size:
+        0.78em;
+
+    will-change:
+        opacity;
+}
+
+
+/* =========================================================
+   ACCESS LOGS
+========================================================= */
+
+.access-logs-container {
+    padding:
+        clamp(14px, 1.6vw, 22px);
+
+    border-top:
+        1px solid
+        var(--green);
+}
+
+
+.access-logs-button {
+    width: 100%;
+
+    min-height:
+        42px;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        transparent;
+
+    color:
+        var(--green);
+
+    font-family:
+        inherit;
+
+    font-size:
+        clamp(
+            0.56rem,
+            0.76vw,
+            0.7rem
+        );
+
+    cursor:
+        pointer;
+
+    text-shadow:
+        0 0 4px
+        rgba(0, 255, 56, 0.34);
+
+    transition:
+        background 150ms ease,
+        box-shadow 150ms ease;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+.access-logs-button:hover {
+    background:
+        rgba(0, 255, 56, 0.05);
+
+    box-shadow:
+        0 0 9px
+        rgba(0, 255, 56, 0.2);
+}
+
+
+/* =========================================================
+   LOGS DENIED
+========================================================= */
+
+.logs-denied-message {
+    margin-top:
+        9px;
+
+    text-align:
+        center;
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.45rem,
+            0.6vw,
+            0.56rem
+        );
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.42);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+/* =========================================================
+   SYSTEM ERROR OVERLAY
+========================================================= */
+
+.system-error-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 105;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 0, 0, 0.18);
+}
+
+
+.system-error-message {
+    padding:
+        10px
+        20px;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 0, 0, 0.95);
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.66rem,
+            1vw,
+            0.88rem
+        );
+
+    letter-spacing:
+        0.06em;
+
+    text-shadow:
+        0 0 7px
+        rgba(0, 255, 56, 0.55);
+
+    box-shadow:
+        0 0 14px
+        rgba(0, 255, 56, 0.18);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+/* =========================================================
+   TRANSMISSION LOST
+========================================================= */
+
+.transmission-lost {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 120;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        24px;
+
+    background:
+        rgba(0, 0, 0, 0.91);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+}
+
+
+.transmission-lost-window {
+    width:
+        min(
+            90vw,
+            610px
+        );
+
+    padding:
+        clamp(
+            26px,
+            4vw,
+            48px
+        );
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        #000;
+
+    text-align:
+        center;
+
+    box-shadow:
+        0 0 20px
+        rgba(0, 255, 56, 0.22);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+}
+
+
+.transmission-lost-primary {
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.95rem,
+            1.7vw,
+            1.45rem
+        );
+
+    text-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.55);
+}
+
+
+.transmission-lost-secondary {
+    margin-top:
+        14px;
+
+    color:
+        var(--green-soft);
+
+    font-size:
+        clamp(
+            0.58rem,
+            0.95vw,
+            0.82rem
+        );
+
+    letter-spacing:
+        0.05em;
+}
+
+
+/* =========================================================
+   GLITCH LAYERS
+========================================================= */
+
+.glitch-layer {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 130;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 255, 56, 0.065);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform,
+        clip-path;
+}
+
+
+.glitch-layer-01 {
+    clip-path:
+        inset(
+            8% 0
+            76% 0
+        );
+}
+
+
+.glitch-layer-02 {
+    clip-path:
+        inset(
+            31% 0
+            52% 0
+        );
+}
+
+
+.glitch-layer-03 {
+    clip-path:
+        inset(
+            56% 0
+            27% 0
+        );
+}
+
+
+.glitch-layer-04 {
+    clip-path:
+        inset(
+            78% 0
+            8% 0
+        );
+}
+
+
+/* =========================================================
+   FLASH
+========================================================= */
+
+.system-flash {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 140;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        var(--green);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity;
+}
+
+
+/* =========================================================
+   FINAL TRANSITION
+========================================================= */
+
+.scene-transition {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 150;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        #000;
+
+    will-change:
+        opacity;
+}
+
+
+/* =========================================================
+   SCROLLBAR GENERAL
+========================================================= */
+
+html {
+    scrollbar-width:
+        thin;
+
+    scrollbar-color:
+        rgba(0, 255, 56, 0.5)
+        #020202;
+}
+
+
+html::-webkit-scrollbar {
+    width:
+        8px;
+}
+
+
+html::-webkit-scrollbar-track {
+    background:
+        #020202;
+
+    border-left:
+        1px solid
+        rgba(0, 255, 56, 0.08);
+}
+
+
+html::-webkit-scrollbar-thumb {
+    background:
+        rgba(0, 255, 56, 0.35);
+
+    border:
+        1px solid
+        rgba(0, 255, 56, 0.52);
+}
+
+
+html::-webkit-scrollbar-thumb:hover {
+    background:
+        rgba(0, 255, 56, 0.58);
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+button:focus-visible {
+    outline:
+        1px solid
+        var(--green);
+
+    outline-offset:
+        4px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .system-body {
+        grid-template-columns:
+            118px
+            minmax(0, 1fr)
+            200px;
+    }
+
+
+    .transmission-panel {
+        padding:
+            18px;
+    }
+
+
+    .video-grid {
+        gap:
+            10px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET VERTICAL
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .system-header {
+        grid-template-columns:
+            1fr
+            1fr;
+
+        gap:
+            5px
+            14px;
+
+        padding:
+            10px
+            14px;
+    }
+
+
+    .status-data {
+        grid-column:
+            1 / -1;
+    }
+
+
+    .system-body {
+        grid-template-columns:
+            110px
+            1fr;
+
+        grid-template-areas:
+            "cams transmission"
+            "logs logs";
+    }
+
+
+    .camera-panel {
+        grid-area:
+            cams;
+    }
+
+
+    .transmission-panel {
+        grid-area:
+            transmission;
+    }
+
+
+    .logs-panel {
+        grid-area:
+            logs;
+
+        border-left:
+            none;
+
+        border-top:
+            1px solid
+            var(--green);
+
+        min-height:
+            230px;
+    }
+
+
+    .video-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+    :root {
+        --outer-padding:
+            8px;
+    }
+
+
+    .transmission-scene {
+        padding-bottom:
+            18px;
+    }
+
+
+    .system-header {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            4px;
+
+        font-size:
+            0.55rem;
+    }
+
+
+    .status-data {
+        grid-column:
+            auto;
+    }
+
+
+    .system-body {
+        grid-template-columns:
+            1fr;
+
+        grid-template-areas:
+            "cams"
+            "transmission"
+            "logs";
+    }
+
+
+    .camera-panel {
+        border-right:
+            none;
+
+        border-bottom:
+            1px solid
+            var(--green);
+    }
+
+
+    .camera-list {
+        flex-direction:
+            row;
+
+        gap:
+            8px;
+    }
+
+
+    .camera-button {
+        min-height:
+            36px;
+
+        font-size:
+            0.58rem;
+    }
+
+
+    .transmission-panel {
+        padding:
+            12px;
+    }
+
+
+    .transcript-header {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        gap:
+            5px;
+    }
+
+
+    .video-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .playback-status {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+
+    .audio-visualizer {
+        justify-content:
+            flex-start;
+    }
+
+
+    .transmission-lost {
+        padding:
+            12px;
+    }
+
+
+    .transmission-lost-window {
+        width:
+            100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .camera-list {
+        gap:
+            5px;
+    }
+
+
+    .camera-button {
+        padding:
+            6px
+            4px;
+
+        font-size:
+            0.52rem;
+    }
+
+
+    .transcript-line {
+        font-size:
+            0.6rem;
+    }
+
+
+    .system-log {
+        font-size:
+            0.5rem;
+    }
+
+
+    .video-feed-header {
+        font-size:
+            0.5rem;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+    }
+
+}

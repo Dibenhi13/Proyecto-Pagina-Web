@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Compromised Transmission | The Lost Ship</title>
+
+
+    <!-- Montserrat temporal -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="scene-06.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         ESCENA 06
+         ESCALATION / COMPROMISED TRANSMISSION
+    =================================================== -->
+
+    <main
+        id="scene-06"
+        class="transmission-scene"
+    >
+
+
+        <!-- ==================================================
+             FONDO
+        =================================================== -->
+
+        <div
+            class="system-background"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            class="system-scanlines"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="system-noise"
+            class="system-noise"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             INTERFERENCIA GLOBAL
+        =================================================== -->
+
+        <div
+            id="interference-line-01"
+            class="interference-line interference-line-01"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="interference-line-02"
+            class="interference-line interference-line-02"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="interference-line-03"
+            class="interference-line interference-line-03"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             INTERFAZ PRINCIPAL
+        =================================================== -->
+
+        <section
+            id="transmission-interface"
+            class="transmission-interface"
+        >
+
+
+            <!-- ==============================================
+                 HEADER
+            =============================================== -->
+
+            <header
+                id="system-header"
+                class="system-header"
+            >
+
+
+                <div
+                    class="status-item status-connection"
+                >
+
+                    <span
+                        id="connection-status"
+                        class="status-value"
+                    >
+                        LOADING...
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="status-item status-signal"
+                >
+
+                    <span
+                        id="signal-label"
+                        class="status-label"
+                    >
+                        SIGNAL STRENGTH:
+                    </span>
+
+                    <span
+                        id="signal-strength"
+                        class="status-value"
+                    >
+                        70%
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="status-item status-data"
+                >
+
+                    <span
+                        id="data-label"
+                        class="status-label"
+                    >
+                        DATA STREAM:
+                    </span>
+
+                    <span
+                        id="data-status"
+                        class="status-value"
+                    >
+                        ACTIVE
+                    </span>
+
+                </div>
+
+
+            </header>
+
+
+
+            <!-- ==============================================
+                 BODY
+            =============================================== -->
+
+            <div
+                class="system-body"
+            >
+
+
+                <!-- ==================================================
+                     PANEL IZQUIERDO — CAMERAS
+                =================================================== -->
+
+                <aside
+                    id="camera-panel"
+                    class="camera-panel"
+                >
+
+
+                    <h2
+                        id="camera-panel-title"
+                        class="panel-title"
+                    >
+                        CAMERAS
+                    </h2>
+
+
+                    <nav
+                        class="camera-list"
+                        aria-label="Surveillance cameras"
+                    >
+
+
+                        <button
+                            class="camera-button"
+                            type="button"
+                            data-camera="cam01"
+                        >
+                            CAM 01
+                        </button>
+
+
+                        <button
+                            class="camera-button"
+                            type="button"
+                            data-camera="cam02"
+                        >
+                            CAM 02
+                        </button>
+
+
+                        <button
+                            class="camera-button"
+                            type="button"
+                            data-camera="cam03"
+                        >
+                            CAM 03
+                        </button>
+
+
+                    </nav>
+
+
+
+                    <!--
+                        Mensaje usado por JS cuando
+                        intenta acceder a una cámara.
+                    -->
+
+                    <div
+                        id="camera-denied-message"
+                        class="denied-message"
+                        aria-live="polite"
+                    >
+                        ACCESS DENIED
+                    </div>
+
+
+                </aside>
+
+
+
+                <!-- ==================================================
+                     PANEL CENTRAL
+                =================================================== -->
+
+                <section
+                    id="transmission-panel"
+                    class="transmission-panel"
+                >
+
+
+                    <!-- ==================================================
+                         AUDIO TRANSCRIPT
+                    =================================================== -->
+
+                    <section
+                        id="transcript-panel"
+                        class="transcript-panel"
+                    >
+
+
+                        <header
+                            class="transcript-header"
+                        >
+
+                            <h2
+                                id="transcript-title"
+                                class="transcript-title"
+                            >
+                                AUDIO TRANSCRIPT
+                            </h2>
+
+
+                            <span
+                                id="transcript-status"
+                                class="transcript-status"
+                            >
+                                PARTIAL RECOVERY
+                            </span>
+
+
+                        </header>
+
+
+
+                        <!-- ==========================================
+                             TEXTO RECUPERADO
+                        =========================================== -->
+
+                        <div
+                            id="transcript-content"
+                            class="transcript-content"
+                            aria-live="polite"
+                        >
+
+
+                            <p
+                                id="transcript-line-01"
+                                class="transcript-line"
+                            ></p>
+
+
+                            <p
+                                id="transcript-line-02"
+                                class="transcript-line"
+                            ></p>
+
+
+                            <p
+                                id="transcript-line-03"
+                                class="transcript-line"
+                            ></p>
+
+
+                            <p
+                                id="transcript-line-04"
+                                class="transcript-line corrupted-transcript-line"
+                            ></p>
+
+
+                        </div>
+
+
+
+                        <!-- ==========================================
+                             AUDIO PLAYBACK
+                        =========================================== -->
+
+                        <div
+                            id="audio-playback"
+                            class="audio-playback"
+                        >
+
+
+                            <button
+                                id="play-transmission-audio"
+                                class="play-transmission-audio"
+                                type="button"
+                            >
+
+                                <span
+                                    id="audio-button-text"
+                                >
+                                    PLAY RECOVERED AUDIO
+                                </span>
+
+                            </button>
+
+
+
+                            <!-- ======================================
+                                 PROGRESS
+                            ======================================= -->
+
+                            <div
+                                id="audio-progress-container"
+                                class="audio-progress-container"
+                            >
+
+
+                                <div
+                                    class="audio-progress-track"
+                                >
+
+                                    <div
+                                        id="audio-progress-bar"
+                                        class="audio-progress-bar"
+                                    ></div>
+
+
+                                    <!-- Saltos/cortes visuales -->
+
+                                    <span
+                                        class="audio-damage audio-damage-01"
+                                        aria-hidden="true"
+                                    ></span>
+
+
+                                    <span
+                                        class="audio-damage audio-damage-02"
+                                        aria-hidden="true"
+                                    ></span>
+
+
+                                    <span
+                                        class="audio-damage audio-damage-03"
+                                        aria-hidden="true"
+                                    ></span>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- ======================================
+                                 ESTADO
+                            ======================================= -->
+
+                            <div
+                                id="playback-status"
+                                class="playback-status"
+                            >
+
+                                <span
+                                    id="playback-status-label"
+                                >
+                                    READY
+                                </span>
+
+
+                                <div
+                                    id="audio-visualizer"
+                                    class="audio-visualizer"
+                                    aria-hidden="true"
+                                >
+
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </section>
+
+
+
+                    <!-- ==================================================
+                         VIDEO GRID
+                    =================================================== -->
+
+                    <div
+                        id="video-grid"
+                        class="video-grid"
+                    >
+
+
+                        <!-- ==========================================
+                             VIDEO FEED 01
+                        =========================================== -->
+
+                        <section
+                            id="video-feed-01"
+                            class="video-feed"
+                        >
+
+
+                            <header
+                                class="video-feed-header"
+                            >
+
+                                <span
+                                    id="video-feed-01-label"
+                                >
+                                    VIDEO FEED 01
+                                </span>
+
+
+                                <span
+                                    id="video-feed-01-status"
+                                    class="video-feed-status"
+                                >
+                                    STANDBY
+                                </span>
+
+
+                            </header>
+
+
+
+                            <div
+                                class="video-feed-container"
+                            >
+
+
+                                <video
+                                    id="scene06-video-01"
+                                    class="scene06-video"
+                                    muted
+                                    loop
+                                    playsinline
+                                    preload="metadata"
+                                >
+
+                                    <source
+                                        src="../../assets/video/scene-06-feed-01.mp4"
+                                        type="video/mp4"
+                                    >
+
+                                </video>
+
+
+
+                                <div
+                                    id="video-placeholder-01"
+                                    class="video-placeholder"
+                                >
+                                    SIGNAL STANDBY
+                                </div>
+
+
+
+                                <div
+                                    class="video-scanlines"
+                                    aria-hidden="true"
+                                ></div>
+
+
+                                <div
+                                    id="video-static-01"
+                                    class="video-static"
+                                    aria-hidden="true"
+                                ></div>
+
+
+                                <div
+                                    id="video-blackout-01"
+                                    class="video-blackout"
+                                    aria-hidden="true"
+                                ></div>
+
+
+                                <div
+                                    id="video-anomaly-01"
+                                    class="video-anomaly video-anomaly-01"
+                                    aria-hidden="true"
+                                ></div>
+
+
+                                <div
+                                    id="video-error-01"
+                                    class="video-error-message"
+                                    aria-hidden="true"
+                                >
+                                    SIGNAL LOSS
+                                </div>
+
+
+                            </div>
+
+
+                        </section>
+
+
+
+                        <!-- ==========================================
+                             VIDEO FEED 02
+                        =========================================== -->
+
+                        <section
+                            id="video-feed-02"
+                            class="video-feed"
+                        >
+
+
+                            <header
+                                class="video-feed-header"
+                            >
+
+                                <span
+                                    id="video-feed-02-label"
+                                >
+                                    VIDEO FEED 02
+                                </span>
+
+
+                                <span
+                                    id="video-feed-02-status"
+                                    class="video-feed-status"
+                                >
+                                    STANDBY
+                                </span>
+
+
+                            </header>
+
+
+
+                            <div
+                                class="video-feed-container"
+                            >
+
+
+                                <video
+                                    id="scene06-video-02"
+                                    class="scene06-video"
+                                    muted
+                                    loop
+                                    playsinline
+                                    preload="metadata"
+                                >
+
+                                    <source
+                                        src="../../assets/video/scene-06-feed-02.mp4"
+                                        type="video/mp4"
+                                    >
+
+                                </video>
+
+
+
+                                <div
+                                    id="video-placeholder-02"
+                                    class="video-placeholder"
+                                >
+                                    SIGNAL STANDBY
+                                </div>
+
+
+
+                                <div
+                                    class="video-scanlines"
+                                    aria-hidden="true"
+                                ></div>
+
+
+                                <div
+                                    id="video-static-02"
+                                    class="video-static"
+                                    aria-hidden="true"
+                                ></div>
+
+
+                                <div
+                                    id="video-blackout-02"
+                                    class="video-blackout"
+                                    aria-hidden="true"
+                                ></div>
+
+
+                                <div
+                                    id="video-anomaly-02"
+                                    class="video-anomaly video-anomaly-02"
+                                    aria-hidden="true"
+                                ></div>
+
+
+                                <div
+                                    id="video-error-02"
+                                    class="video-error-message"
+                                    aria-hidden="true"
+                                >
+                                    SIGNAL LOSS
+                                </div>
+
+
+                            </div>
+
+
+                        </section>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- ==================================================
+                     PANEL DERECHO — SYSTEM LOGS
+                =================================================== -->
+
+                <aside
+                    id="logs-panel"
+                    class="logs-panel"
+                >
+
+
+                    <div
+                        class="logs-content"
+                    >
+
+
+                        <h2
+                            id="logs-title"
+                            class="panel-title"
+                        >
+                            SYSTEM LOGS
+                        </h2>
+
+
+
+                        <div
+                            id="system-logs"
+                            class="system-logs"
+                            aria-live="polite"
+                        >
+
+
+                            <p
+                                id="system-log-01"
+                                class="system-log"
+                            >
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+                            </p>
+
+
+                            <p
+                                id="system-log-02"
+                                class="system-log"
+                            >
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+                            </p>
+
+
+                            <p
+                                id="system-log-03"
+                                class="system-log warning-log"
+                            >
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+                            </p>
+
+
+                            <p
+                                id="system-log-04"
+                                class="system-log warning-log"
+                            >
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+                            </p>
+
+
+                            <p
+                                id="system-log-05"
+                                class="system-log corrupted-system-log"
+                            >
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+                            </p>
+
+
+                            <p
+                                id="system-log-06"
+                                class="system-log corrupted-system-log"
+                            >
+                                <span class="log-arrow">
+                                    &gt;
+                                </span>
+
+                                <span
+                                    class="system-log-text"
+                                ></span>
+                            </p>
+
+
+
+                            <!-- CURSOR -->
+
+                            <p
+                                id="system-log-cursor"
+                                class="system-log log-cursor"
+                                aria-hidden="true"
+                            >
+
+                                &gt;
+
+                                <span
+                                    id="cursor-block"
+                                    class="cursor-block"
+                                >
+                                    █
+                                </span>
+
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ==========================================
+                         ACCESS LOGS — BLOQUEADO
+                    =========================================== -->
+
+                    <div
+                        class="access-logs-container"
+                    >
+
+
+                        <button
+                            id="access-logs-button"
+                            class="access-logs-button"
+                            type="button"
+                        >
+                            ACCESS LOGS
+                        </button>
+
+
+                        <div
+                            id="logs-denied-message"
+                            class="logs-denied-message"
+                            aria-live="polite"
+                        >
+                            ACCESS DENIED
+                        </div>
+
+
+                    </div>
+
+
+                </aside>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             AUDIO NARRATIVO
+        =================================================== -->
+
+        <audio
+            id="transmission-audio"
+            preload="metadata"
+        >
+
+            <source
+                src="../../assets/audio/AUDIO_TEST.mp3"
+                type="audio/mpeg"
+            >
+
+        </audio>
+
+
+
+        <!-- ==================================================
+             ERROR OVERLAY
+             Para errores que aparecen durante playback
+        =================================================== -->
+
+        <div
+            id="system-error-overlay"
+            class="system-error-overlay"
+            aria-hidden="true"
+        >
+
+
+            <div
+                id="system-error-message"
+                class="system-error-message"
+            >
+                ERROR
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             TRANSMISSION LOST
+        =================================================== -->
+
+        <section
+            id="transmission-lost"
+            class="transmission-lost"
+            aria-hidden="true"
+        >
+
+
+            <div
+                id="transmission-lost-window"
+                class="transmission-lost-window"
+            >
+
+
+                <div
+                    id="transmission-lost-primary"
+                    class="transmission-lost-primary"
+                >
+                    TRANSMISSION LOST
+                </div>
+
+
+                <div
+                    id="transmission-lost-secondary"
+                    class="transmission-lost-secondary"
+                >
+                    CONNECTION TERMINATED
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             GLITCH LAYERS
+        =================================================== -->
+
+        <div
+            id="glitch-layer-01"
+            class="glitch-layer glitch-layer-01"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-02"
+            class="glitch-layer glitch-layer-02"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-03"
+            class="glitch-layer glitch-layer-03"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-04"
+            class="glitch-layer glitch-layer-04"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             FLASH
+        =================================================== -->
+
+        <div
+            id="system-flash"
+            class="system-flash"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             BLACKOUT / TRANSITION TO SCENE 07
+        =================================================== -->
+
+        <div
+            id="scene-transition"
+            class="scene-transition"
+            aria-hidden="true"
+        ></div>
+
+
+    </main>
+
+
+
+    <!-- ==================================================
+         GSAP
+    =================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    ></script>
+
+
+
+    <!-- ==================================================
+         ANIMACIONES
+    =================================================== -->
+
+    <script
+        src="scene-06-animations.js"
+    ></script>
+
+
+
+    <!-- ==================================================
+         LÓGICA
+    =================================================== -->
+
+    <script
+        src="scene-06.js"
+    ></script>
+
+
+</body>
+
+</html>
