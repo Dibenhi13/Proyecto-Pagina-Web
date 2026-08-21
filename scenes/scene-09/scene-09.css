@@ -1,0 +1,1098 @@
+/* =========================================================
+   ESCENA 09 — FINAL DECISION
+   Authorization Required
+   The Lost Ship
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+
+body {
+    overflow: hidden;
+
+    background:
+        #020202;
+
+    color:
+        #00ff38;
+
+    font-family:
+        "Montserrat",
+        sans-serif;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+
+    --green:
+        #00ff38;
+
+    --green-soft:
+        rgba(0, 255, 56, 0.78);
+
+    --green-medium:
+        rgba(0, 255, 56, 0.5);
+
+    --green-dim:
+        rgba(0, 255, 56, 0.25);
+
+    --green-faint:
+        rgba(0, 255, 56, 0.07);
+
+    --black:
+        #020202;
+
+}
+
+
+/* =========================================================
+   MAIN SCENE
+========================================================= */
+
+.authorization-scene {
+
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        var(--black);
+
+    color:
+        var(--green);
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.scene-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 255, 56, 0.018) 0%,
+            rgba(0, 255, 56, 0.006) 35%,
+            transparent 72%
+        ),
+        #020202;
+
+}
+
+
+/* =========================================================
+   SCANLINES
+========================================================= */
+
+.scene-scanlines {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 35;
+
+    pointer-events: none;
+
+    opacity:
+        0.09;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.02) 0,
+            rgba(255, 255, 255, 0.02) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+
+    mix-blend-mode:
+        screen;
+
+}
+
+
+/* =========================================================
+   NOISE
+========================================================= */
+
+.scene-noise {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 34;
+
+    pointer-events: none;
+
+    opacity:
+        0.015;
+
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            rgba(255, 255, 255, 0.06) 0,
+            rgba(255, 255, 255, 0.06) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    background-size:
+        5px 5px;
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   MAIN FRAME
+========================================================= */
+
+.system-frame {
+
+    position: absolute;
+
+    top:
+        clamp(
+            20px,
+            3vh,
+            28px
+        );
+
+    left:
+        clamp(
+            20px,
+            3vw,
+            34px
+        );
+
+    right:
+        clamp(
+            20px,
+            3vw,
+            34px
+        );
+
+    bottom:
+        clamp(
+            20px,
+            3vh,
+            28px
+        );
+
+    z-index: 10;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 0, 0, 0.98);
+
+    box-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.12),
+        inset 0 0 8px
+        rgba(0, 255, 56, 0.012);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        box-shadow,
+        border-color;
+
+}
+
+
+/* =========================================================
+   SYSTEM CONTENT
+========================================================= */
+
+.system-content {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width:
+        min(
+            520px,
+            72vw
+        );
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    text-align:
+        center;
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+}
+
+
+/* =========================================================
+   AUTHORIZATION SECTION
+========================================================= */
+
+.authorization-section {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+}
+
+
+/* =========================================================
+   AUTHORIZATION TITLE
+========================================================= */
+
+.authorization-title {
+
+    min-height:
+        1.4em;
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.78rem,
+            1.3vw,
+            1.05rem
+        );
+
+    font-weight:
+        500;
+
+    line-height:
+        1.5;
+
+    letter-spacing:
+        0.02em;
+
+    text-shadow:
+        0 0 6px
+        rgba(0, 255, 56, 0.32);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        text-shadow;
+
+}
+
+
+/* =========================================================
+   DECISION OPTIONS
+========================================================= */
+
+.decision-options {
+
+    width:
+        fit-content;
+
+    min-width:
+        260px;
+
+    margin-top:
+        clamp(
+            28px,
+            4vh,
+            40px
+        );
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        flex-start;
+
+    gap:
+        17px;
+
+    opacity: 0;
+
+    pointer-events:
+        none;
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   DECISION BUTTON
+========================================================= */
+
+.decision-button {
+
+    position: relative;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    gap:
+        6px;
+
+    width: auto;
+
+    border: none;
+
+    padding:
+        4px
+        6px;
+
+    background:
+        transparent;
+
+    color:
+        var(--green-soft);
+
+    font-family:
+        inherit;
+
+    font-size:
+        clamp(
+            0.66rem,
+            1vw,
+            0.84rem
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1.4;
+
+    text-align:
+        left;
+
+    cursor:
+        pointer;
+
+    opacity: 0;
+
+    text-shadow:
+        0 0 3px
+        rgba(0, 255, 56, 0.22);
+
+    transition:
+        color 120ms ease,
+        text-shadow 120ms ease,
+        background 120ms ease,
+        transform 120ms ease;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        text-shadow;
+
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.decision-button:hover {
+
+    color:
+        var(--green);
+
+    background:
+        rgba(0, 255, 56, 0.018);
+
+    text-shadow:
+        0 0 7px
+        rgba(0, 255, 56, 0.48);
+
+}
+
+
+.decision-button:hover .decision-arrow {
+
+    text-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.65);
+
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.decision-button:focus-visible {
+
+    outline:
+        1px solid
+        var(--green);
+
+    outline-offset:
+        4px;
+
+}
+
+
+/* =========================================================
+   DISABLED
+========================================================= */
+
+.decision-button:disabled {
+
+    cursor:
+        default;
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   DECISION COMPONENTS
+========================================================= */
+
+.decision-arrow {
+
+    color:
+        var(--green);
+
+    transition:
+        text-shadow 120ms ease,
+        opacity 120ms ease;
+
+}
+
+
+.decision-text {
+
+    color:
+        inherit;
+
+}
+
+
+/* =========================================================
+   DECISION CURSOR
+========================================================= */
+
+.decision-cursor {
+
+    margin-top:
+        15px;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    gap:
+        4px;
+
+    width:
+        fit-content;
+
+    min-height:
+        1.2em;
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.63rem,
+            0.92vw,
+            0.78rem
+        );
+
+    opacity: 0;
+
+}
+
+
+/* =========================================================
+   CURSOR BLOCK
+========================================================= */
+
+.cursor-block {
+
+    display:
+        inline-block;
+
+    font-size:
+        0.8em;
+
+    opacity: 0;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   RESULT SECTION
+========================================================= */
+
+.result-section {
+
+    width: 100%;
+
+    display: none;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        20px;
+
+    text-align:
+        center;
+
+    opacity: 0;
+
+}
+
+
+/* =========================================================
+   RESULT TITLE
+========================================================= */
+
+.result-title {
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.78rem,
+            1.3vw,
+            1.05rem
+        );
+
+    font-weight:
+        500;
+
+    line-height:
+        1.5;
+
+    text-shadow:
+        0 0 7px
+        rgba(0, 255, 56, 0.38);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        text-shadow;
+
+}
+
+
+/* =========================================================
+   RESULT SUBTITLE
+========================================================= */
+
+.result-subtitle {
+
+    color:
+        var(--green-medium);
+
+    font-size:
+        clamp(
+            0.56rem,
+            0.83vw,
+            0.7rem
+        );
+
+    line-height:
+        1.5;
+
+    letter-spacing:
+        0.04em;
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   INTERFERENCE
+========================================================= */
+
+.interference-line {
+
+    position: fixed;
+
+    left: 0;
+
+    width: 100%;
+
+    z-index: 60;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 255, 56, 0.5);
+
+    box-shadow:
+        0 0 6px
+        rgba(0, 255, 56, 0.28);
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+.interference-line-01 {
+
+    top:
+        31%;
+
+    height:
+        1px;
+
+}
+
+
+.interference-line-02 {
+
+    top:
+        72%;
+
+    height:
+        1px;
+
+}
+
+
+/* =========================================================
+   GLITCH LAYERS
+========================================================= */
+
+.glitch-layer {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 80;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 255, 56, 0.06);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform,
+        clip-path;
+
+}
+
+
+.glitch-layer-01 {
+
+    clip-path:
+        inset(
+            16% 0
+            70% 0
+        );
+
+}
+
+
+.glitch-layer-02 {
+
+    clip-path:
+        inset(
+            46% 0
+            39% 0
+        );
+
+}
+
+
+.glitch-layer-03 {
+
+    clip-path:
+        inset(
+            76% 0
+            10% 0
+        );
+
+}
+
+
+/* =========================================================
+   FLASH
+========================================================= */
+
+.system-flash {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 95;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        var(--green);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   SCENE TRANSITION
+========================================================= */
+
+.scene-transition {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 110;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        #000;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   SUBTLE BREATHING STATE
+   JS can add this class if desired
+========================================================= */
+
+.authorization-title.is-waiting {
+
+    animation:
+        title-breathe
+        3.5s
+        ease-in-out
+        infinite;
+
+}
+
+
+@keyframes title-breathe {
+
+    0%,
+    100% {
+
+        text-shadow:
+            0 0 5px
+            rgba(0, 255, 56, 0.25);
+
+    }
+
+    50% {
+
+        text-shadow:
+            0 0 9px
+            rgba(0, 255, 56, 0.4);
+
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .system-content {
+
+        width:
+            min(
+                580px,
+                76vw
+            );
+
+    }
+
+
+    .decision-options {
+
+        min-width:
+            245px;
+
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .system-frame {
+
+        top:
+            12px;
+
+        left:
+            12px;
+
+        right:
+            12px;
+
+        bottom:
+            12px;
+
+    }
+
+
+    .system-content {
+
+        width:
+            78vw;
+
+    }
+
+
+    .authorization-title {
+
+        font-size:
+            0.72rem;
+
+    }
+
+
+    .decision-options {
+
+        min-width:
+            0;
+
+        width:
+            100%;
+
+        align-items:
+            center;
+
+        margin-top:
+            28px;
+
+        gap:
+            15px;
+
+    }
+
+
+    .decision-button {
+
+        font-size:
+            0.61rem;
+
+    }
+
+
+    .decision-cursor {
+
+        font-size:
+            0.61rem;
+
+    }
+
+
+    .result-title {
+
+        font-size:
+            0.72rem;
+
+    }
+
+
+    .result-subtitle {
+
+        font-size:
+            0.56rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .system-content {
+
+        width:
+            82vw;
+
+    }
+
+
+    .authorization-title {
+
+        font-size:
+            0.65rem;
+
+    }
+
+
+    .decision-button {
+
+        font-size:
+            0.55rem;
+
+    }
+
+
+    .result-title {
+
+        font-size:
+            0.65rem;
+
+    }
+
+
+    .result-subtitle {
+
+        font-size:
+            0.51rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+    }
+
+}

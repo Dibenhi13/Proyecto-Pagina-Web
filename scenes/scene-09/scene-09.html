@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Authorization Required | The Lost Ship</title>
+
+
+    <!-- Montserrat temporal -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="scene-09.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         SCENE 09
+         FINAL DECISION
+    =================================================== -->
+
+    <main
+        id="scene-09"
+        class="authorization-scene"
+    >
+
+
+        <!-- ==================================================
+             BACKGROUND
+        =================================================== -->
+
+        <div
+            id="scene-background"
+            class="scene-background"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="scene-scanlines"
+            class="scene-scanlines"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="scene-noise"
+            class="scene-noise"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             MAIN FRAME
+        =================================================== -->
+
+        <section
+            id="system-frame"
+            class="system-frame"
+        >
+
+
+            <!-- ==============================================
+                 CONTENT
+            =============================================== -->
+
+            <div
+                id="system-content"
+                class="system-content"
+            >
+
+
+                <!-- ==========================================
+                     PRIMARY MESSAGE
+                =========================================== -->
+
+                <section
+                    id="authorization-section"
+                    class="authorization-section"
+                    aria-live="polite"
+                >
+
+
+                    <h1
+                        id="authorization-title"
+                        class="authorization-title"
+                    >
+                    </h1>
+
+
+                    <!-- ======================================
+                         OPTIONS
+                    ======================================= -->
+
+                    <div
+                        id="decision-options"
+                        class="decision-options"
+                        aria-label="Authorization choices"
+                    >
+
+
+                        <button
+                            id="authorize-button"
+                            class="decision-button"
+                            type="button"
+                            data-decision="authorize"
+                        >
+
+                            <span
+                                class="decision-arrow"
+                            >
+                                &gt;
+                            </span>
+
+                            <span
+                                id="authorize-text"
+                                class="decision-text"
+                            >
+                            </span>
+
+                        </button>
+
+
+
+                        <button
+                            id="deny-button"
+                            class="decision-button"
+                            type="button"
+                            data-decision="deny"
+                        >
+
+                            <span
+                                class="decision-arrow"
+                            >
+                                &gt;
+                            </span>
+
+                            <span
+                                id="deny-text"
+                                class="decision-text"
+                            >
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+
+                    <!-- ======================================
+                         CURSOR
+                    ======================================= -->
+
+                    <div
+                        id="decision-cursor"
+                        class="decision-cursor"
+                        aria-hidden="true"
+                    >
+
+                        <span>
+                            &gt;
+                        </span>
+
+                        <span
+                            id="cursor-block"
+                            class="cursor-block"
+                        >
+                            █
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- ==========================================
+                     RESULT / CONFIRMATION
+                =========================================== -->
+
+                <section
+                    id="result-section"
+                    class="result-section"
+                    aria-hidden="true"
+                >
+
+
+                    <p
+                        id="result-title"
+                        class="result-title"
+                    >
+                    </p>
+
+
+                    <p
+                        id="result-subtitle"
+                        class="result-subtitle"
+                    >
+                    </p>
+
+
+                </section>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             INTERFERENCE LINES
+             Very subtle only
+        =================================================== -->
+
+        <div
+            id="interference-line-01"
+            class="interference-line interference-line-01"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="interference-line-02"
+            class="interference-line interference-line-02"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             GLITCH LAYERS
+             Reserved for final transition only
+        =================================================== -->
+
+        <div
+            id="glitch-layer-01"
+            class="glitch-layer glitch-layer-01"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-02"
+            class="glitch-layer glitch-layer-02"
+            aria-hidden="true"
+        ></div>
+
+
+        <div
+            id="glitch-layer-03"
+            class="glitch-layer glitch-layer-03"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             FLASH
+        =================================================== -->
+
+        <div
+            id="system-flash"
+            class="system-flash"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- ==================================================
+             FINAL TRANSITION
+             Scene 09 -> Scene 10A / 10B
+        =================================================== -->
+
+        <div
+            id="scene-transition"
+            class="scene-transition"
+            aria-hidden="true"
+        ></div>
+
+
+    </main>
+
+
+
+    <!-- ==================================================
+         AUDIO
+         Optional placeholders for now
+    =================================================== -->
+
+    <audio
+        id="hover-audio"
+        preload="auto"
+    >
+        <source
+            src="../../assets/audio/scene-09-hover.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
+
+
+    <audio
+        id="confirm-audio"
+        preload="auto"
+    >
+        <source
+            src="../../assets/audio/scene-09-confirm.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
+
+
+    <audio
+        id="authorize-audio"
+        preload="auto"
+    >
+        <source
+            src="../../assets/audio/scene-09-authorize.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
+
+
+    <audio
+        id="deny-audio"
+        preload="auto"
+    >
+        <source
+            src="../../assets/audio/scene-09-deny.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
+
+
+
+    <!-- ==================================================
+         GSAP
+    =================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    ></script>
+
+
+
+    <!-- ==================================================
+         ANIMATIONS
+    =================================================== -->
+
+    <script
+        src="scene-09-animations.js"
+    ></script>
+
+
+
+    <!-- ==================================================
+         LOGIC
+    =================================================== -->
+
+    <script
+        src="scene-09.js"
+    ></script>
+
+
+</body>
+
+</html>

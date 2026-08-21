@@ -1,0 +1,1047 @@
+/* =========================================================
+   SCENE 10 — FINAL OPEN ENDINGS
+   Shared CSS
+   The Lost Ship
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+
+body {
+    overflow: hidden;
+
+    background:
+        #020202;
+
+    color:
+        #00ff38;
+
+    font-family:
+        "Montserrat",
+        sans-serif;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+
+    --green:
+        #00ff38;
+
+    --green-soft:
+        rgba(0, 255, 56, 0.78);
+
+    --green-medium:
+        rgba(0, 255, 56, 0.48);
+
+    --green-dim:
+        rgba(0, 255, 56, 0.22);
+
+    --green-faint:
+        rgba(0, 255, 56, 0.06);
+
+    --black:
+        #020202;
+
+}
+
+
+/* =========================================================
+   MAIN SCENE
+========================================================= */
+
+.ending-scene {
+
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        var(--black);
+
+    color:
+        var(--green);
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.ending-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0, 255, 56, 0.016) 0%,
+            rgba(0, 255, 56, 0.005) 34%,
+            transparent 72%
+        ),
+        #020202;
+
+}
+
+
+/* =========================================================
+   SCANLINES
+========================================================= */
+
+.ending-scanlines {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 35;
+
+    pointer-events: none;
+
+    opacity:
+        0.07;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.018) 0,
+            rgba(255, 255, 255, 0.018) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   NOISE
+========================================================= */
+
+.ending-noise {
+
+    position: fixed;
+
+    inset: -5%;
+
+    z-index: 34;
+
+    pointer-events: none;
+
+    opacity:
+        0.012;
+
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            rgba(255, 255, 255, 0.055) 0,
+            rgba(255, 255, 255, 0.055) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    background-size:
+        5px 5px;
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   MAIN FRAME
+========================================================= */
+
+.ending-frame {
+
+    position: absolute;
+
+    top:
+        clamp(
+            20px,
+            3vh,
+            28px
+        );
+
+    left:
+        clamp(
+            22px,
+            3vw,
+            38px
+        );
+
+    right:
+        clamp(
+            22px,
+            3vw,
+            38px
+        );
+
+    bottom:
+        clamp(
+            20px,
+            3vh,
+            28px
+        );
+
+    z-index: 10;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        rgba(0, 0, 0, 0.985);
+
+    box-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.12),
+        inset 0 0 8px
+        rgba(0, 255, 56, 0.01);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        border-color,
+        box-shadow;
+
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.ending-content {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width:
+        min(
+            650px,
+            78vw
+        );
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-align:
+        center;
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   MESSAGE SECTION
+========================================================= */
+
+.ending-message-section {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+}
+
+
+/* =========================================================
+   AUTHORIZE ENDING
+========================================================= */
+
+.ending-main-message {
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.9rem,
+            1.55vw,
+            1.3rem
+        );
+
+    font-weight:
+        500;
+
+    line-height:
+        1.5;
+
+    letter-spacing:
+        0.02em;
+
+    text-shadow:
+        0 0 7px
+        rgba(0, 255, 56, 0.38);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        text-shadow;
+
+}
+
+
+/* =========================================================
+   DENY ENDING
+========================================================= */
+
+.deny-message-section {
+
+    gap:
+        clamp(
+            26px,
+            4.5vh,
+            42px
+        );
+
+}
+
+
+.ending-message {
+
+    min-height:
+        1.4em;
+
+    color:
+        var(--green-soft);
+
+    font-size:
+        clamp(
+            0.72rem,
+            1.15vw,
+            0.96rem
+        );
+
+    font-weight:
+        400;
+
+    line-height:
+        1.6;
+
+    text-shadow:
+        0 0 5px
+        rgba(0, 255, 56, 0.26);
+
+    opacity: 0;
+
+    will-change:
+        opacity,
+        transform,
+        filter,
+        text-shadow;
+
+}
+
+
+/* =========================================================
+   DENY — QUESTION
+========================================================= */
+
+.ending-message-question {
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.8rem,
+            1.28vw,
+            1.06rem
+        );
+
+    text-shadow:
+        0 0 7px
+        rgba(0, 255, 56, 0.35);
+
+}
+
+
+/* =========================================================
+   DENY — ACCESS
+========================================================= */
+
+.ending-message-access {
+
+    color:
+        var(--green-soft);
+
+}
+
+
+/* =========================================================
+   DENY — INTEGRATION
+========================================================= */
+
+.ending-message-integration {
+
+    color:
+        var(--green-soft);
+
+}
+
+
+/* =========================================================
+   DENY — FINAL MESSAGE
+========================================================= */
+
+.ending-message-final {
+
+    color:
+        var(--green);
+
+    font-size:
+        clamp(
+            0.8rem,
+            1.25vw,
+            1.04rem
+        );
+
+    text-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.44);
+
+}
+
+
+/* =========================================================
+   GHOST TEXT
+========================================================= */
+
+.ending-ghost-text {
+
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    z-index: 55;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    color:
+        rgba(0, 255, 56, 0.3);
+
+    font-size:
+        clamp(
+            0.8rem,
+            1.5vw,
+            1.25rem
+        );
+
+    white-space:
+        nowrap;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    text-shadow:
+        0 0 8px
+        rgba(0, 255, 56, 0.22);
+
+    will-change:
+        opacity,
+        transform,
+        filter;
+
+}
+
+
+/* =========================================================
+   GHOST TEXT OFFSETS
+========================================================= */
+
+.ending-ghost-text-01 {
+
+    transform:
+        translate(
+            calc(-50% - 7px),
+            calc(-50% + 2px)
+        );
+
+}
+
+
+.ending-ghost-text-02 {
+
+    transform:
+        translate(
+            calc(-50% + 7px),
+            calc(-50% - 2px)
+        );
+
+}
+
+
+/* =========================================================
+   INTERFERENCE LINES
+========================================================= */
+
+.interference-line {
+
+    position: fixed;
+
+    left: 0;
+
+    width: 100%;
+
+    z-index: 65;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 255, 56, 0.58);
+
+    box-shadow:
+        0 0 7px
+        rgba(0, 255, 56, 0.35);
+
+    will-change:
+        opacity,
+        transform,
+        height;
+
+}
+
+
+.interference-line-01 {
+
+    top:
+        27%;
+
+    height:
+        1px;
+
+}
+
+
+.interference-line-02 {
+
+    top:
+        56%;
+
+    height:
+        2px;
+
+}
+
+
+.interference-line-03 {
+
+    top:
+        81%;
+
+    height:
+        1px;
+
+}
+
+
+/* =========================================================
+   GLITCH LAYERS
+========================================================= */
+
+.glitch-layer {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 80;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        rgba(0, 255, 56, 0.065);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity,
+        transform,
+        clip-path;
+
+}
+
+
+.glitch-layer-01 {
+
+    clip-path:
+        inset(
+            9% 0
+            77% 0
+        );
+
+}
+
+
+.glitch-layer-02 {
+
+    clip-path:
+        inset(
+            31% 0
+            55% 0
+        );
+
+}
+
+
+.glitch-layer-03 {
+
+    clip-path:
+        inset(
+            58% 0
+            27% 0
+        );
+
+}
+
+
+.glitch-layer-04 {
+
+    clip-path:
+        inset(
+            81% 0
+            7% 0
+        );
+
+}
+
+
+/* =========================================================
+   GREEN FLASH
+========================================================= */
+
+.ending-flash {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 95;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        var(--green);
+
+    mix-blend-mode:
+        screen;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   WHITEOUT
+========================================================= */
+
+.ending-whiteout {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 120;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        #ffffff;
+
+    will-change:
+        opacity;
+
+}
+
+
+/* =========================================================
+   OPTIONAL END STATE
+========================================================= */
+
+.ending-whiteout.is-complete {
+
+    opacity: 1;
+
+}
+
+
+/* =========================================================
+   SUBTLE BREATHING
+========================================================= */
+
+.ending-main-message.is-stable,
+.ending-message-final.is-stable {
+
+    animation:
+        ending-breathe
+        4s
+        ease-in-out
+        infinite;
+
+}
+
+
+@keyframes ending-breathe {
+
+    0%,
+    100% {
+
+        text-shadow:
+            0 0 6px
+            rgba(0, 255, 56, 0.3);
+
+    }
+
+    50% {
+
+        text-shadow:
+            0 0 10px
+            rgba(0, 255, 56, 0.46);
+
+    }
+
+}
+
+
+/* =========================================================
+   CORRUPTION LEVEL 1
+   JS can add class to body / scene
+========================================================= */
+
+.ending-scene.corruption-1
+.ending-noise {
+
+    opacity:
+        0.045;
+
+}
+
+
+.ending-scene.corruption-1
+.ending-scanlines {
+
+    opacity:
+        0.11;
+
+}
+
+
+/* =========================================================
+   CORRUPTION LEVEL 2
+========================================================= */
+
+.ending-scene.corruption-2
+.ending-noise {
+
+    opacity:
+        0.1;
+
+}
+
+
+.ending-scene.corruption-2
+.ending-scanlines {
+
+    opacity:
+        0.17;
+
+}
+
+
+/* =========================================================
+   CORRUPTION LEVEL 3
+========================================================= */
+
+.ending-scene.corruption-3
+.ending-noise {
+
+    opacity:
+        0.19;
+
+}
+
+
+.ending-scene.corruption-3
+.ending-scanlines {
+
+    opacity:
+        0.25;
+
+}
+
+
+/* =========================================================
+   CORRUPTION LEVEL 4
+========================================================= */
+
+.ending-scene.corruption-4
+.ending-noise {
+
+    opacity:
+        0.3;
+
+}
+
+
+.ending-scene.corruption-4
+.ending-scanlines {
+
+    opacity:
+        0.36;
+
+}
+
+
+/* =========================================================
+   MOBILE / TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .ending-content {
+
+        width:
+            min(
+                620px,
+                80vw
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .ending-frame {
+
+        top:
+            12px;
+
+        left:
+            12px;
+
+        right:
+            12px;
+
+        bottom:
+            12px;
+
+    }
+
+
+    .ending-content {
+
+        width:
+            80vw;
+
+    }
+
+
+    .ending-main-message {
+
+        font-size:
+            0.78rem;
+
+    }
+
+
+    .deny-message-section {
+
+        gap:
+            25px;
+
+    }
+
+
+    .ending-message {
+
+        font-size:
+            0.64rem;
+
+    }
+
+
+    .ending-message-question,
+    .ending-message-final {
+
+        font-size:
+            0.72rem;
+
+    }
+
+
+    .ending-ghost-text {
+
+        font-size:
+            0.72rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .ending-content {
+
+        width:
+            82vw;
+
+    }
+
+
+    .ending-main-message {
+
+        font-size:
+            0.68rem;
+
+    }
+
+
+    .ending-message {
+
+        font-size:
+            0.57rem;
+
+    }
+
+
+    .ending-message-question,
+    .ending-message-final {
+
+        font-size:
+            0.64rem;
+
+    }
+
+
+    .deny-message-section {
+
+        gap:
+            20px;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+    }
+
+}
