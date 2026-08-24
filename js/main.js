@@ -8,18 +8,68 @@
 // ELEMENTOS DEL DOM
 // =========================================================
 
-const scene = document.querySelector("#scene-1");
+const scene =
+    document.querySelector(
+        "#scene-1"
+    );
 
-const languageEN = document.querySelector("#language-en");
-const languageES = document.querySelector("#language-es");
 
-const transmissionButton = document.querySelector(
-    "#transmission-button"
-);
+const languageEN =
+    document.querySelector(
+        "#language-en"
+    );
 
-const starsBack = document.querySelector("#stars-back");
-const starsMiddle = document.querySelector("#stars-middle");
-const starsFront = document.querySelector("#stars-front");
+
+const languageES =
+    document.querySelector(
+        "#language-es"
+    );
+
+
+const transmissionButton =
+    document.querySelector(
+        "#transmission-button"
+    );
+
+
+const starsBack =
+    document.querySelector(
+        "#stars-back"
+    );
+
+
+const starsMiddle =
+    document.querySelector(
+        "#stars-middle"
+    );
+
+
+const starsFront =
+    document.querySelector(
+        "#stars-front"
+    );
+
+
+// =========================================================
+// AUDIO
+// =========================================================
+
+const indexHum =
+    document.querySelector(
+        "#index-hum"
+    );
+
+
+const indexClickSFX =
+    document.querySelector(
+        "#index-click-sfx"
+    );
+
+
+const indexGlitchSFX =
+    document.querySelector(
+        "#index-glitch-sfx"
+    );
 
 
 // =========================================================
@@ -27,7 +77,9 @@ const starsFront = document.querySelector("#stars-front");
 // =========================================================
 
 let currentLanguage = "en";
-let transitionStarted = false;
+
+let transitionStarted =
+    false;
 
 
 // =========================================================
@@ -37,27 +89,140 @@ let transitionStarted = false;
 const translations = {
 
     en: {
-        transmission: "Click to Read Transmission"
+
+        transmission:
+            "Click to Read Transmission"
+
     },
 
+
     es: {
-        transmission: "Haz clic para leer la transmisión"
+
+        transmission:
+            "Haz clic para leer la transmisión"
+
     }
 
 };
 
 
 // =========================================================
+// AUDIO SEGURO
+// =========================================================
+
+function safePlayAudio(
+    audio,
+    volume = 1
+) {
+
+    if (!audio) {
+        return;
+    }
+
+
+    audio.currentTime =
+        0;
+
+
+    audio.volume =
+        volume;
+
+
+    audio
+        .play()
+        .catch(
+            () => {}
+        );
+
+}
+
+
+// =========================================================
+// INICIAR HUM
+// =========================================================
+
+function startAmbientAudio() {
+
+    if (!indexHum) {
+        return;
+    }
+
+
+    /*
+        Volumen bajo porque solamente
+        funciona como ambiente.
+    */
+
+    indexHum.volume =
+        0.08;
+
+
+    indexHum
+        .play()
+        .catch(
+            () => {
+
+                /*
+                    Algunos navegadores no permiten
+                    autoplay con sonido.
+
+                    Si ocurre, lo iniciamos en la
+                    primera interacción del usuario.
+                */
+
+            }
+        );
+
+}
+
+
+// =========================================================
+// DESBLOQUEAR AUDIO
+// =========================================================
+
+function unlockAmbientAudio() {
+
+    if (
+        !indexHum ||
+        !indexHum.paused
+    ) {
+
+        return;
+
+    }
+
+
+    indexHum.volume =
+        0.09;
+
+
+    indexHum
+        .play()
+        .catch(
+            () => {}
+        );
+
+}
+
+
+// =========================================================
 // CARGAR IDIOMA GUARDADO
 // =========================================================
 
-const savedLanguage = localStorage.getItem("language");
+const savedLanguage =
+    localStorage.getItem(
+        "language"
+    );
+
 
 if (
     savedLanguage === "en" ||
     savedLanguage === "es"
 ) {
-    currentLanguage = savedLanguage;
+
+    currentLanguage =
+        savedLanguage;
+
 }
 
 
@@ -68,29 +233,51 @@ if (
 function updateLanguage() {
 
     transmissionButton.textContent =
-        translations[currentLanguage].transmission;
+        translations[
+            currentLanguage
+        ].transmission;
 
 
-    if (currentLanguage === "en") {
+    if (
+        currentLanguage === "en"
+    ) {
 
-        languageEN.classList.add("active");
-        languageES.classList.remove("active");
+        languageEN.classList.add(
+            "active"
+        );
 
-        document.documentElement.lang = "en";
+        languageES.classList.remove(
+            "active"
+        );
 
-    } else {
 
-        languageES.classList.add("active");
-        languageEN.classList.remove("active");
+        document.documentElement.lang =
+            "en";
 
-        document.documentElement.lang = "es";
+    }
+    else {
+
+        languageES.classList.add(
+            "active"
+        );
+
+        languageEN.classList.remove(
+            "active"
+        );
+
+
+        document.documentElement.lang =
+            "es";
 
     }
 
 }
 
 
-// Aplicamos el idioma inicial
+// =========================================================
+// APLICAR IDIOMA INICIAL
+// =========================================================
+
 updateLanguage();
 
 
@@ -98,17 +285,33 @@ updateLanguage();
 // CAMBIAR IDIOMA
 // =========================================================
 
-function changeLanguage(language, button) {
+function changeLanguage(
+    language,
+    button
+) {
 
-    if (transitionStarted) {
+    if (
+        transitionStarted
+    ) {
+
         return;
+
     }
 
 
-    currentLanguage = language;
+    unlockAmbientAudio();
 
 
-    // Guardar selección para futuras escenas
+    safePlayAudio(
+        indexClickSFX,
+        0.25
+    );
+
+
+    currentLanguage =
+        language;
+
+
     localStorage.setItem(
         "language",
         currentLanguage
@@ -118,12 +321,14 @@ function changeLanguage(language, button) {
     updateLanguage();
 
 
-    // La animación está en animations.js
-    if (window.IndexAnimations) {
+    if (
+        window.IndexAnimations
+    ) {
 
-        window.IndexAnimations.animateLanguageButton(
-            button
-        );
+        window.IndexAnimations
+            .animateLanguageButton(
+                button
+            );
 
     }
 
@@ -136,6 +341,7 @@ function changeLanguage(language, button) {
 
 languageEN.addEventListener(
     "click",
+
     () => {
 
         changeLanguage(
@@ -149,6 +355,7 @@ languageEN.addEventListener(
 
 languageES.addEventListener(
     "click",
+
     () => {
 
         changeLanguage(
@@ -164,10 +371,14 @@ languageES.addEventListener(
 // CREAR UNA ESTRELLA
 // =========================================================
 
-function createStar(sizeType) {
+function createStar(
+    sizeType
+) {
 
     const star =
-        document.createElement("span");
+        document.createElement(
+            "span"
+        );
 
 
     star.classList.add(
@@ -176,17 +387,18 @@ function createStar(sizeType) {
     );
 
 
-    // Posición aleatoria
     star.style.left =
         `${Math.random() * 100}%`;
+
 
     star.style.top =
         `${Math.random() * 100}%`;
 
 
-    // Opacidad aleatoria
     star.style.opacity =
-        0.25 + Math.random() * 0.65;
+        0.25 +
+        Math.random() *
+        0.65;
 
 
     return star;
@@ -211,9 +423,14 @@ function createStars(
     ) {
 
         const star =
-            createStar(sizeType);
+            createStar(
+                sizeType
+            );
 
-        container.appendChild(star);
+
+        container.appendChild(
+            star
+        );
 
     }
 
@@ -226,7 +443,6 @@ function createStars(
 
 function generateStarField() {
 
-    // Capa lejana
     createStars(
         starsBack,
         130,
@@ -234,7 +450,6 @@ function generateStarField() {
     );
 
 
-    // Capa media
     createStars(
         starsMiddle,
         75,
@@ -242,7 +457,6 @@ function generateStarField() {
     );
 
 
-    // Capa cercana
     createStars(
         starsFront,
         28,
@@ -258,28 +472,58 @@ function generateStarField() {
 
 function startTransmission() {
 
-    // Evita múltiples clicks
-    if (transitionStarted) {
+    if (
+        transitionStarted
+    ) {
+
         return;
+
     }
 
 
-    transitionStarted = true;
+    transitionStarted =
+        true;
+
+
+    /*
+        Si Chrome bloqueó el hum inicialmente,
+        este click real ya permite iniciarlo.
+    */
+
+    unlockAmbientAudio();
+
+
+    // -----------------------------------------------------
+    // CLICK
+    // -----------------------------------------------------
+
+    safePlayAudio(
+        indexClickSFX,
+        0.4
+    );
+
+
+    // -----------------------------------------------------
+    // GLITCH SFX
+    // -----------------------------------------------------
+
+    safePlayAudio(
+        indexGlitchSFX,
+        0.75
+    );
 
 
     disableInteraction();
 
 
-    /*
-        Pedimos a animations.js
-        reproducir el glitch.
-    */
+    if (
+        window.IndexAnimations
+    ) {
 
-    if (window.IndexAnimations) {
-
-        window.IndexAnimations.playTransmissionGlitch(
-            goToNextScene
-        );
+        window.IndexAnimations
+            .playTransmissionGlitch(
+                goToNextScene
+            );
 
     }
 
@@ -292,10 +536,16 @@ function startTransmission() {
 
 function disableInteraction() {
 
-    transmissionButton.disabled = true;
+    transmissionButton.disabled =
+        true;
 
-    languageEN.disabled = true;
-    languageES.disabled = true;
+
+    languageEN.disabled =
+        true;
+
+
+    languageES.disabled =
+        true;
 
 }
 
@@ -306,10 +556,16 @@ function disableInteraction() {
 
 function enableInteraction() {
 
-    transmissionButton.disabled = false;
+    transmissionButton.disabled =
+        false;
 
-    languageEN.disabled = false;
-    languageES.disabled = false;
+
+    languageEN.disabled =
+        false;
+
+
+    languageES.disabled =
+        false;
 
 }
 
@@ -321,6 +577,24 @@ function enableInteraction() {
 transmissionButton.addEventListener(
     "click",
     startTransmission
+);
+
+
+// =========================================================
+// PRIMERA INTERACCIÓN
+// =========================================================
+
+/*
+    Esto ayuda a iniciar el hum si el navegador
+    bloqueó el autoplay inicial.
+*/
+
+document.addEventListener(
+    "pointerdown",
+    unlockAmbientAudio,
+    {
+        once: true
+    }
 );
 
 
@@ -345,18 +619,23 @@ function init() {
     generateStarField();
 
 
-    /*
-        Una vez que las estrellas existen,
-        iniciamos las animaciones.
-    */
+    startAmbientAudio();
 
-    if (window.IndexAnimations) {
 
-        window.IndexAnimations.init();
+    if (
+        window.IndexAnimations
+    ) {
+
+        window.IndexAnimations
+            .init();
 
     }
 
 }
 
+
+// =========================================================
+// START
+// =========================================================
 
 init();

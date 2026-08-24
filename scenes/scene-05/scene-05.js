@@ -156,7 +156,7 @@ const archiveText =
 
 
 // =========================================================
-// AUDIO
+// AUDIO NARRATIVO
 // =========================================================
 
 const audioFile01 =
@@ -164,6 +164,44 @@ const audioFile01 =
 
 const audioFile02 =
     document.querySelector("#audio-file-02");
+
+
+// =========================================================
+// SFX
+// =========================================================
+
+const scene05Hum =
+    document.querySelector("#scene-05-hum");
+
+const scene05UIClick =
+    document.querySelector("#scene-05-ui-click");
+
+const scene05SystemError =
+    document.querySelector("#scene-05-system-error");
+
+const scene05StaticShort =
+    document.querySelector("#scene-05-static-short");
+
+const scene05StaticLoop =
+    document.querySelector("#scene-05-static-loop");
+
+const scene05Electrical =
+    document.querySelector("#scene-05-electrical");
+
+const scene05GlitchSoft =
+    document.querySelector("#scene-05-glitch-soft");
+
+const scene05GlitchMedium =
+    document.querySelector("#scene-05-glitch-medium");
+
+const scene05GlitchStrong =
+    document.querySelector("#scene-05-glitch-strong");
+
+const scene05DeepRumble =
+    document.querySelector("#scene-05-deep-rumble");
+
+const scene05LowImpact =
+    document.querySelector("#scene-05-low-impact");
 
 
 // =========================================================
@@ -535,6 +573,346 @@ function wait(ms) {
 
 
 // =========================================================
+// AUDIO — UTILIDAD
+// =========================================================
+
+function safePlayAudio(
+    audio,
+    volume = 1,
+    restart = true
+) {
+
+    if (!audio) {
+        return;
+    }
+
+
+    if (restart) {
+
+        audio.currentTime =
+            0;
+
+    }
+
+
+    audio.volume =
+        volume;
+
+
+    audio
+        .play()
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// AMBIENTE — INICIO
+// =========================================================
+
+function startScene05Ambience() {
+
+    if (scene05Hum) {
+
+        scene05Hum.volume =
+            0.05;
+
+
+        scene05Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (scene05StaticLoop) {
+
+        scene05StaticLoop.volume =
+            0.02;
+
+
+        scene05StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// DESBLOQUEAR AUDIO
+// =========================================================
+
+function unlockScene05Ambience() {
+
+    if (
+        scene05Hum &&
+        scene05Hum.paused
+    ) {
+
+        scene05Hum.volume =
+            0.05;
+
+
+        scene05Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (
+        scene05StaticLoop &&
+        scene05StaticLoop.paused
+    ) {
+
+        scene05StaticLoop.volume =
+            currentPhase === 1
+                ? 0.02
+                : currentPhase === 2
+                    ? 0.035
+                    : 0.05;
+
+
+        scene05StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (
+        currentPhase >= 3 &&
+        scene05DeepRumble &&
+        scene05DeepRumble.paused
+    ) {
+
+        scene05DeepRumble.volume =
+            0.04;
+
+
+        scene05DeepRumble
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// ACTUALIZAR AMBIENTE POR FASE
+// =========================================================
+
+function updatePhaseAmbience() {
+
+    if (
+        currentPhase === 1
+    ) {
+
+        if (scene05StaticLoop) {
+
+            scene05StaticLoop.volume =
+                0.02;
+
+        }
+
+
+        return;
+
+    }
+
+
+    if (
+        currentPhase === 2
+    ) {
+
+        if (scene05StaticLoop) {
+
+            scene05StaticLoop.volume =
+                0.035;
+
+        }
+
+
+        return;
+
+    }
+
+
+    if (
+        currentPhase >= 3
+    ) {
+
+        if (scene05StaticLoop) {
+
+            scene05StaticLoop.volume =
+                0.05;
+
+        }
+
+
+        if (scene05DeepRumble) {
+
+            scene05DeepRumble.volume =
+                0.04;
+
+
+            if (
+                scene05DeepRumble.paused
+            ) {
+
+                scene05DeepRumble
+                    .play()
+                    .catch(() => {});
+
+            }
+
+        }
+
+    }
+
+}
+
+
+// =========================================================
+// BAJAR AMBIENTE DURANTE AUDIO
+// =========================================================
+
+function lowerAmbienceForDialogue() {
+
+    if (
+        scene05Hum &&
+        !scene05Hum.paused
+    ) {
+
+        scene05Hum.volume =
+            0.022;
+
+    }
+
+
+    if (
+        scene05StaticLoop &&
+        !scene05StaticLoop.paused
+    ) {
+
+        scene05StaticLoop.volume =
+            0.01;
+
+    }
+
+
+    if (
+        scene05DeepRumble &&
+        !scene05DeepRumble.paused
+    ) {
+
+        scene05DeepRumble.volume =
+            0.02;
+
+    }
+
+}
+
+
+// =========================================================
+// RESTAURAR AMBIENTE
+// =========================================================
+
+function restorePhaseAmbience() {
+
+    if (scene05Hum) {
+
+        scene05Hum.volume =
+            0.05;
+
+    }
+
+
+    updatePhaseAmbience();
+
+}
+
+
+// =========================================================
+// FADE
+// =========================================================
+
+function fadeAmbientAudio(
+    audio,
+    duration = 600
+) {
+
+    if (
+        !audio ||
+        audio.paused
+    ) {
+
+        return;
+
+    }
+
+
+    const startVolume =
+        audio.volume;
+
+
+    const steps =
+        14;
+
+
+    let step =
+        0;
+
+
+    const interval =
+        duration / steps;
+
+
+    const fade =
+        setInterval(
+
+            () => {
+
+                step++;
+
+
+                audio.volume =
+                    Math.max(
+                        0,
+                        startVolume *
+                        (
+                            1 -
+                            step / steps
+                        )
+                    );
+
+
+                if (
+                    step >= steps
+                ) {
+
+                    clearInterval(
+                        fade
+                    );
+
+
+                    audio.pause();
+
+                }
+
+            },
+
+            interval
+
+        );
+
+}
+
+
+// =========================================================
 // IDIOMA INTERFAZ
 // =========================================================
 
@@ -602,7 +980,9 @@ function setSystemLog(
 ) {
 
     const log =
-        systemLogElements[index];
+        systemLogElements[
+            index
+        ];
 
 
     if (!log) {
@@ -638,7 +1018,9 @@ async function playInitialSystemLogs() {
         ].systemLogs;
 
 
-    await wait(400);
+    await wait(
+        400
+    );
 
 
     for (
@@ -653,7 +1035,21 @@ async function playInitialSystemLogs() {
         );
 
 
-        await wait(650);
+        if (
+            i === 2
+        ) {
+
+            safePlayAudio(
+                scene05Electrical,
+                0.15
+            );
+
+        }
+
+
+        await wait(
+            650
+        );
 
     }
 
@@ -675,6 +1071,15 @@ cameraButtons.forEach(
             "click",
 
             () => {
+
+                unlockScene05Ambience();
+
+
+                safePlayAudio(
+                    scene05SystemError,
+                    0.45
+                );
+
 
                 window.Scene05Animations
                     .playDeniedControl(
@@ -699,6 +1104,15 @@ accessLogsButton.addEventListener(
     "click",
 
     () => {
+
+        unlockScene05Ambience();
+
+
+        safePlayAudio(
+            scene05SystemError,
+            0.45
+        );
+
 
         window.Scene05Animations
             .playDeniedControl(
@@ -775,8 +1189,106 @@ function openArchiveFile(
     }
 
 
+    unlockScene05Ambience();
+
+
     currentFile =
         fileId;
+
+
+    safePlayAudio(
+        scene05UIClick,
+        0.22
+    );
+
+
+    if (
+        currentPhase === 2
+    ) {
+
+        safePlayAudio(
+            scene05StaticShort,
+            0.16
+        );
+
+    }
+
+
+    if (
+        currentPhase >= 3
+    ) {
+
+        safePlayAudio(
+            scene05StaticShort,
+            0.25
+        );
+
+    }
+
+
+    if (
+        fileId === "image01"
+    ) {
+
+        safePlayAudio(
+            scene05Electrical,
+            0.25
+        );
+
+    }
+
+
+    if (
+        fileId === "archive01"
+    ) {
+
+        safePlayAudio(
+            scene05Electrical,
+            0.3
+        );
+
+
+        safePlayAudio(
+            scene05StaticShort,
+            0.28
+        );
+
+    }
+
+
+    if (
+        fileId === "fragment01"
+    ) {
+
+        safePlayAudio(
+            scene05LowImpact,
+            0.65
+        );
+
+
+        setTimeout(
+            () => {
+
+                safePlayAudio(
+                    scene05GlitchStrong,
+                    1
+                );
+
+            },
+            70
+        );
+
+
+        if (
+            scene05DeepRumble
+        ) {
+
+            scene05DeepRumble.volume =
+                0.09;
+
+        }
+
+    }
 
 
     hideAllFileContent();
@@ -810,7 +1322,9 @@ function openArchiveFile(
         .openFileModal();
 
 
-    switch (fileId) {
+    switch (
+        fileId
+    ) {
 
         case "chat01":
 
@@ -898,11 +1412,6 @@ function openArchiveFile(
                 ].fragment01
             );
 
-            /*
-                En cuanto se abre el archivo
-                final empieza el contador
-                de 3 segundos.
-            */
 
             startFinalSequence();
 
@@ -962,7 +1471,9 @@ function getDisplayName(
     };
 
 
-    return names[fileId];
+    return names[
+        fileId
+    ];
 
 }
 
@@ -1022,8 +1533,15 @@ function showChat(
                 message.text;
 
 
-            paragraph.appendChild(time);
-            paragraph.appendChild(text);
+            paragraph.appendChild(
+                time
+            );
+
+
+            paragraph.appendChild(
+                text
+            );
+
 
             chatMessages.appendChild(
                 paragraph
@@ -1058,6 +1576,7 @@ function showAudio(
 
 
     currentAudio.pause();
+
 
     currentAudio.currentTime =
         0;
@@ -1103,6 +1622,23 @@ function playCurrentAudio() {
         ].playingAudio;
 
 
+    safePlayAudio(
+        scene05UIClick,
+        0.25
+    );
+
+
+    safePlayAudio(
+        scene05StaticShort,
+        currentPhase >= 2
+            ? 0.3
+            : 0.2
+    );
+
+
+    lowerAmbienceForDialogue();
+
+
     window.Scene05Animations
         .startAudioVisualizer();
 
@@ -1113,6 +1649,10 @@ function playCurrentAudio() {
 
     currentAudio.currentTime =
         0;
+
+
+    currentAudio.volume =
+        0.88;
 
 
     currentAudio
@@ -1132,6 +1672,9 @@ function playCurrentAudio() {
 
                 window.Scene05Animations
                     .stopAudioVisualizer();
+
+
+                restorePhaseAmbience();
 
             }
         );
@@ -1161,6 +1704,36 @@ function onAudioEnded() {
 
     window.Scene05Animations
         .playAudioEndGlitch();
+
+
+    if (
+        currentPhase >= 2
+    ) {
+
+        safePlayAudio(
+            scene05Electrical,
+            0.25
+        );
+
+
+        safePlayAudio(
+            scene05GlitchSoft,
+            0.35
+        );
+
+    }
+
+    else {
+
+        safePlayAudio(
+            scene05StaticShort,
+            0.18
+        );
+
+    }
+
+
+    restorePhaseAmbience();
 
 }
 
@@ -1229,6 +1802,14 @@ function showVideo(
         };
 
 
+    safePlayAudio(
+        scene05StaticShort,
+        currentPhase >= 2
+            ? 0.28
+            : 0.18
+    );
+
+
     window.Scene05Animations
         .showVideoContent(
             videoContent
@@ -1252,6 +1833,7 @@ function showImage(
     recoveredImage.style.display =
         "none";
 
+
     imagePlaceholder.style.display =
         "flex";
 
@@ -1266,6 +1848,7 @@ function showImage(
             imagePlaceholder.style.display =
                 "none";
 
+
             recoveredImage.style.display =
                 "block";
 
@@ -1278,10 +1861,17 @@ function showImage(
             imagePlaceholder.style.display =
                 "flex";
 
+
             recoveredImage.style.display =
                 "none";
 
         };
+
+
+    safePlayAudio(
+        scene05GlitchMedium,
+        0.38
+    );
 
 
     window.Scene05Animations
@@ -1354,39 +1944,50 @@ function showArchiveText(
 
 function closeFileModal() {
 
-    /*
-        Audio narrativo:
-        no puede cerrar hasta terminar.
-    */
+    if (
+        audioPlaying
+    ) {
 
-    if (audioPlaying) {
+        safePlayAudio(
+            scene05SystemError,
+            0.5
+        );
+
 
         window.Scene05Animations
             .playLockedModalFeedback();
 
-        return;
-
-    }
-
-
-    /*
-        Una vez abierto el archivo final,
-        el sistema toma control.
-    */
-
-    if (finalSequenceStarted) {
 
         return;
 
     }
 
 
-    if (currentAudio) {
+    if (
+        finalSequenceStarted
+    ) {
+
+        return;
+
+    }
+
+
+    safePlayAudio(
+        scene05UIClick,
+        0.18
+    );
+
+
+    if (
+        currentAudio
+    ) {
 
         currentAudio.pause();
 
+
         currentAudio.currentTime =
             0;
+
 
         currentAudio =
             null;
@@ -1399,6 +2000,7 @@ function closeFileModal() {
 
     window.Scene05Animations
         .closeFileModal(
+
             () => {
 
                 fileModal.setAttribute(
@@ -1410,6 +2012,7 @@ function closeFileModal() {
                 hideAllFileContent();
 
             }
+
         );
 
 }
@@ -1536,11 +2139,6 @@ function markFileVisited(
     updateRecoveryProgress();
 
 
-    /*
-        fragment01 ya inicia su
-        propia secuencia final.
-    */
-
     if (
         fileId !== "fragment01"
     ) {
@@ -1590,9 +2188,10 @@ function phaseComplete(
     files
 ) {
 
-    return Array.from(
-        files
-    )
+    return Array
+        .from(
+            files
+        )
         .every(
             file =>
                 visitedFiles.has(
@@ -1611,7 +2210,10 @@ function unlockPhase(
     files
 ) {
 
-    Array.from(files)
+    Array
+        .from(
+            files
+        )
         .forEach(
             file => {
 
@@ -1666,7 +2268,7 @@ function unlockPhase(
 function checkPhaseProgress() {
 
     // =====================================================
-    // FASE 01 → 02
+    // PHASE 01 → PHASE 02
     // =====================================================
 
     if (
@@ -1693,8 +2295,43 @@ function checkPhaseProgress() {
         );
 
 
+        updatePhaseAmbience();
+
+
+        /*
+            IMPORTANTE:
+            El audio empieza exactamente
+            cuando comienza el glitch visual.
+        */
+
+        safePlayAudio(
+            scene05GlitchMedium,
+            1
+        );
+
+
         window.Scene05Animations
-            .setInstabilityLevel(2);
+            .setInstabilityLevel(
+                2
+            );
+
+
+        /*
+            La electricidad entra después
+            para no tapar el ataque del glitch.
+        */
+
+        setTimeout(
+            () => {
+
+                safePlayAudio(
+                    scene05Electrical,
+                    0.25
+                );
+
+            },
+            220
+        );
 
 
         return;
@@ -1703,7 +2340,7 @@ function checkPhaseProgress() {
 
 
     // =====================================================
-    // FASE 02 → 03
+    // PHASE 02 → PHASE 03
     // =====================================================
 
     if (
@@ -1736,8 +2373,37 @@ function checkPhaseProgress() {
         );
 
 
+        updatePhaseAmbience();
+
+
+        /*
+            Glitch fuerte sincronizado
+            con el cambio visual.
+        */
+
+        safePlayAudio(
+            scene05GlitchStrong,
+            1
+        );
+
+
         window.Scene05Animations
-            .setInstabilityLevel(3);
+            .setInstabilityLevel(
+                3
+            );
+
+
+        setTimeout(
+            () => {
+
+                safePlayAudio(
+                    scene05Electrical,
+                    0.32
+                );
+
+            },
+            250
+        );
 
 
         return;
@@ -1746,7 +2412,7 @@ function checkPhaseProgress() {
 
 
     // =====================================================
-    // FASE 03
+    // PHASE 03 → FINAL FRAGMENT
     // =====================================================
 
     if (
@@ -1795,11 +2461,41 @@ function checkPhaseProgress() {
 
 
                 /*
-                    NIVEL CRÍTICO.
+                    Impacto grave que anuncia
+                    que se abrió algo que no debía.
                 */
 
+                safePlayAudio(
+                    scene05LowImpact,
+                    0.6
+                );
+
+
+                /*
+                    GLITCH SONORO Y VISUAL
+                    AL MISMO TIEMPO.
+                */
+
+                safePlayAudio(
+                    scene05GlitchStrong,
+                    1
+                );
+
+
                 window.Scene05Animations
-                    .setInstabilityLevel(4);
+                    .setInstabilityLevel(
+                        4
+                    );
+
+
+                if (
+                    scene05DeepRumble
+                ) {
+
+                    scene05DeepRumble.volume =
+                        0.065;
+
+                }
 
             }
 
@@ -1812,8 +2508,7 @@ function checkPhaseProgress() {
 
 // =========================================================
 // SECUENCIA FINAL
-// EXACTAMENTE 3 SEGUNDOS DESPUÉS
-// DE ABRIR EL ARCHIVO FINAL
+// 3 SEGUNDOS DESPUÉS DE ABRIR FRAGMENT
 // =========================================================
 
 async function startFinalSequence() {
@@ -1835,9 +2530,19 @@ async function startFinalSequence() {
         "100%";
 
 
+    if (
+        scene05DeepRumble
+    ) {
+
+        scene05DeepRumble.volume =
+            0.09;
+
+    }
+
+
     /*
-        El usuario tiene 3 segundos
-        para ver el archivo.
+        3 segundos para leer
+        el fragmento final.
     */
 
     await wait(
@@ -1846,18 +2551,85 @@ async function startFinalSequence() {
 
 
     /*
-        Después de 3 segundos,
-        el sistema interrumpe todo.
+        Colapso sonoro.
     */
+
+    safePlayAudio(
+        scene05GlitchStrong,
+        1
+    );
+
+
+    safePlayAudio(
+        scene05StaticShort,
+        0.55
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                scene05Electrical,
+                0.4
+            );
+
+        },
+        80
+    );
+
+
+    fadeAmbientAudio(
+        scene05Hum,
+        500
+    );
+
+
+    fadeAmbientAudio(
+        scene05StaticLoop,
+        650
+    );
+
+
+    if (
+        scene05DeepRumble
+    ) {
+
+        scene05DeepRumble.volume =
+            0.11;
+
+    }
+
 
     await window.Scene05Animations
         .playScene06Transition();
+
+
+    fadeAmbientAudio(
+        scene05DeepRumble,
+        300
+    );
 
 
     window.location.href =
         "../scene-06/scene-06.html";
 
 }
+
+
+// =========================================================
+// PRIMERA INTERACCIÓN
+// =========================================================
+
+document.addEventListener(
+    "pointerdown",
+
+    unlockScene05Ambience,
+
+    {
+        once: true
+    }
+);
 
 
 // =========================================================
@@ -1871,6 +2643,9 @@ async function initScene05() {
 
     window.Scene05Animations
         .init();
+
+
+    startScene05Ambience();
 
 
     await window.Scene05Animations

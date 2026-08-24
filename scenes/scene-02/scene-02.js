@@ -50,6 +50,7 @@ const liveFeedLabel =
 const logsTitle =
     document.querySelector("#logs-title");
 
+
 const logElements = [
 
     document.querySelector("#log-01"),
@@ -77,7 +78,9 @@ const archivedLogItems =
     document.querySelectorAll(".archived-log-item");
 
 
-// Log details
+// =========================================================
+// LOG DETAILS
+// =========================================================
 
 const logDetailsPlaceholder =
     document.querySelector("#log-details-placeholder");
@@ -107,7 +110,9 @@ const logStatusLabel =
     document.querySelector("#log-status-label");
 
 
-// Audio
+// =========================================================
+// AUDIO NARRATIVO
+// =========================================================
 
 const corruptedAudioContainer =
     document.querySelector("#corrupted-audio-container");
@@ -120,6 +125,29 @@ const corruptedAudioText =
 
 const corruptedAudio =
     document.querySelector("#corrupted-audio");
+
+
+// =========================================================
+// SFX
+// =========================================================
+
+const scene02Hum =
+    document.querySelector("#scene-02-hum");
+
+const scene02UIClick =
+    document.querySelector("#scene-02-ui-click");
+
+const scene02SystemError =
+    document.querySelector("#scene-02-system-error");
+
+const scene02StaticShort =
+    document.querySelector("#scene-02-static-short");
+
+const scene02Electrical =
+    document.querySelector("#scene-02-electrical");
+
+const scene02Glitch =
+    document.querySelector("#scene-02-glitch");
 
 
 // =========================================================
@@ -158,6 +186,7 @@ const cameras = {
 
     },
 
+
     cam02: {
 
         labelEN:
@@ -170,6 +199,7 @@ const cameras = {
             "../../assets/video/cam-02.mp4"
 
     },
+
 
     cam03: {
 
@@ -351,31 +381,22 @@ const archivedLogsData = {
 
         labels: {
 
-            date:
-                "DATE:",
-
-            status:
-                "STATUS:",
-
-            select:
-                "SELECT LOG FILE"
+            date: "DATE:",
+            status: "STATUS:",
+            select: "SELECT LOG FILE"
 
         },
 
 
         log01: {
 
-            id:
-                "LOG_01",
+            id: "LOG_01",
 
-            title:
-                "SYSTEM DIAGNOSTIC",
+            title: "SYSTEM DIAGNOSTIC",
 
-            date:
-                "07.14.2196",
+            date: "07.14.2196",
 
-            status:
-                "ARCHIVED",
+            status: "ARCHIVED",
 
             body: [
 
@@ -396,17 +417,13 @@ const archivedLogsData = {
 
         log02: {
 
-            id:
-                "LOG_02",
+            id: "LOG_02",
 
-            title:
-                "NAVIGATION REPORT",
+            title: "NAVIGATION REPORT",
 
-            date:
-                "07.17.2196",
+            date: "07.17.2196",
 
-            status:
-                "ARCHIVED",
+            status: "ARCHIVED",
 
             body: [
 
@@ -427,17 +444,13 @@ const archivedLogsData = {
 
         log03: {
 
-            id:
-                "LOG_03",
+            id: "LOG_03",
 
-            title:
-                "CREW AUDIO",
+            title: "CREW AUDIO",
 
-            date:
-                "07.18.2196",
+            date: "07.18.2196",
 
-            status:
-                "PARTIALLY RECOVERED",
+            status: "PARTIALLY RECOVERED",
 
             body: [
 
@@ -458,23 +471,17 @@ const archivedLogsData = {
 
         log04: {
 
-            id:
-                "LOG_04",
+            id: "LOG_04",
 
-            title:
-                "[CORRUPTED]",
+            title: "[CORRUPTED]",
 
-            date:
-                "UNKNOWN",
+            date: "UNKNOWN",
 
-            status:
-                "DATA CORRUPTED",
+            status: "DATA CORRUPTED",
 
-            corrupted:
-                true,
+            corrupted: true,
 
-            audio:
-                true,
+            audio: true,
 
             body: [
 
@@ -499,31 +506,22 @@ const archivedLogsData = {
 
         labels: {
 
-            date:
-                "FECHA:",
-
-            status:
-                "ESTADO:",
-
-            select:
-                "SELECCIONAR ARCHIVO"
+            date: "FECHA:",
+            status: "ESTADO:",
+            select: "SELECCIONAR ARCHIVO"
 
         },
 
 
         log01: {
 
-            id:
-                "LOG_01",
+            id: "LOG_01",
 
-            title:
-                "DIAGNÓSTICO DEL SISTEMA",
+            title: "DIAGNÓSTICO DEL SISTEMA",
 
-            date:
-                "14.07.2196",
+            date: "14.07.2196",
 
-            status:
-                "ARCHIVADO",
+            status: "ARCHIVADO",
 
             body: [
 
@@ -544,17 +542,13 @@ const archivedLogsData = {
 
         log02: {
 
-            id:
-                "LOG_02",
+            id: "LOG_02",
 
-            title:
-                "REPORTE DE NAVEGACIÓN",
+            title: "REPORTE DE NAVEGACIÓN",
 
-            date:
-                "17.07.2196",
+            date: "17.07.2196",
 
-            status:
-                "ARCHIVADO",
+            status: "ARCHIVADO",
 
             body: [
 
@@ -575,17 +569,13 @@ const archivedLogsData = {
 
         log03: {
 
-            id:
-                "LOG_03",
+            id: "LOG_03",
 
-            title:
-                "AUDIO DE TRIPULACIÓN",
+            title: "AUDIO DE TRIPULACIÓN",
 
-            date:
-                "18.07.2196",
+            date: "18.07.2196",
 
-            status:
-                "RECUPERADO PARCIALMENTE",
+            status: "RECUPERADO PARCIALMENTE",
 
             body: [
 
@@ -606,23 +596,17 @@ const archivedLogsData = {
 
         log04: {
 
-            id:
-                "LOG_04",
+            id: "LOG_04",
 
-            title:
-                "[CORRUPTO]",
+            title: "[CORRUPTO]",
 
-            date:
-                "DESCONOCIDA",
+            date: "DESCONOCIDA",
 
-            status:
-                "DATOS CORRUPTOS",
+            status: "DATOS CORRUPTOS",
 
-            corrupted:
-                true,
+            corrupted: true,
 
-            audio:
-                true,
+            audio: true,
 
             body: [
 
@@ -643,6 +627,159 @@ const archivedLogsData = {
     }
 
 };
+
+
+// =========================================================
+// AUDIO — UTILIDADES
+// =========================================================
+
+function safePlayAudio(
+    audio,
+    volume = 1,
+    restart = true
+) {
+
+    if (!audio) {
+        return;
+    }
+
+
+    if (restart) {
+
+        audio.currentTime = 0;
+
+    }
+
+
+    audio.volume =
+        volume;
+
+
+    audio
+        .play()
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// HUM
+// =========================================================
+
+function startAmbientHum() {
+
+    if (!scene02Hum) {
+        return;
+    }
+
+
+    scene02Hum.volume =
+        0.07;
+
+
+    scene02Hum
+        .play()
+        .catch(() => {});
+
+}
+
+
+function unlockAmbientHum() {
+
+    if (
+        !scene02Hum ||
+        !scene02Hum.paused
+    ) {
+
+        return;
+
+    }
+
+
+    scene02Hum.volume =
+        0.07;
+
+
+    scene02Hum
+        .play()
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// FADE HUM
+// =========================================================
+
+function fadeHumOut(
+    duration = 500
+) {
+
+    if (
+        !scene02Hum ||
+        scene02Hum.paused
+    ) {
+
+        return;
+
+    }
+
+
+    const initialVolume =
+        scene02Hum.volume;
+
+
+    const steps =
+        14;
+
+
+    let step =
+        0;
+
+
+    const interval =
+        duration / steps;
+
+
+    const fade =
+        setInterval(
+
+            () => {
+
+                step++;
+
+
+                scene02Hum.volume =
+                    Math.max(
+                        0,
+                        initialVolume *
+                        (
+                            1 -
+                            step / steps
+                        )
+                    );
+
+
+                if (
+                    step >= steps
+                ) {
+
+                    clearInterval(
+                        fade
+                    );
+
+
+                    scene02Hum.pause();
+
+                }
+
+            },
+
+            interval
+
+        );
+
+}
 
 
 // =========================================================
@@ -675,7 +812,9 @@ document.documentElement.lang =
 function updateInterfaceLanguage() {
 
     const text =
-        translations[currentLanguage];
+        translations[
+            currentLanguage
+        ];
 
 
     connectionStatus.textContent =
@@ -727,7 +866,9 @@ function updateInterfaceLanguage() {
                     ".log-description"
                 )
                 .textContent =
-                text.archiveItems[index];
+                text.archiveItems[
+                    index
+                ];
 
         }
     );
@@ -745,7 +886,9 @@ function updateInterfaceLanguage() {
 function updateCameraName() {
 
     const camera =
-        cameras[currentCamera];
+        cameras[
+            currentCamera
+        ];
 
 
     cameraName.textContent =
@@ -782,7 +925,9 @@ async function bootSystem() {
     updateInterfaceLanguage();
 
 
-    if (window.Scene02Animations) {
+    if (
+        window.Scene02Animations
+    ) {
 
         await window.Scene02Animations
             .playInterfaceBoot();
@@ -796,12 +941,25 @@ async function bootSystem() {
         ].connected;
 
 
+    /*
+        Pequeño click de sistema
+        cuando termina el boot.
+    */
+
+    safePlayAudio(
+        scene02UIClick,
+        0.18
+    );
+
+
     loadCameraMedia(
         currentCamera
     );
 
 
-    await wait(300);
+    await wait(
+        300
+    );
 
 
     playLogsSequence();
@@ -818,7 +976,9 @@ function loadCameraMedia(
 ) {
 
     const camera =
-        cameras[cameraId];
+        cameras[
+            cameraId
+        ];
 
 
     videoPlaceholder.style.display =
@@ -833,6 +993,14 @@ function loadCameraMedia(
             "CAM "
         );
 
+
+    /*
+        Aunque todavía no existan los videos,
+        mantenemos esta lógica lista.
+
+        Si el archivo no existe simplemente
+        permanece el placeholder.
+    */
 
     cameraVideo.src =
         camera.src;
@@ -884,7 +1052,27 @@ async function changeCamera(
     }
 
 
-    cameraChanging = true;
+    cameraChanging =
+        true;
+
+
+    unlockAmbientHum();
+
+
+    // Click del botón
+
+    safePlayAudio(
+        scene02UIClick,
+        0.25
+    );
+
+
+    // Static del feed
+
+    safePlayAudio(
+        scene02StaticShort,
+        0.45
+    );
 
 
     cameraButtons.forEach(
@@ -893,8 +1081,14 @@ async function changeCamera(
     );
 
 
-    await window.Scene02Animations
-        .playCameraSwitchOut();
+    if (
+        window.Scene02Animations
+    ) {
+
+        await window.Scene02Animations
+            .playCameraSwitchOut();
+
+    }
 
 
     currentCamera =
@@ -905,19 +1099,29 @@ async function changeCamera(
 
     updateCameraName();
 
+
     loadCameraMedia(
         cameraId
     );
 
 
-    await wait(150);
+    await wait(
+        150
+    );
 
 
-    await window.Scene02Animations
-        .playCameraSwitchIn();
+    if (
+        window.Scene02Animations
+    ) {
+
+        await window.Scene02Animations
+            .playCameraSwitchIn();
+
+    }
 
 
-    cameraChanging = false;
+    cameraChanging =
+        false;
 
 
     cameraButtons.forEach(
@@ -958,12 +1162,14 @@ cameraButtons.forEach(
     button => {
 
         button.addEventListener(
+
             "click",
 
             () =>
                 changeCamera(
                     button.dataset.camera
                 )
+
         );
 
     }
@@ -984,7 +1190,8 @@ async function playLogsSequence() {
 
     logElements.forEach(
         log =>
-            log.style.opacity = "0"
+            log.style.opacity =
+                "0"
     );
 
 
@@ -993,7 +1200,10 @@ async function playLogsSequence() {
         texts[0]
     );
 
-    await wait(650);
+
+    await wait(
+        650
+    );
 
 
     showLog(
@@ -1001,7 +1211,10 @@ async function playLogsSequence() {
         texts[1]
     );
 
-    await wait(700);
+
+    await wait(
+        700
+    );
 
 
     showLog(
@@ -1022,7 +1235,9 @@ async function playLogsSequence() {
     );
 
 
-    await wait(600);
+    await wait(
+        600
+    );
 
 
     showLog(
@@ -1031,11 +1246,19 @@ async function playLogsSequence() {
     );
 
 
-    window.Scene02Animations
-        .playNoCrewPulse();
+    if (
+        window.Scene02Animations
+    ) {
+
+        window.Scene02Animations
+            .playNoCrewPulse();
+
+    }
 
 
-    await wait(1200);
+    await wait(
+        1200
+    );
 
 
     showLog(
@@ -1044,15 +1267,48 @@ async function playLogsSequence() {
     );
 
 
-    window.Scene02Animations
-        .playSignalInterference();
+    /*
+        Aquí aparece:
+        SIGNAL INTERFERENCE DETECTED
+
+        Metemos nuestra interferencia sonora.
+    */
+
+    safePlayAudio(
+        scene02Electrical,
+        0.32
+    );
 
 
-    await wait(750);
+    safePlayAudio(
+        scene02StaticShort,
+        0.26
+    );
 
 
-    window.Scene02Animations
-        .showLogCursor();
+    if (
+        window.Scene02Animations
+    ) {
+
+        window.Scene02Animations
+            .playSignalInterference();
+
+    }
+
+
+    await wait(
+        750
+    );
+
+
+    if (
+        window.Scene02Animations
+    ) {
+
+        window.Scene02Animations
+            .showLogCursor();
+
+    }
 
 }
 
@@ -1067,7 +1323,9 @@ function showLog(
 ) {
 
     const log =
-        logElements[index];
+        logElements[
+            index
+        ];
 
 
     log
@@ -1078,10 +1336,16 @@ function showLog(
         text;
 
 
-    window.Scene02Animations
-        .showSystemLog(
-            log
-        );
+    if (
+        window.Scene02Animations
+    ) {
+
+        window.Scene02Animations
+            .showSystemLog(
+                log
+            );
+
+    }
 
 }
 
@@ -1111,19 +1375,28 @@ async function playScanningDots(
         element.textContent =
             cleanText + ".";
 
-        await wait(220);
+
+        await wait(
+            220
+        );
 
 
         element.textContent =
             cleanText + "..";
 
-        await wait(220);
+
+        await wait(
+            220
+        );
 
 
         element.textContent =
             cleanText + "...";
 
-        await wait(220);
+
+        await wait(
+            220
+        );
 
     }
 
@@ -1140,14 +1413,29 @@ async function playScanningDots(
 
 function openArchivedLogs() {
 
+    unlockAmbientHum();
+
+
+    safePlayAudio(
+        scene02UIClick,
+        0.28
+    );
+
+
     archivedLogsModal.setAttribute(
         "aria-hidden",
         "false"
     );
 
 
-    window.Scene02Animations
-        .openArchivedLogs();
+    if (
+        window.Scene02Animations
+    ) {
+
+        window.Scene02Animations
+            .openArchivedLogs();
+
+    }
 
 }
 
@@ -1159,15 +1447,21 @@ function openArchivedLogs() {
 function closeArchivedLogs() {
 
     /*
-        Mientras el audio corrupto esté sonando
-        o estemos entrando a Scene 04,
-        el usuario NO puede abandonar el archivo.
+        Mientras el audio corrupto esté
+        reproduciéndose o iniciando
+        Scene 04, no puede salir.
     */
 
     if (
         corruptedAudioPlaying ||
         sceneTransitioning
     ) {
+
+        safePlayAudio(
+            scene02SystemError,
+            0.5
+        );
+
 
         if (
             window.Scene02Animations &&
@@ -1180,9 +1474,16 @@ function closeArchivedLogs() {
 
         }
 
+
         return;
 
     }
+
+
+    safePlayAudio(
+        scene02UIClick,
+        0.2
+    );
 
 
     corruptedAudio.pause();
@@ -1191,18 +1492,26 @@ function closeArchivedLogs() {
         0;
 
 
-    window.Scene02Animations
-        .closeArchivedLogs(
-            () => {
+    if (
+        window.Scene02Animations
+    ) {
 
-                archivedLogsModal
-                    .setAttribute(
-                        "aria-hidden",
-                        "true"
-                    );
+        window.Scene02Animations
+            .closeArchivedLogs(
 
-            }
-        );
+                () => {
+
+                    archivedLogsModal
+                        .setAttribute(
+                            "aria-hidden",
+                            "true"
+                        );
+
+                }
+
+            );
+
+    }
 
 }
 
@@ -1216,14 +1525,20 @@ function showArchivedLog(
 ) {
 
     /*
-        El audio corrupto bloquea
-        toda navegación dentro del modal.
+        Durante el audio corrupto
+        se bloquea toda navegación.
     */
 
     if (
         corruptedAudioPlaying ||
         sceneTransitioning
     ) {
+
+        safePlayAudio(
+            scene02SystemError,
+            0.5
+        );
+
 
         if (
             window.Scene02Animations &&
@@ -1236,9 +1551,16 @@ function showArchivedLog(
 
         }
 
+
         return;
 
     }
+
+
+    safePlayAudio(
+        scene02UIClick,
+        0.22
+    );
 
 
     const languageData =
@@ -1319,7 +1641,9 @@ function showArchivedLog(
                 line;
 
 
-            if (log.corrupted) {
+            if (
+                log.corrupted
+            ) {
 
                 p.classList.add(
                     "corrupted-line"
@@ -1343,13 +1667,39 @@ function showArchivedLog(
             : "none";
 
 
-    window.Scene02Animations
-        .showArchivedLogContent(
-            logDetailsContent,
-            Boolean(
-                log.corrupted
-            )
+    /*
+        Si este es el archivo corrupto,
+        agregamos una pequeña interferencia.
+    */
+
+    if (
+        log.corrupted
+    ) {
+
+        safePlayAudio(
+            scene02StaticShort,
+            0.35
         );
+
+    }
+
+
+    if (
+        window.Scene02Animations
+    ) {
+
+        window.Scene02Animations
+            .showArchivedLogContent(
+
+                logDetailsContent,
+
+                Boolean(
+                    log.corrupted
+                )
+
+            );
+
+    }
 
 }
 
@@ -1366,27 +1716,24 @@ function toggleCorruptedAudio() {
         ];
 
 
-    /*
-        Una vez comenzada la transición
-        ya no aceptamos ninguna interacción.
-    */
-
-    if (sceneTransitioning) {
+    if (
+        sceneTransitioning
+    ) {
 
         return;
 
     }
 
 
-    /*
-        Si ya está reproduciéndose,
-        NO permitimos reiniciar ni pausar.
+    if (
+        corruptedAudioPlaying
+    ) {
 
-        El usuario queda obligado
-        a escuchar el archivo completo.
-    */
+        safePlayAudio(
+            scene02SystemError,
+            0.45
+        );
 
-    if (corruptedAudioPlaying) {
 
         return;
 
@@ -1402,11 +1749,30 @@ function toggleCorruptedAudio() {
 
 
     /*
-        Una vez que empieza el audio,
-        bloqueamos visualmente las opciones
-        para comunicar que el sistema
-        tomó el control.
+        Sonido de selección.
     */
+
+    safePlayAudio(
+        scene02UIClick,
+        0.3
+    );
+
+
+    /*
+        Bajamos un poco el hum para que
+        el diálogo narrativo tenga espacio.
+    */
+
+    if (
+        scene02Hum &&
+        !scene02Hum.paused
+    ) {
+
+        scene02Hum.volume =
+            0.035;
+
+    }
+
 
     closeLogsButton.classList.add(
         "audio-locked"
@@ -1424,24 +1790,28 @@ function toggleCorruptedAudio() {
     );
 
 
-    window.Scene02Animations
-        .playAudioButtonFeedback();
+    if (
+        window.Scene02Animations
+    ) {
+
+        window.Scene02Animations
+            .playAudioButtonFeedback();
+
+    }
 
 
     corruptedAudio.currentTime =
         0;
 
 
+    corruptedAudio.volume =
+        0.85;
+
+
     corruptedAudio
         .play()
         .catch(
             () => {
-
-                /*
-                    Si no existe el asset,
-                    restauramos la interfaz
-                    para no dejarla bloqueada.
-                */
 
                 corruptedAudioPlaying =
                     false;
@@ -1466,6 +1836,20 @@ function toggleCorruptedAudio() {
                     }
                 );
 
+
+                /*
+                    Restauramos ambiente.
+                */
+
+                if (
+                    scene02Hum
+                ) {
+
+                    scene02Hum.volume =
+                        0.07;
+
+                }
+
             }
         );
 
@@ -1473,14 +1857,11 @@ function toggleCorruptedAudio() {
 
 
 // =========================================================
-// AUDIO EVENTS
-// =========================================================
-
-// =========================================================
-// AUDIO EVENTS
+// AUDIO NARRATIVO TERMINA
 // =========================================================
 
 corruptedAudio.addEventListener(
+
     "ended",
 
     async () => {
@@ -1502,12 +1883,6 @@ corruptedAudio.addEventListener(
                 currentLanguage
             ].replayAudio;
 
-
-        /*
-            Desde este momento ya no existe
-            ninguna posibilidad de cerrar
-            el archivo o regresar a las cámaras.
-        */
 
         corruptedAudioButton.disabled =
             true;
@@ -1542,8 +1917,38 @@ corruptedAudio.addEventListener(
 
 
         /*
-            Glitch de transición.
+            El audio termina.
+
+            El sistema comienza a fallar.
         */
+
+        safePlayAudio(
+            scene02Electrical,
+            0.45
+        );
+
+
+        await wait(
+            120
+        );
+
+
+        safePlayAudio(
+            scene02Glitch,
+            1
+        );
+
+
+        safePlayAudio(
+            scene02StaticShort,
+            0.55
+        );
+
+
+        fadeHumOut(
+            650
+        );
+
 
         if (
             window.Scene02Animations &&
@@ -1557,14 +1962,11 @@ corruptedAudio.addEventListener(
         }
 
 
-        /*
-            Scene 04
-        */
-
         window.location.href =
             "../scene-04/scene-04.html";
 
     }
+
 );
 
 
@@ -1594,21 +1996,26 @@ archivedLogItems.forEach(
     item => {
 
         item.addEventListener(
+
             "click",
 
             () =>
                 showArchivedLog(
                     item.dataset.log
                 )
+
         );
 
     }
 );
 
 
-// Click afuera
+// =========================================================
+// CLICK FUERA
+// =========================================================
 
 archivedLogsModal.addEventListener(
+
     "click",
 
     event => {
@@ -1623,12 +2030,16 @@ archivedLogsModal.addEventListener(
         }
 
     }
+
 );
 
 
+// =========================================================
 // ESC
+// =========================================================
 
 document.addEventListener(
+
     "keydown",
 
     event => {
@@ -1646,6 +2057,24 @@ document.addEventListener(
         }
 
     }
+
+);
+
+
+// =========================================================
+// DESBLOQUEO DE AUDIO
+// =========================================================
+
+document.addEventListener(
+
+    "pointerdown",
+
+    unlockAmbientHum,
+
+    {
+        once: true
+    }
+
 );
 
 
@@ -1657,9 +2086,27 @@ function initScene02() {
 
     updateActiveCameraButton();
 
+
+    if (
+        window.Scene02Animations
+    ) {
+
+        window.Scene02Animations
+            .init();
+
+    }
+
+
+    startAmbientHum();
+
+
     bootSystem();
 
 }
 
+
+// =========================================================
+// START
+// =========================================================
 
 initScene02();

@@ -10,29 +10,73 @@
 // =========================================================
 
 const lineIncoming =
-    document.querySelector("#line-incoming .typed-text");
+    document.querySelector(
+        "#line-incoming .typed-text"
+    );
 
 const lineVessel =
-    document.querySelector("#line-vessel .typed-text");
+    document.querySelector(
+        "#line-vessel .typed-text"
+    );
 
 const lineOrigin =
-    document.querySelector("#line-origin .typed-text");
+    document.querySelector(
+        "#line-origin .typed-text"
+    );
 
 const lineRegistered =
-    document.querySelector("#line-registered .typed-text");
+    document.querySelector(
+        "#line-registered .typed-text"
+    );
 
 const lineCrew =
-    document.querySelector("#line-crew .typed-text");
+    document.querySelector(
+        "#line-crew .typed-text"
+    );
 
 const lineAwaiting =
-    document.querySelector("#line-awaiting .typed-text");
+    document.querySelector(
+        "#line-awaiting .typed-text"
+    );
 
 
 const acceptButton =
-    document.querySelector("#accept-transmission");
+    document.querySelector(
+        "#accept-transmission"
+    );
 
 const acceptText =
-    document.querySelector("#accept-text");
+    document.querySelector(
+        "#accept-text"
+    );
+
+
+// =========================================================
+// AUDIO
+// =========================================================
+
+const scene01Hum =
+    document.querySelector(
+        "#scene-01-hum"
+    );
+
+
+const scene01Keyboard =
+    document.querySelector(
+        "#scene-01-keyboard"
+    );
+
+
+const scene01Confirm =
+    document.querySelector(
+        "#scene-01-confirm"
+    );
+
+
+const scene01Glitch =
+    document.querySelector(
+        "#scene-01-glitch"
+    );
 
 
 // =========================================================
@@ -117,7 +161,9 @@ const translations = {
 // =========================================================
 
 const savedLanguage =
-    localStorage.getItem("language");
+    localStorage.getItem(
+        "language"
+    );
 
 
 if (
@@ -125,12 +171,11 @@ if (
     savedLanguage === "es"
 ) {
 
-    currentLanguage = savedLanguage;
+    currentLanguage =
+        savedLanguage;
 
 }
 
-
-// Actualizar atributo lang
 
 document.documentElement.lang =
     currentLanguage;
@@ -143,7 +188,9 @@ document.documentElement.lang =
 function updateButtonLanguage() {
 
     acceptText.textContent =
-        translations[currentLanguage].accept;
+        translations[
+            currentLanguage
+        ].accept;
 
 }
 
@@ -155,7 +202,9 @@ updateButtonLanguage();
 // UTILIDAD — ESPERAR
 // =========================================================
 
-function wait(milliseconds) {
+function wait(
+    milliseconds
+) {
 
     return new Promise(
         resolve =>
@@ -164,6 +213,218 @@ function wait(milliseconds) {
                 milliseconds
             )
     );
+
+}
+
+
+// =========================================================
+// AUDIO SEGURO
+// =========================================================
+
+function safePlayAudio(
+    audio,
+    volume = 1
+) {
+
+    if (!audio) {
+        return;
+    }
+
+
+    audio.volume =
+        volume;
+
+
+    audio
+        .play()
+        .catch(
+            () => {}
+        );
+
+}
+
+
+// =========================================================
+// HUM AMBIENTAL
+// =========================================================
+
+function startAmbientHum() {
+
+    if (!scene01Hum) {
+        return;
+    }
+
+
+    /*
+        Lo mantenemos muy bajo.
+
+        No debe competir con el teclado
+        ni con la información de pantalla.
+    */
+
+    scene01Hum.volume =
+        0.07;
+
+
+    scene01Hum
+        .play()
+        .catch(
+            () => {}
+        );
+
+}
+
+
+// =========================================================
+// DESBLOQUEAR HUM
+// =========================================================
+
+function unlockAmbientHum() {
+
+    if (
+        !scene01Hum ||
+        !scene01Hum.paused
+    ) {
+
+        return;
+
+    }
+
+
+    scene01Hum.volume =
+        0.07;
+
+
+    scene01Hum
+        .play()
+        .catch(
+            () => {}
+        );
+
+}
+
+
+// =========================================================
+// TECLADO
+// =========================================================
+
+function startKeyboardSound() {
+
+    if (!scene01Keyboard) {
+        return;
+    }
+
+
+    /*
+        Reiniciamos el loop para que cada
+        línea tenga un inicio ligeramente
+        definido.
+    */
+
+    scene01Keyboard.currentTime =
+        0;
+
+
+    scene01Keyboard.volume =
+        0.16;
+
+
+    scene01Keyboard
+        .play()
+        .catch(
+            () => {}
+        );
+
+}
+
+
+function stopKeyboardSound() {
+
+    if (!scene01Keyboard) {
+        return;
+    }
+
+
+    scene01Keyboard.pause();
+
+    scene01Keyboard.currentTime =
+        0;
+
+}
+
+
+// =========================================================
+// FADE DEL HUM
+// =========================================================
+
+function fadeHumOut(
+    duration = 400
+) {
+
+    if (
+        !scene01Hum ||
+        scene01Hum.paused
+    ) {
+
+        return;
+
+    }
+
+
+    const startVolume =
+        scene01Hum.volume;
+
+
+    const steps =
+        12;
+
+
+    const interval =
+        duration /
+        steps;
+
+
+    let currentStep =
+        0;
+
+
+    const fade =
+        setInterval(
+            () => {
+
+                currentStep++;
+
+
+                scene01Hum.volume =
+                    Math.max(
+                        0,
+                        startVolume *
+                        (
+                            1 -
+                            currentStep /
+                            steps
+                        )
+                    );
+
+
+                if (
+                    currentStep >=
+                    steps
+                ) {
+
+                    clearInterval(
+                        fade
+                    );
+
+
+                    scene01Hum.pause();
+
+                }
+
+            },
+
+            interval
+        );
 
 }
 
@@ -184,7 +445,8 @@ async function typeText(
     } = options;
 
 
-    element.textContent = "";
+    element.textContent =
+        "";
 
 
     /*
@@ -193,21 +455,39 @@ async function typeText(
     */
 
     const line =
-        element.closest(".terminal-line");
+        element.closest(
+            ".terminal-line"
+        );
 
 
     const cursor =
-        line.querySelector(".terminal-cursor");
-
-
-    if (window.Scene01Animations) {
-
-        window.Scene01Animations.showCursor(
-            cursor
+        line.querySelector(
+            ".terminal-cursor"
         );
+
+
+    if (
+        window.Scene01Animations
+    ) {
+
+        window.Scene01Animations
+            .showCursor(
+                cursor
+            );
 
     }
 
+
+    // -----------------------------------------------------
+    // EMPIEZA EL SONIDO DE TECLADO
+    // -----------------------------------------------------
+
+    startKeyboardSound();
+
+
+    // -----------------------------------------------------
+    // ESCRITURA
+    // -----------------------------------------------------
 
     for (
         let i = 0;
@@ -232,8 +512,8 @@ async function typeText(
 
 
         /*
-            Pequeña pausa adicional
-            después de signos de puntuación.
+            Pequeña pausa adicional después
+            de signos de puntuación.
         */
 
         if (
@@ -242,24 +522,39 @@ async function typeText(
             text[i] === ","
         ) {
 
-            delay += 55;
+            delay +=
+                55;
 
         }
 
 
-        await wait(delay);
+        await wait(
+            delay
+        );
 
     }
 
 
-    await wait(120);
+    // -----------------------------------------------------
+    // TERMINA TECLADO
+    // -----------------------------------------------------
+
+    stopKeyboardSound();
 
 
-    if (window.Scene01Animations) {
+    await wait(
+        120
+    );
 
-        window.Scene01Animations.hideCursor(
-            cursor
-        );
+
+    if (
+        window.Scene01Animations
+    ) {
+
+        window.Scene01Animations
+            .hideCursor(
+                cursor
+            );
 
     }
 
@@ -277,7 +572,11 @@ function randomBetween(
 
     return Math.floor(
         Math.random() *
-        (max - min + 1)
+        (
+            max -
+            min +
+            1
+        )
     ) + min;
 
 }
@@ -290,17 +589,23 @@ function randomBetween(
 async function playTerminalSequence() {
 
     /*
-        Primero dejamos respirar la pantalla negra.
+        Primero dejamos respirar
+        la pantalla negra.
     */
 
-    await wait(700);
+    await wait(
+        700
+    );
 
 
     /*
-        El frame aparece antes del texto.
+        El frame aparece antes
+        del texto.
     */
 
-    if (window.Scene01Animations) {
+    if (
+        window.Scene01Animations
+    ) {
 
         await window.Scene01Animations
             .drawTerminalFrame();
@@ -308,7 +613,9 @@ async function playTerminalSequence() {
     }
 
 
-    await wait(350);
+    await wait(
+        350
+    );
 
 
     // -----------------------------------------
@@ -317,7 +624,9 @@ async function playTerminalSequence() {
 
     await typeText(
         lineIncoming,
-        translations[currentLanguage].incoming,
+        translations[
+            currentLanguage
+        ].incoming,
         {
             minSpeed: 28,
             maxSpeed: 60
@@ -325,7 +634,9 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(550);
+    await wait(
+        550
+    );
 
 
     // -----------------------------------------
@@ -334,7 +645,9 @@ async function playTerminalSequence() {
 
     await typeText(
         lineVessel,
-        translations[currentLanguage].vessel,
+        translations[
+            currentLanguage
+        ].vessel,
         {
             minSpeed: 24,
             maxSpeed: 52
@@ -342,7 +655,9 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(650);
+    await wait(
+        650
+    );
 
 
     // -----------------------------------------
@@ -351,7 +666,9 @@ async function playTerminalSequence() {
 
     await typeText(
         lineOrigin,
-        translations[currentLanguage].origin,
+        translations[
+            currentLanguage
+        ].origin,
         {
             minSpeed: 24,
             maxSpeed: 48
@@ -359,7 +676,9 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(180);
+    await wait(
+        180
+    );
 
 
     // -----------------------------------------
@@ -368,7 +687,9 @@ async function playTerminalSequence() {
 
     await typeText(
         lineRegistered,
-        translations[currentLanguage].registered,
+        translations[
+            currentLanguage
+        ].registered,
         {
             minSpeed: 27,
             maxSpeed: 55
@@ -379,18 +700,22 @@ async function playTerminalSequence() {
     /*
         Pausa narrativa importante.
 
-        Aquí queremos que el usuario tenga
-        tiempo de procesar "30 years ago".
+        Dejamos que el usuario procese:
+        "30 years ago".
     */
 
-    await wait(2300);
+    await wait(
+        2300
+    );
 
 
     // -----------------------------------------
     // No record of current crew...
     // -----------------------------------------
 
-    if (window.Scene01Animations) {
+    if (
+        window.Scene01Animations
+    ) {
 
         window.Scene01Animations
             .subtleSystemFlicker();
@@ -400,7 +725,9 @@ async function playTerminalSequence() {
 
     await typeText(
         lineCrew,
-        translations[currentLanguage].crew,
+        translations[
+            currentLanguage
+        ].crew,
         {
             minSpeed: 30,
             maxSpeed: 65
@@ -408,7 +735,9 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(1100);
+    await wait(
+        1100
+    );
 
 
     // -----------------------------------------
@@ -417,7 +746,9 @@ async function playTerminalSequence() {
 
     await typeText(
         lineAwaiting,
-        translations[currentLanguage].awaiting,
+        translations[
+            currentLanguage
+        ].awaiting,
         {
             minSpeed: 25,
             maxSpeed: 52
@@ -425,20 +756,26 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(650);
+    await wait(
+        650
+    );
 
 
     // -----------------------------------------
-    // Mostrar botón
+    // MOSTRAR BOTÓN
     // -----------------------------------------
 
-    sequenceFinished = true;
+    sequenceFinished =
+        true;
 
 
-    acceptButton.disabled = false;
+    acceptButton.disabled =
+        false;
 
 
-    if (window.Scene01Animations) {
+    if (
+        window.Scene01Animations
+    ) {
 
         window.Scene01Animations
             .showAcceptButton();
@@ -464,21 +801,74 @@ function acceptTransmission() {
     }
 
 
-    transitionStarted = true;
+    transitionStarted =
+        true;
 
 
-    acceptButton.disabled = true;
+    acceptButton.disabled =
+        true;
+
+
+    // -----------------------------------------------------
+    // CONFIRMACIÓN
+    // -----------------------------------------------------
+
+    scene01Confirm.currentTime =
+        0;
+
+
+    safePlayAudio(
+        scene01Confirm,
+        0.55
+    );
+
+
+    // -----------------------------------------------------
+    // GLITCH
+    // -----------------------------------------------------
+
+    scene01Glitch.currentTime =
+        0;
 
 
     /*
-        Cambiamos inmediatamente el texto.
+        Lo dejamos bastante alto porque
+        este glitch acompaña directamente
+        el cambio de escena.
     */
 
+    safePlayAudio(
+        scene01Glitch,
+        1
+    );
+
+
+    // -----------------------------------------------------
+    // BAJAR HUM
+    // -----------------------------------------------------
+
+    fadeHumOut(
+        450
+    );
+
+
+    // -----------------------------------------------------
+    // CAMBIO DE TEXTO
+    // -----------------------------------------------------
+
     acceptText.textContent =
-        translations[currentLanguage].accepted;
+        translations[
+            currentLanguage
+        ].accepted;
 
 
-    if (window.Scene01Animations) {
+    // -----------------------------------------------------
+    // TRANSICIÓN
+    // -----------------------------------------------------
+
+    if (
+        window.Scene01Animations
+    ) {
 
         window.Scene01Animations
             .playAcceptedTransition(
@@ -501,17 +891,32 @@ acceptButton.addEventListener(
 
 
 // =========================================================
+// PRIMERA INTERACCIÓN
+// =========================================================
+
+/*
+    Si el navegador no permitió el hum
+    al cargar Scene 01, cualquier primera
+    interacción puede desbloquearlo.
+*/
+
+document.addEventListener(
+    "pointerdown",
+    unlockAmbientHum,
+    {
+        once: true
+    }
+);
+
+
+// =========================================================
 // SIGUIENTE ESCENA
 // =========================================================
 
 function goToNextScene() {
 
     window.location.href =
-    "../scene-02/scene-02.html";
-
-    console.log(
-        "Transmission accepted. Ready for Scene 02."
-    );
+        "../scene-02/scene-02.html";
 
 }
 
@@ -522,16 +927,30 @@ function goToNextScene() {
 
 function initScene01() {
 
-    if (window.Scene01Animations) {
+    if (
+        window.Scene01Animations
+    ) {
 
-        window.Scene01Animations.init();
+        window.Scene01Animations
+            .init();
 
     }
 
+
+    // Ambiente
+
+    startAmbientHum();
+
+
+    // Secuencia narrativa
 
     playTerminalSequence();
 
 }
 
+
+// =========================================================
+// START
+// =========================================================
 
 initScene01();

@@ -132,7 +132,7 @@ const logStatusLabel =
 
 
 // =========================================================
-// ELEMENTOS — AUDIO
+// ELEMENTOS — AUDIO NARRATIVO
 // =========================================================
 
 const corruptedAudioContainer =
@@ -152,6 +152,35 @@ const corruptedAudio =
 
 const audioStatusLabel =
     document.querySelector("#audio-status-label");
+
+
+// =========================================================
+// ELEMENTOS — SFX
+// =========================================================
+
+const scene04Hum =
+    document.querySelector("#scene-04-hum");
+
+const scene04UIClick =
+    document.querySelector("#scene-04-ui-click");
+
+const scene04SystemError =
+    document.querySelector("#scene-04-system-error");
+
+const scene04StaticShort =
+    document.querySelector("#scene-04-static-short");
+
+const scene04StaticLoop =
+    document.querySelector("#scene-04-static-loop");
+
+const scene04Electrical =
+    document.querySelector("#scene-04-electrical");
+
+const scene04MetalBang =
+    document.querySelector("#scene-04-metal-bang");
+
+const scene04Glitch =
+    document.querySelector("#scene-04-glitch");
 
 
 // =========================================================
@@ -720,6 +749,223 @@ function wait(ms) {
 
 
 // =========================================================
+// AUDIO — UTILIDAD
+// =========================================================
+
+function safePlayAudio(
+    audio,
+    volume = 1,
+    restart = true
+) {
+
+    if (!audio) {
+        return;
+    }
+
+
+    if (restart) {
+
+        audio.currentTime =
+            0;
+
+    }
+
+
+    audio.volume =
+        volume;
+
+
+    audio
+        .play()
+        .catch(
+            () => {}
+        );
+
+}
+
+
+// =========================================================
+// AMBIENTE
+// =========================================================
+
+function startScene04Ambience() {
+
+    if (scene04Hum) {
+
+        scene04Hum.volume =
+            0.06;
+
+
+        scene04Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (scene04StaticLoop) {
+
+        scene04StaticLoop.volume =
+            0.035;
+
+
+        scene04StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// DESBLOQUEAR AMBIENTE
+// =========================================================
+
+function unlockScene04Ambience() {
+
+    if (
+        scene04Hum &&
+        scene04Hum.paused
+    ) {
+
+        scene04Hum.volume =
+            0.06;
+
+
+        scene04Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (
+        scene04StaticLoop &&
+        scene04StaticLoop.paused
+    ) {
+
+        scene04StaticLoop.volume =
+            0.035;
+
+
+        scene04StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// BAJAR AMBIENTE DURANTE AUDIO NARRATIVO
+// =========================================================
+
+function lowerAmbienceForDialogue() {
+
+    if (
+        scene04Hum &&
+        !scene04Hum.paused
+    ) {
+
+        scene04Hum.volume =
+            0.025;
+
+    }
+
+
+    if (
+        scene04StaticLoop &&
+        !scene04StaticLoop.paused
+    ) {
+
+        scene04StaticLoop.volume =
+            0.012;
+
+    }
+
+}
+
+
+// =========================================================
+// FADE OUT FINAL
+// =========================================================
+
+function fadeAmbientAudio(
+    audio,
+    duration = 600
+) {
+
+    if (
+        !audio ||
+        audio.paused
+    ) {
+
+        return;
+
+    }
+
+
+    const initialVolume =
+        audio.volume;
+
+
+    const steps =
+        14;
+
+
+    let currentStep =
+        0;
+
+
+    const interval =
+        duration /
+        steps;
+
+
+    const fade =
+        setInterval(
+
+            () => {
+
+                currentStep++;
+
+
+                audio.volume =
+                    Math.max(
+                        0,
+                        initialVolume *
+                        (
+                            1 -
+                            currentStep /
+                            steps
+                        )
+                    );
+
+
+                if (
+                    currentStep >= steps
+                ) {
+
+                    clearInterval(
+                        fade
+                    );
+
+
+                    audio.pause();
+
+                }
+
+            },
+
+            interval
+        );
+
+}
+
+
+// =========================================================
 // ACTUALIZAR IDIOMA
 // =========================================================
 
@@ -799,7 +1045,9 @@ function updateInterfaceLanguage() {
 
 
             description.textContent =
-                text.archiveItems[index];
+                text.archiveItems[
+                    index
+                ];
 
         }
     );
@@ -861,7 +1109,9 @@ async function playSystemLogs() {
         ].systemLogs;
 
 
-    await wait(500);
+    await wait(
+        500
+    );
 
 
     for (
@@ -871,7 +1121,9 @@ async function playSystemLogs() {
     ) {
 
         const element =
-            systemLogElements[i];
+            systemLogElements[
+                i
+            ];
 
 
         element
@@ -879,7 +1131,9 @@ async function playSystemLogs() {
                 ".system-log-text"
             )
             .textContent =
-            text[i];
+                text[
+                    i
+                ];
 
 
         window.Scene04Animations
@@ -889,7 +1143,25 @@ async function playSystemLogs() {
             );
 
 
-        if (i === 1) {
+        // -----------------------------------------
+        // CAMERA CONTROL UNAVAILABLE
+        // -----------------------------------------
+
+        if (
+            i === 1
+        ) {
+
+            safePlayAudio(
+                scene04StaticShort,
+                0.28
+            );
+
+
+            safePlayAudio(
+                scene04Electrical,
+                0.18
+            );
+
 
             window.Scene04Animations
                 .playFeedDisturbance();
@@ -897,7 +1169,19 @@ async function playSystemLogs() {
         }
 
 
-        if (i === 2) {
+        // -----------------------------------------
+        // ARCHIVE INTEGRITY COMPROMISED
+        // -----------------------------------------
+
+        if (
+            i === 2
+        ) {
+
+            safePlayAudio(
+                scene04Electrical,
+                0.32
+            );
+
 
             window.Scene04Animations
                 .playArchiveWarning();
@@ -928,11 +1212,8 @@ function attemptCameraChange(
     button
 ) {
 
-    /*
-        Ninguna cámara cambia.
+    unlockScene04Ambience();
 
-        Siempre permanece CAM 01.
-    */
 
     cameraDeniedAttempts++;
 
@@ -943,14 +1224,6 @@ function attemptCameraChange(
         ];
 
 
-    /*
-        Primer intento:
-        ACCESS DENIED
-
-        Después:
-        CAMERA CONTROL UNAVAILABLE
-    */
-
     const message =
         cameraDeniedAttempts >= 2
             ? text.cameraUnavailable
@@ -960,8 +1233,25 @@ function attemptCameraChange(
     cameraDeniedMessage.textContent =
         message;
 
+
     systemDeniedText.textContent =
         message;
+
+
+    // Error principal
+
+    safePlayAudio(
+        scene04SystemError,
+        0.5
+    );
+
+
+    // Feed intenta responder
+
+    safePlayAudio(
+        scene04StaticShort,
+        0.3
+    );
 
 
     window.Scene04Animations
@@ -975,13 +1265,19 @@ function attemptCameraChange(
 
 
     /*
-        Si insiste varias veces,
-        aumenta un poco la respuesta.
+        Si insiste, el sistema
+        reacciona más agresivamente.
     */
 
     if (
         cameraDeniedAttempts >= 3
     ) {
+
+        safePlayAudio(
+            scene04Glitch,
+            0.55
+        );
+
 
         window.Scene04Animations
             .playAggressiveDeniedGlitch();
@@ -1020,9 +1316,14 @@ cameraButtons.forEach(
 
 function openArchivedLogs() {
 
-    /*
-        ACCESS LOGS sí funciona.
-    */
+    unlockScene04Ambience();
+
+
+    safePlayAudio(
+        scene04UIClick,
+        0.28
+    );
+
 
     archivedLogsModal.setAttribute(
         "aria-hidden",
@@ -1042,23 +1343,40 @@ function openArchivedLogs() {
 
 function closeArchivedLogs() {
 
-    /*
-        Cuando el audio está sonando,
-        el usuario queda atrapado.
-    */
+    if (
+        audioIsPlaying
+    ) {
 
-    if (audioIsPlaying) {
+        safePlayAudio(
+            scene04SystemError,
+            0.5
+        );
+
+
+        safePlayAudio(
+            scene04StaticShort,
+            0.22
+        );
+
 
         window.Scene04Animations
             .playLockedModalFeedback();
+
 
         return;
 
     }
 
 
+    safePlayAudio(
+        scene04UIClick,
+        0.2
+    );
+
+
     window.Scene04Animations
         .closeArchivedLogs(
+
             () => {
 
                 archivedLogsModal
@@ -1068,6 +1386,7 @@ function closeArchivedLogs() {
                     );
 
             }
+
         );
 
 }
@@ -1081,19 +1400,29 @@ function showArchivedLog(
     logNumber
 ) {
 
-    /*
-        Durante el audio no puede
-        cambiar de archivo.
-    */
+    if (
+        audioIsPlaying
+    ) {
 
-    if (audioIsPlaying) {
+        safePlayAudio(
+            scene04SystemError,
+            0.5
+        );
+
 
         window.Scene04Animations
             .playLockedModalFeedback();
 
+
         return;
 
     }
+
+
+    safePlayAudio(
+        scene04UIClick,
+        0.22
+    );
 
 
     const languageData =
@@ -1108,19 +1437,18 @@ function showArchivedLog(
         ];
 
 
-    if (!log) {
+    if (
+        !log
+    ) {
+
         return;
+
     }
 
 
     currentOpenLog =
         logNumber;
 
-
-    /*
-        Reiniciamos audio si veníamos
-        de LOG_08 y cambiamos de archivo.
-    */
 
     corruptedAudio.pause();
 
@@ -1131,12 +1459,14 @@ function showArchivedLog(
     logDetailsPlaceholder.style.display =
         "none";
 
+
     logDetailsContent.style.display =
         "block";
 
 
     logDateLabel.textContent =
         languageData.labels.date;
+
 
     logStatusLabel.textContent =
         languageData.labels.status;
@@ -1145,11 +1475,14 @@ function showArchivedLog(
     selectedLogId.textContent =
         log.id;
 
+
     selectedLogTitle.textContent =
         log.title;
 
+
     selectedLogDate.textContent =
         log.date;
+
 
     selectedLogStatus.textContent =
         log.status;
@@ -1160,7 +1493,7 @@ function showArchivedLog(
 
 
     log.body.forEach(
-        (line, index) => {
+        line => {
 
             const paragraph =
                 document.createElement(
@@ -1171,11 +1504,6 @@ function showArchivedLog(
             paragraph.textContent =
                 line;
 
-
-            /*
-                Los datos extraños reciben
-                styling de corrupción.
-            */
 
             if (
                 log.corrupted ||
@@ -1201,17 +1529,15 @@ function showArchivedLog(
     );
 
 
-    /*
-        Solo LOG_08 tiene audio.
-    */
-
     corruptedAudioContainer.style.display =
         log.audio
             ? "block"
             : "none";
 
 
-    if (log.audio) {
+    if (
+        log.audio
+    ) {
 
         corruptedAudioText.textContent =
             audioHasPlayed
@@ -1225,10 +1551,58 @@ function showArchivedLog(
     }
 
 
+    // -----------------------------------------
+    // LOGS CON DISTINTA INTENSIDAD
+    // -----------------------------------------
+
+    if (
+        logNumber === "06"
+    ) {
+
+        safePlayAudio(
+            scene04StaticShort,
+            0.18
+        );
+
+    }
+
+
+    if (
+        logNumber === "07"
+    ) {
+
+        safePlayAudio(
+            scene04Electrical,
+            0.22
+        );
+
+    }
+
+
+    if (
+        logNumber === "08"
+    ) {
+
+        safePlayAudio(
+            scene04StaticShort,
+            0.38
+        );
+
+
+        safePlayAudio(
+            scene04Electrical,
+            0.28
+        );
+
+    }
+
+
     window.Scene04Animations
         .showArchivedLogContent(
             logDetailsContent,
-            Boolean(log.corrupted),
+            Boolean(
+                log.corrupted
+            ),
             logNumber
         );
 
@@ -1264,11 +1638,22 @@ archivedLogItems.forEach(
 
 function playCorruptedAudio() {
 
-    if (audioIsPlaying) {
+    if (
+        audioIsPlaying
+    ) {
+
+        safePlayAudio(
+            scene04SystemError,
+            0.4
+        );
+
 
         return;
 
     }
+
+
+    unlockScene04Ambience();
 
 
     audioIsPlaying =
@@ -1281,10 +1666,21 @@ function playCorruptedAudio() {
         ].playingAudio;
 
 
+    // Click al iniciar
+
+    safePlayAudio(
+        scene04UIClick,
+        0.28
+    );
+
+
     /*
-        Visualmente hacemos evidente que
-        el sistema tomó control.
+        Bajamos el ambiente para que
+        el diálogo narrativo tenga prioridad.
     */
+
+    lowerAmbienceForDialogue();
+
 
     closeLogsButton.classList.add(
         "audio-locked"
@@ -1314,15 +1710,14 @@ function playCorruptedAudio() {
         0;
 
 
+    corruptedAudio.volume =
+        0.88;
+
+
     corruptedAudio
         .play()
         .catch(
             () => {
-
-                /*
-                    Si aún no tenemos asset,
-                    no dejamos atrapado al usuario.
-                */
 
                 audioIsPlaying =
                     false;
@@ -1343,6 +1738,31 @@ function playCorruptedAudio() {
 
                 window.Scene04Animations
                     .stopAudioVisualization();
+
+
+                /*
+                    Si falla el asset,
+                    restauramos el ambiente.
+                */
+
+                if (
+                    scene04Hum
+                ) {
+
+                    scene04Hum.volume =
+                        0.06;
+
+                }
+
+
+                if (
+                    scene04StaticLoop
+                ) {
+
+                    scene04StaticLoop.volume =
+                        0.035;
+
+                }
 
             }
         );
@@ -1390,17 +1810,14 @@ corruptedAudioButton.addEventListener(
 
 function createAudioDistortion() {
 
-    if (!audioIsPlaying) {
+    if (
+        !audioIsPlaying
+    ) {
 
         return;
 
     }
 
-
-    /*
-        Distorsión suave.
-        No debe destruir la inteligibilidad.
-    */
 
     const playbackRates = [
 
@@ -1424,7 +1841,7 @@ function createAudioDistortion() {
 
 
     /*
-        Pequeña caída ocasional.
+        Caída pequeña de volumen.
     */
 
     if (
@@ -1435,13 +1852,21 @@ function createAudioDistortion() {
             0.48;
 
 
+        safePlayAudio(
+            scene04StaticShort,
+            0.14
+        );
+
+
         setTimeout(
             () => {
 
-                if (audioIsPlaying) {
+                if (
+                    audioIsPlaying
+                ) {
 
                     corruptedAudio.volume =
-                        1;
+                        0.88;
 
                 }
 
@@ -1454,9 +1879,21 @@ function createAudioDistortion() {
 
 
     /*
-        Sincronizamos pequeños glitches
-        visuales con algunas alteraciones.
+        Algunas distorsiones también
+        producen interferencia eléctrica.
     */
+
+    if (
+        Math.random() > 0.72
+    ) {
+
+        safePlayAudio(
+            scene04Electrical,
+            0.12
+        );
+
+    }
+
 
     if (
         Math.random() > 0.62
@@ -1472,7 +1909,8 @@ function createAudioDistortion() {
         createAudioDistortion,
 
         700 +
-        Math.random() * 1200
+        Math.random() *
+        1200
     );
 
 }
@@ -1505,12 +1943,14 @@ corruptedAudio.addEventListener(
         audioIsPlaying =
             false;
 
+
         audioHasPlayed =
             true;
 
 
         corruptedAudio.playbackRate =
             1;
+
 
         corruptedAudio.volume =
             1;
@@ -1523,18 +1963,17 @@ corruptedAudio.addEventListener(
 
 
         /*
-            El audio terminó, pero no devolvemos
-            el control al usuario.
-
-            Desde aquí el sistema toma control
-            y comienza la transición.
+            Desde este momento
+            el sistema toma control.
         */
 
         corruptedAudioButton.disabled =
             true;
 
+
         closeLogsButton.disabled =
             true;
+
 
         accessLogsButton.disabled =
             true;
@@ -1564,17 +2003,78 @@ corruptedAudio.addEventListener(
             .stopAudioVisualization();
 
 
+        // -----------------------------------------
+        // SILENCIO / IMPACTO
+        // -----------------------------------------
+
+        await wait(
+            160
+        );
+
+
         /*
-            Glitch final.
+            Un solo golpe metálico.
+
+            No lo usamos aleatoriamente
+            para que conserve peso.
+        */
+
+        safePlayAudio(
+            scene04MetalBang,
+            0.58
+        );
+
+
+        await wait(
+            180
+        );
+
+
+        // -----------------------------------------
+        // COLAPSO
+        // -----------------------------------------
+
+        safePlayAudio(
+            scene04Electrical,
+            0.4
+        );
+
+
+        safePlayAudio(
+            scene04Glitch,
+            0.9
+        );
+
+
+        safePlayAudio(
+            scene04StaticShort,
+            0.5
+        );
+
+
+        /*
+            Desaparece el ambiente.
+        */
+
+        fadeAmbientAudio(
+            scene04Hum,
+            650
+        );
+
+
+        fadeAmbientAudio(
+            scene04StaticLoop,
+            550
+        );
+
+
+        /*
+            Glitch visual final.
         */
 
         await window.Scene04Animations
             .playScene05Transition();
 
-
-        /*
-            Entrar a Scene 05.
-        */
 
         window.location.href =
             "../scene-05/scene-05.html";
@@ -1651,6 +2151,21 @@ document.addEventListener(
 
 
 // =========================================================
+// PRIMERA INTERACCIÓN
+// =========================================================
+
+document.addEventListener(
+    "pointerdown",
+
+    unlockScene04Ambience,
+
+    {
+        once: true
+    }
+);
+
+
+// =========================================================
 // INIT
 // =========================================================
 
@@ -1664,6 +2179,14 @@ async function initScene04() {
 
     window.Scene04Animations
         .init();
+
+
+    /*
+        Intentamos iniciar ambiente desde
+        que entra la escena.
+    */
+
+    startScene04Ambience();
 
 
     await window.Scene04Animations
