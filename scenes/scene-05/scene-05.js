@@ -260,7 +260,7 @@ const assets = {
         "../../assets/video/VIDEO_02.mp4",
 
     image01:
-        "../../assets/images/image-01.jpg"
+        "../../assets/images/image-01.png"
 
 };
 
