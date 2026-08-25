@@ -32,27 +32,61 @@ const denyMessage04 =
     );
 
 
+// =========================================================
+// AUDIO — SFX
+// =========================================================
+
 const endingHum =
     document.querySelector(
         "#ending-hum"
     );
 
 
-const endingCorruption =
+const endingStatic =
     document.querySelector(
-        "#ending-corruption"
+        "#ending-static"
     );
 
 
-const welcomeImpact =
+const endingRumble =
     document.querySelector(
-        "#welcome-impact"
+        "#ending-rumble"
     );
 
 
-const endingWarning =
+const endingSystemError =
     document.querySelector(
-        "#ending-warning"
+        "#ending-system-error"
+    );
+
+
+const endingGlitchMedium =
+    document.querySelector(
+        "#ending-glitch-medium"
+    );
+
+
+const endingGlitchStrong =
+    document.querySelector(
+        "#ending-glitch-strong"
+    );
+
+
+const endingElectrical =
+    document.querySelector(
+        "#ending-electrical"
+    );
+
+
+const endingLowImpact =
+    document.querySelector(
+        "#ending-low-impact"
+    );
+
+
+const endingWhiteoutRiser =
+    document.querySelector(
+        "#ending-whiteout-riser"
     );
 
 
@@ -60,7 +94,8 @@ const endingWarning =
 // STATE
 // =========================================================
 
-let currentLanguage = "en";
+let currentLanguage =
+    "en";
 
 
 // =========================================================
@@ -153,7 +188,8 @@ function wait(ms) {
 
 function safePlayAudio(
     audio,
-    volume = 1
+    volume = 1,
+    restart = true
 ) {
 
     if (!audio) {
@@ -161,8 +197,12 @@ function safePlayAudio(
     }
 
 
-    audio.currentTime =
-        0;
+    if (restart) {
+
+        audio.currentTime =
+            0;
+
+    }
 
 
     audio.volume =
@@ -171,9 +211,57 @@ function safePlayAudio(
 
     audio
         .play()
-        .catch(
-            () => {}
-        );
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// START AMBIENCE
+// =========================================================
+
+function startEndingAmbience() {
+
+    /*
+        Al inicio todavía existe la
+        ilusión de que DENY funcionó.
+    */
+
+    if (endingHum) {
+
+        endingHum.volume =
+            0.025;
+
+
+        endingHum
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// UNLOCK AMBIENCE
+// =========================================================
+
+function unlockEndingAmbience() {
+
+    if (
+        endingHum &&
+        endingHum.paused
+    ) {
+
+        endingHum.volume =
+            0.025;
+
+
+        endingHum
+            .play()
+            .catch(() => {});
+
+    }
 
 }
 
@@ -216,6 +304,7 @@ function fadeAudioOut(
 
     const fade =
         setInterval(
+
             () => {
 
                 currentStep++;
@@ -294,47 +383,32 @@ function applyText() {
 
 async function runDenyEnding() {
 
-
-    // -----------------------------------------------------
+    // =====================================================
     // APPLY TEXT
-    // -----------------------------------------------------
+    // =====================================================
 
     applyText();
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // INITIAL SILENCE
-    // -----------------------------------------------------
+    // =====================================================
 
     await wait(
         600
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // LOW HUM
-    // -----------------------------------------------------
+    // =====================================================
 
-    if (
-        endingHum
-    ) {
-
-        endingHum.volume =
-            0.1;
+    startEndingAmbience();
 
 
-        endingHum
-            .play()
-            .catch(
-                () => {}
-            );
-
-    }
-
-
-    // -----------------------------------------------------
+    // =====================================================
     // FRAME APPEARS
-    // -----------------------------------------------------
+    // =====================================================
 
     await window.Scene10Animations
         .playSceneEntry();
@@ -345,9 +419,21 @@ async function runDenyEnding() {
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // WHAT MAKES YOU THINK...
-    // -----------------------------------------------------
+    // =====================================================
+
+    /*
+        Primera revelación.
+
+        Golpe grave, pero sin glitch todavía.
+    */
+
+    safePlayAudio(
+        endingLowImpact,
+        0.58
+    );
+
 
     await window.Scene10Animations
         .showDenyMessage(
@@ -356,34 +442,44 @@ async function runDenyEnding() {
         );
 
 
-    await wait(
-        1600
-    );
-
-
-    // -----------------------------------------------------
-    // CREW WARNING / AUDIO TEST
-    // -----------------------------------------------------
-
-    safePlayAudio(
-        endingWarning,
-        0.62
-    );
-
-
     /*
-        Same timing and playback logic
-        as the Authorize ending.
+        Dejamos respirar la frase.
     */
 
     await wait(
-        3000
+        1800
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // ACCESS GRANTED...
-    // -----------------------------------------------------
+    // =====================================================
+
+    /*
+        Aquí confirmamos que el botón DENY
+        fue ignorado.
+
+        Por primera vez usamos system-error.
+    */
+
+    safePlayAudio(
+        endingSystemError,
+        0.55
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                endingGlitchMedium,
+                0.55
+            );
+
+        },
+        90
+    );
+
 
     await window.Scene10Animations
         .showDenyMessage(
@@ -397,9 +493,27 @@ async function runDenyEnding() {
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // INTEGRATION COMPLETE
-    // -----------------------------------------------------
+    // =====================================================
+
+    /*
+        La integración empieza.
+
+        El ambiente corrupto entra aquí.
+    */
+
+    safePlayAudio(
+        endingElectrical,
+        0.35
+    );
+
+
+    safePlayAudio(
+        endingGlitchMedium,
+        0.62
+    );
+
 
     await window.Scene10Animations
         .showDenyMessage(
@@ -408,9 +522,9 @@ async function runDenyEnding() {
         );
 
 
-    // -----------------------------------------------------
-    // FIRST CORRUPTION
-    // -----------------------------------------------------
+    // =====================================================
+    // CORRUPTION LEVEL 1
+    // =====================================================
 
     window.Scene10Animations
         .setCorruptionLevel(
@@ -418,18 +532,61 @@ async function runDenyEnding() {
         );
 
 
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.035;
+
+
+        endingStatic
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.035;
+
+
+        endingRumble
+            .play()
+            .catch(() => {});
+
+    }
+
+
     await wait(
         1400
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // WELCOME BACK.
-    // -----------------------------------------------------
+    // =====================================================
+
+    /*
+        Momento más pesado del final DENY.
+    */
 
     safePlayAudio(
-        welcomeImpact,
-        0.45
+        endingLowImpact,
+        0.82
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                endingGlitchStrong,
+                0.72
+            );
+
+        },
+        90
     );
 
 
@@ -440,14 +597,41 @@ async function runDenyEnding() {
         );
 
 
+    /*
+        El rumble se vuelve claramente
+        perceptible después de la frase.
+    */
+
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.06;
+
+    }
+
+
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.055;
+
+    }
+
+
     await wait(
         1800
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // CORRUPTION LEVEL 2
-    // -----------------------------------------------------
+    // =====================================================
+
+    safePlayAudio(
+        endingGlitchMedium,
+        0.68
+    );
+
 
     window.Scene10Animations
         .setCorruptionLevel(
@@ -455,18 +639,47 @@ async function runDenyEnding() {
         );
 
 
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.07;
+
+    }
+
+
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.07;
+
+    }
+
+
     await wait(
         800
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // CORRUPTION LEVEL 3
-    // -----------------------------------------------------
+    // =====================================================
 
     safePlayAudio(
-        endingCorruption,
-        0.3
+        endingGlitchStrong,
+        0.85
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                endingElectrical,
+                0.4
+            );
+
+        },
+        100
     );
 
 
@@ -476,14 +689,42 @@ async function runDenyEnding() {
         );
 
 
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.085;
+
+    }
+
+
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.085;
+
+    }
+
+
     await wait(
         850
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // CORRUPTION LEVEL 4
-    // -----------------------------------------------------
+    // =====================================================
+
+    safePlayAudio(
+        endingGlitchStrong,
+        1
+    );
+
+
+    safePlayAudio(
+        endingElectrical,
+        0.48
+    );
+
 
     window.Scene10Animations
         .setCorruptionLevel(
@@ -491,64 +732,102 @@ async function runDenyEnding() {
         );
 
 
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.11;
+
+    }
+
+
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.11;
+
+    }
+
+
     await wait(
         700
     );
 
 
-    // -----------------------------------------------------
-    // FADE AUDIO
-    // -----------------------------------------------------
+    // =====================================================
+    // FINAL WHITEOUT
+    // =====================================================
+
+    /*
+        Riser sincronizado con
+        playFinalWhiteout().
+    */
+
+    safePlayAudio(
+        endingWhiteoutRiser,
+        0.9
+    );
+
+
+    safePlayAudio(
+        endingGlitchStrong,
+        0.9
+    );
+
 
     fadeAudioOut(
         endingHum,
-        900
+        700
     );
 
 
     fadeAudioOut(
-        endingCorruption,
-        800
+        endingStatic,
+        850
     );
 
 
     fadeAudioOut(
-        endingWarning,
-        500
+        endingRumble,
+        1000
     );
 
-
-    fadeAudioOut(
-        welcomeImpact,
-        500
-    );
-
-
-    // -----------------------------------------------------
-    // FINAL WHITEOUT
-    // -----------------------------------------------------
 
     await window.Scene10Animations
         .playFinalWhiteout();
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // HOLD ON WHITE
-    // -----------------------------------------------------
+    // =====================================================
 
     await wait(
         2500
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // RETURN TO START
-    // -----------------------------------------------------
+    // =====================================================
 
     window.location.href =
         "../../index.html";
 
 }
+
+
+// =========================================================
+// FIRST INTERACTION
+// =========================================================
+
+document.addEventListener(
+    "pointerdown",
+
+    unlockEndingAmbience,
+
+    {
+        once: true
+    }
+);
 
 
 // =========================================================

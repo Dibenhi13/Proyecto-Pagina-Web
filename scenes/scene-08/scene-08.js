@@ -24,14 +24,44 @@ const finalFragmentText =
         "#final-fragment-text"
     );
 
-const collapseAmbience =
+
+// =========================================================
+// AUDIO — SFX
+// =========================================================
+
+const scene08StaticLoop =
     document.querySelector(
-        "#collapse-ambience"
+        "#scene-08-static-loop"
     );
 
-const collapseImpact =
+const scene08GlitchMedium =
     document.querySelector(
-        "#collapse-impact"
+        "#scene-08-glitch-medium"
+    );
+
+const scene08GlitchStrong =
+    document.querySelector(
+        "#scene-08-glitch-strong"
+    );
+
+const scene08DeepRumble =
+    document.querySelector(
+        "#scene-08-deep-rumble"
+    );
+
+const scene08Electrical =
+    document.querySelector(
+        "#scene-08-electrical"
+    );
+
+const scene08SignalLost =
+    document.querySelector(
+        "#scene-08-signal-lost"
+    );
+
+const scene08LowImpact =
+    document.querySelector(
+        "#scene-08-low-impact"
     );
 
 
@@ -249,7 +279,9 @@ function wait(ms) {
 // =========================================================
 
 function safePlayAudio(
-    audio
+    audio,
+    volume = 1,
+    restart = true
 ) {
 
     if (!audio) {
@@ -257,15 +289,168 @@ function safePlayAudio(
     }
 
 
-    audio.currentTime =
-        0;
+    if (restart) {
+
+        audio.currentTime =
+            0;
+
+    }
+
+
+    audio.volume =
+        volume;
 
 
     audio
         .play()
-        .catch(
-            () => {}
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// FADE AUDIO
+// =========================================================
+
+function fadeAmbientAudio(
+    audio,
+    duration = 600
+) {
+
+    if (
+        !audio ||
+        audio.paused
+    ) {
+
+        return;
+
+    }
+
+
+    const startVolume =
+        audio.volume;
+
+    const steps =
+        14;
+
+    let currentStep =
+        0;
+
+    const interval =
+        duration / steps;
+
+
+    const fade =
+        setInterval(
+
+            () => {
+
+                currentStep++;
+
+
+                audio.volume =
+                    Math.max(
+                        0,
+                        startVolume *
+                        (
+                            1 -
+                            currentStep /
+                            steps
+                        )
+                    );
+
+
+                if (
+                    currentStep >=
+                    steps
+                ) {
+
+                    clearInterval(
+                        fade
+                    );
+
+                    audio.pause();
+
+                }
+
+            },
+
+            interval
         );
+
+}
+
+
+// =========================================================
+// AMBIENTE INICIAL
+// =========================================================
+
+function startScene08Ambience() {
+
+    if (scene08StaticLoop) {
+
+        scene08StaticLoop.volume =
+            0.08;
+
+
+        scene08StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (scene08DeepRumble) {
+
+        scene08DeepRumble.volume =
+            0.04;
+
+
+        scene08DeepRumble
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// DESBLOQUEAR AMBIENTE
+// =========================================================
+
+function unlockScene08Ambience() {
+
+    if (
+        scene08StaticLoop &&
+        scene08StaticLoop.paused
+    ) {
+
+        scene08StaticLoop.volume =
+            0.08;
+
+
+        scene08StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (
+        scene08DeepRumble &&
+        scene08DeepRumble.paused
+    ) {
+
+        scene08DeepRumble.volume =
+            0.04;
+
+
+        scene08DeepRumble
+            .play()
+            .catch(() => {});
+
+    }
 
 }
 
@@ -350,10 +535,8 @@ function applyInitialPositions() {
 async function runCollapseSequence() {
 
     /*
-        Scene 07 acaba de romperse.
-
-        Scene 08 entra inmediatamente,
-        pero todavía con capas parciales.
+        Scene 07 colapsó y entramos
+        todavía con residuos del glitch.
     */
 
     await wait(
@@ -362,29 +545,26 @@ async function runCollapseSequence() {
 
 
     // -----------------------------------------------------
-    // AMBIENTE
+    // AMBIENTE BASE
     // -----------------------------------------------------
 
-    if (
-        collapseAmbience
-    ) {
-
-        collapseAmbience.volume =
-            0.34;
-
-
-        collapseAmbience
-            .play()
-            .catch(
-                () => {}
-            );
-
-    }
+    startScene08Ambience();
 
 
     // -----------------------------------------------------
     // PRIMERA CAPA
     // -----------------------------------------------------
+
+    /*
+        Primer nivel de contaminación.
+        SFX sincronizado con setCollapseLevel(1).
+    */
+
+    safePlayAudio(
+        scene08GlitchMedium,
+        0.45
+    );
+
 
     window.Scene08Animations
         .setCollapseLevel(1);
@@ -406,6 +586,12 @@ async function runCollapseSequence() {
     // GHOST UI
     // -----------------------------------------------------
 
+    safePlayAudio(
+        scene08Electrical,
+        0.2
+    );
+
+
     window.Scene08Animations
         .showGhostUI();
 
@@ -418,6 +604,32 @@ async function runCollapseSequence() {
     // -----------------------------------------------------
     // SEGUNDA CAPA
     // -----------------------------------------------------
+
+    /*
+        Subimos static y rumble.
+    */
+
+    if (scene08StaticLoop) {
+
+        scene08StaticLoop.volume =
+            0.1;
+
+    }
+
+
+    if (scene08DeepRumble) {
+
+        scene08DeepRumble.volume =
+            0.05;
+
+    }
+
+
+    safePlayAudio(
+        scene08GlitchMedium,
+        0.62
+    );
+
 
     window.Scene08Animations
         .setCollapseLevel(2);
@@ -439,6 +651,12 @@ async function runCollapseSequence() {
     // FRASES GRANDES RESIDUALES
     // -----------------------------------------------------
 
+    safePlayAudio(
+        scene08LowImpact,
+        0.35
+    );
+
+
     window.Scene08Animations
         .showGhostMessages();
 
@@ -452,6 +670,33 @@ async function runCollapseSequence() {
     // TERCERA CAPA
     // -----------------------------------------------------
 
+    if (scene08StaticLoop) {
+
+        scene08StaticLoop.volume =
+            0.11;
+
+    }
+
+
+    if (scene08DeepRumble) {
+
+        scene08DeepRumble.volume =
+            0.06;
+
+    }
+
+
+    /*
+        Aquí ya se siente el sistema
+        verdaderamente contaminado.
+    */
+
+    safePlayAudio(
+        scene08GlitchStrong,
+        0.72
+    );
+
+
     window.Scene08Animations
         .setCollapseLevel(3);
 
@@ -464,12 +709,25 @@ async function runCollapseSequence() {
 
 
     /*
-        Aquí los textos ya empiezan
-        a teletransportarse.
+        Desde aquí empiezan a saltar
+        los fragmentos por la pantalla.
     */
 
     window.Scene08Animations
         .enableFragmentTeleporting();
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                scene08Electrical,
+                0.26
+            );
+
+        },
+        160
+    );
 
 
     await wait(
@@ -480,6 +738,12 @@ async function runCollapseSequence() {
     // -----------------------------------------------------
     // FRAGMENTOS TRUNCADOS
     // -----------------------------------------------------
+
+    safePlayAudio(
+        scene08SignalLost,
+        0.28
+    );
+
 
     await window.Scene08Animations
         .revealFragmentGroup(
@@ -497,13 +761,53 @@ async function runCollapseSequence() {
     // COLAPSO FUERTE
     // -----------------------------------------------------
 
-    window.Scene08Animations
-        .setCollapseLevel(4);
+    /*
+        Pico de contaminación visual.
+    */
+
+    if (scene08StaticLoop) {
+
+        scene08StaticLoop.volume =
+            0.14;
+
+    }
+
+
+    if (scene08DeepRumble) {
+
+        scene08DeepRumble.volume =
+            0.08;
+
+    }
 
 
     safePlayAudio(
-        collapseImpact
+        scene08LowImpact,
+        0.65
     );
+
+
+    safePlayAudio(
+        scene08GlitchStrong,
+        1
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                scene08Electrical,
+                0.42
+            );
+
+        },
+        100
+    );
+
+
+    window.Scene08Animations
+        .setCollapseLevel(4);
 
 
     await wait(
@@ -514,6 +818,12 @@ async function runCollapseSequence() {
     // -----------------------------------------------------
     // BORRADO PROGRESIVO
     // -----------------------------------------------------
+
+    safePlayAudio(
+        scene08SignalLost,
+        0.42
+    );
+
 
     await window.Scene08Animations
         .beginFragmentDecay();
@@ -531,6 +841,34 @@ async function runCollapseSequence() {
     finalFragment.setAttribute(
         "aria-hidden",
         "false"
+    );
+
+
+    if (scene08StaticLoop) {
+
+        scene08StaticLoop.volume =
+            0.16;
+
+    }
+
+
+    if (scene08DeepRumble) {
+
+        scene08DeepRumble.volume =
+            0.1;
+
+    }
+
+
+    safePlayAudio(
+        scene08LowImpact,
+        0.8
+    );
+
+
+    safePlayAudio(
+        scene08GlitchStrong,
+        0.9
     );
 
 
@@ -571,41 +909,52 @@ async function startScene09Transition() {
         true;
 
 
-    if (
-        collapseAmbience
-    ) {
+    /*
+        Último corte antes de la escena limpia.
+    */
 
-        const fadeAudio =
-            setInterval(
-                () => {
-
-                    collapseAmbience.volume =
-                        Math.max(
-                            0,
-                            collapseAmbience.volume -
-                            0.04
-                        );
+    safePlayAudio(
+        scene08SignalLost,
+        0.75
+    );
 
 
-                    if (
-                        collapseAmbience.volume <= 0
-                    ) {
+    setTimeout(
+        () => {
 
-                        clearInterval(
-                            fadeAudio
-                        );
-
-
-                        collapseAmbience.pause();
-
-                    }
-
-                },
-
-                50
+            safePlayAudio(
+                scene08GlitchStrong,
+                1
             );
 
-    }
+        },
+        70
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                scene08Electrical,
+                0.5
+            );
+
+        },
+        120
+    );
+
+
+    fadeAmbientAudio(
+        scene08StaticLoop,
+        450
+    );
+
+
+    fadeAmbientAudio(
+        scene08DeepRumble,
+        500
+    );
 
 
     await window.Scene08Animations
@@ -616,6 +965,21 @@ async function startScene09Transition() {
         "../scene-09/scene-09.html";
 
 }
+
+
+// =========================================================
+// PRIMERA INTERACCIÓN
+// =========================================================
+
+document.addEventListener(
+    "pointerdown",
+
+    unlockScene08Ambience,
+
+    {
+        once: true
+    }
+);
 
 
 // =========================================================

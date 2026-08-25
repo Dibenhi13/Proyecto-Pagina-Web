@@ -96,14 +96,32 @@ const controlMessage03 =
 
 
 // =========================================================
-// AUDIO
+// SFX
 // =========================================================
 
-const responseImpactAudio =
-    document.querySelector("#response-impact-audio");
+const scene07Hum =
+    document.querySelector("#scene-07-hum");
 
-const sceneCorruptionAudio =
-    document.querySelector("#scene-corruption-audio");
+const scene07UIClick =
+    document.querySelector("#scene-07-ui-click");
+
+const scene07SystemError =
+    document.querySelector("#scene-07-system-error");
+
+const scene07LowImpact =
+    document.querySelector("#scene-07-low-impact");
+
+const scene07Electrical =
+    document.querySelector("#scene-07-electrical");
+
+const scene07GlitchMedium =
+    document.querySelector("#scene-07-glitch-medium");
+
+const scene07GlitchStrong =
+    document.querySelector("#scene-07-glitch-strong");
+
+const scene07DeepRumble =
+    document.querySelector("#scene-07-deep-rumble");
 
 
 // =========================================================
@@ -276,11 +294,13 @@ function applyLanguage() {
 
 
 // =========================================================
-// REPRODUCIR AUDIO DE FORMA SEGURA
+// AUDIO — UTILIDAD
 // =========================================================
 
 function safePlayAudio(
-    audio
+    audio,
+    volume = 1,
+    restart = true
 ) {
 
     if (!audio) {
@@ -288,14 +308,175 @@ function safePlayAudio(
     }
 
 
-    audio.currentTime =
-        0;
+    if (restart) {
+
+        audio.currentTime =
+            0;
+
+    }
+
+
+    audio.volume =
+        volume;
 
 
     audio
         .play()
-        .catch(
-            () => {}
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// AMBIENTE INICIAL
+// =========================================================
+
+function startScene07Ambience() {
+
+    /*
+        Scene 07 debe sentirse MUCHO
+        más vacía que Scene 06.
+    */
+
+    if (scene07Hum) {
+
+        scene07Hum.volume =
+            0.018;
+
+
+        scene07Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (scene07DeepRumble) {
+
+        scene07DeepRumble.volume =
+            0.012;
+
+
+        scene07DeepRumble
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// DESBLOQUEAR AMBIENTE
+// =========================================================
+
+function unlockScene07Ambience() {
+
+    if (
+        scene07Hum &&
+        scene07Hum.paused
+    ) {
+
+        scene07Hum.volume =
+            0.018;
+
+
+        scene07Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (
+        scene07DeepRumble &&
+        scene07DeepRumble.paused
+    ) {
+
+        scene07DeepRumble.volume =
+            0.012;
+
+
+        scene07DeepRumble
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// FADE AUDIO
+// =========================================================
+
+function fadeAmbientAudio(
+    audio,
+    duration = 600
+) {
+
+    if (
+        !audio ||
+        audio.paused
+    ) {
+
+        return;
+
+    }
+
+
+    const startVolume =
+        audio.volume;
+
+
+    const steps =
+        14;
+
+
+    let step =
+        0;
+
+
+    const interval =
+        duration / steps;
+
+
+    const fade =
+        setInterval(
+
+            () => {
+
+                step++;
+
+
+                audio.volume =
+                    Math.max(
+                        0,
+                        startVolume *
+                        (
+                            1 -
+                            step / steps
+                        )
+                    );
+
+
+                if (
+                    step >= steps
+                ) {
+
+                    clearInterval(
+                        fade
+                    );
+
+
+                    audio.pause();
+
+                }
+
+            },
+
+            interval
+
         );
 
 }
@@ -312,10 +493,9 @@ async function playOpeningMessages() {
 
 
     /*
-        La Scene 06 acaba en caos.
-
-        Aquí dejamos un pequeño vacío
-        para que el silencio se sienta.
+        Venimos de Scene 06.
+        Dejamos vacío para que el
+        cambio de tono sea evidente.
     */
 
     await wait(
@@ -323,9 +503,9 @@ async function playOpeningMessages() {
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // MENSAJE 01
-    // -----------------------------------------------------
+    // =====================================================
 
     message01.textContent =
         text.messages[0];
@@ -338,17 +518,34 @@ async function playOpeningMessages() {
         );
 
 
+    /*
+        Sin golpe fuerte.
+        Queremos que la primera frase
+        se sienta demasiado tranquila.
+    */
+
     await wait(
         1100
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // MENSAJE 02
-    // -----------------------------------------------------
+    // =====================================================
 
     message02.textContent =
         text.messages[1];
+
+
+    /*
+        Pequeña interferencia antes del
+        segundo mensaje.
+    */
+
+    safePlayAudio(
+        scene07Electrical,
+        0.16
+    );
 
 
     await window.Scene07Animations
@@ -363,12 +560,23 @@ async function playOpeningMessages() {
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // MENSAJE 03
-    // -----------------------------------------------------
+    // =====================================================
 
     message03.textContent =
         text.messages[2];
+
+
+    /*
+        Esta frase es la revelación
+        importante de la apertura.
+    */
+
+    safePlayAudio(
+        scene07LowImpact,
+        0.48
+    );
 
 
     await window.Scene07Animations
@@ -379,18 +587,24 @@ async function playOpeningMessages() {
 
 
     /*
-        Dejamos respirar esta frase
-        porque es la más inquietante.
+        El glitch visual de este mensaje
+        recibe un glitch sonoro sutil.
     */
+
+    safePlayAudio(
+        scene07GlitchMedium,
+        0.38
+    );
+
 
     await wait(
         1500
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // DIVIDER
-    // -----------------------------------------------------
+    // =====================================================
 
     await window.Scene07Animations
         .showDivider();
@@ -401,9 +615,9 @@ async function playOpeningMessages() {
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // QUESTIONS
-    // -----------------------------------------------------
+    // =====================================================
 
     await window.Scene07Animations
         .showQuestions();
@@ -446,6 +660,9 @@ async function selectQuestion(
     }
 
 
+    unlockScene07Ambience();
+
+
     questionSelected =
         true;
 
@@ -455,9 +672,14 @@ async function selectQuestion(
 
 
     /*
-        Inmediatamente bloqueamos
-        todas las opciones.
+        CLICK DE SELECCIÓN
     */
+
+    safePlayAudio(
+        scene07UIClick,
+        0.3
+    );
+
 
     questionOptions.forEach(
         option => {
@@ -475,17 +697,17 @@ async function selectQuestion(
         );
 
 
-    /*
-        Desaparecen las opciones.
-    */
+    // =====================================================
+    // OCULTAR PREGUNTAS
+    // =====================================================
 
     await window.Scene07Animations
         .hideQuestions();
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // MOSTRAR PREGUNTA ELEGIDA
-    // -----------------------------------------------------
+    // =====================================================
 
     selectedQuestionSection.style.display =
         "flex";
@@ -510,9 +732,9 @@ async function selectQuestion(
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // PROCESSING
-    // -----------------------------------------------------
+    // =====================================================
 
     processingMessage.textContent =
         text.processing;
@@ -528,9 +750,16 @@ async function selectQuestion(
 
 
     /*
-        El procesamiento falla
-        ligeramente antes de responder.
+        Fallo pequeño durante procesamiento.
+        El SFX ocurre al mismo tiempo que
+        la interferencia visual.
     */
+
+    safePlayAudio(
+        scene07Electrical,
+        0.22
+    );
+
 
     await window.Scene07Animations
         .playProcessingFailure();
@@ -541,9 +770,9 @@ async function selectQuestion(
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // QUITAMOS PROCESSING
-    // -----------------------------------------------------
+    // =====================================================
 
     await window.Scene07Animations
         .hideProcessing();
@@ -554,9 +783,9 @@ async function selectQuestion(
     );
 
 
-    // -----------------------------------------------------
-    // RESPUESTA
-    // -----------------------------------------------------
+    // =====================================================
+    // RESPUESTA DEL SISTEMA
+    // =====================================================
 
     systemResponseSection.style.display =
         "flex";
@@ -573,13 +802,20 @@ async function selectQuestion(
 
 
     /*
-        Impacto sonoro opcional.
-        Si el asset no existe, la escena
-        continúa normalmente.
+        "I am the one asking the questions."
+
+        Queremos que el peso esté aquí.
     */
 
     safePlayAudio(
-        responseImpactAudio
+        scene07LowImpact,
+        0.72
+    );
+
+
+    safePlayAudio(
+        scene07GlitchMedium,
+        0.6
     );
 
 
@@ -587,18 +823,18 @@ async function selectQuestion(
         .showSystemResponse();
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // PAUSA
-    // -----------------------------------------------------
+    // =====================================================
 
     await wait(
         1500
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // CONTROL LOSS
-    // -----------------------------------------------------
+    // =====================================================
 
     await startControlLossSequence();
 
@@ -626,17 +862,34 @@ async function startControlLossSequence() {
 
 
     /*
-        A partir de aquí empieza a regresar
-        el ruido que desapareció al principio.
+        A partir de aquí el ambiente
+        empieza a regresar lentamente.
     */
 
-    safePlayAudio(
-        sceneCorruptionAudio
-    );
+    if (
+        scene07DeepRumble
+    ) {
 
+        scene07DeepRumble.volume =
+            0.028;
+
+    }
+
+
+    // =====================================================
+    // NIVEL 1
+    // =====================================================
 
     window.Scene07Animations
-        .setCorruptionLevel(1);
+        .setCorruptionLevel(
+            1
+        );
+
+
+    safePlayAudio(
+        scene07GlitchMedium,
+        0.26
+    );
 
 
     await wait(
@@ -644,12 +897,23 @@ async function startControlLossSequence() {
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // USER INPUT DISABLED
-    // -----------------------------------------------------
+    // =====================================================
 
     controlMessage01.textContent =
         text.controlMessages[0];
+
+
+    /*
+        Aquí el sistema literalmente
+        elimina la interacción.
+    */
+
+    safePlayAudio(
+        scene07SystemError,
+        0.5
+    );
 
 
     await window.Scene07Animations
@@ -664,12 +928,31 @@ async function startControlLossSequence() {
     );
 
 
-    // -----------------------------------------------------
-    // CONTROL TRANSFER
-    // -----------------------------------------------------
+    // =====================================================
+    // CONTROL TRANSFER IN PROGRESS
+    // =====================================================
+
+    /*
+        Sonido y glitch visual empiezan
+        al mismo tiempo.
+    */
+
+    safePlayAudio(
+        scene07GlitchMedium,
+        0.58
+    );
+
+
+    safePlayAudio(
+        scene07Electrical,
+        0.28
+    );
+
 
     window.Scene07Animations
-        .setCorruptionLevel(2);
+        .setCorruptionLevel(
+            2
+        );
 
 
     controlMessage02.textContent =
@@ -683,17 +966,40 @@ async function startControlLossSequence() {
         );
 
 
+    if (
+        scene07DeepRumble
+    ) {
+
+        scene07DeepRumble.volume =
+            0.04;
+
+    }
+
+
     await wait(
         900
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // SESSION CONTINUES
-    // -----------------------------------------------------
+    // =====================================================
+
+    /*
+        Aquí pasamos por primera vez
+        al strong glitch.
+    */
+
+    safePlayAudio(
+        scene07GlitchStrong,
+        0.82
+    );
+
 
     window.Scene07Animations
-        .setCorruptionLevel(3);
+        .setCorruptionLevel(
+            3
+        );
 
 
     controlMessage03.textContent =
@@ -707,19 +1013,55 @@ async function startControlLossSequence() {
         );
 
 
+    if (
+        scene07DeepRumble
+    ) {
+
+        scene07DeepRumble.volume =
+            0.06;
+
+    }
+
+
     await wait(
         1000
     );
 
 
+    // =====================================================
+    // NIVEL CRÍTICO
+    // =====================================================
+
     /*
-        Última fase:
-        la interfaz deja de mantener
-        una estructura estable.
+        Última pérdida de estructura.
     */
 
+    safePlayAudio(
+        scene07GlitchStrong,
+        1
+    );
+
+
+    safePlayAudio(
+        scene07Electrical,
+        0.38
+    );
+
+
     window.Scene07Animations
-        .setCorruptionLevel(4);
+        .setCorruptionLevel(
+            4
+        );
+
+
+    if (
+        scene07DeepRumble
+    ) {
+
+        scene07DeepRumble.volume =
+            0.085;
+
+    }
 
 
     await wait(
@@ -738,8 +1080,12 @@ async function startControlLossSequence() {
 
 async function startScene08Transition() {
 
-    if (sceneEnding) {
+    if (
+        sceneEnding
+    ) {
+
         return;
+
     }
 
 
@@ -747,8 +1093,47 @@ async function startScene08Transition() {
         true;
 
 
+    /*
+        Glitch final sincronizado con
+        playScene08Transition().
+    */
+
+    safePlayAudio(
+        scene07GlitchStrong,
+        1
+    );
+
+
+    safePlayAudio(
+        scene07Electrical,
+        0.48
+    );
+
+
+    if (
+        scene07DeepRumble
+    ) {
+
+        scene07DeepRumble.volume =
+            0.11;
+
+    }
+
+
+    fadeAmbientAudio(
+        scene07Hum,
+        500
+    );
+
+
     await window.Scene07Animations
         .playScene08Transition();
+
+
+    fadeAmbientAudio(
+        scene07DeepRumble,
+        300
+    );
 
 
     window.location.href =
@@ -781,6 +1166,21 @@ questionOptions.forEach(
 
 
 // =========================================================
+// PRIMERA INTERACCIÓN
+// =========================================================
+
+document.addEventListener(
+    "pointerdown",
+
+    unlockScene07Ambience,
+
+    {
+        once: true
+    }
+);
+
+
+// =========================================================
 // INIT
 // =========================================================
 
@@ -791,6 +1191,9 @@ async function initScene07() {
 
     window.Scene07Animations
         .init();
+
+
+    startScene07Ambience();
 
 
     await window.Scene07Animations

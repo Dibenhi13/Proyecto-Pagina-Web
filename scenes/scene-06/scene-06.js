@@ -58,7 +58,7 @@ const transcriptLines = [
 
 
 // =========================================================
-// AUDIO
+// AUDIO NARRATIVO
 // =========================================================
 
 const transmissionAudio =
@@ -75,6 +75,44 @@ const audioProgressBar =
 
 const playbackStatusLabel =
     document.querySelector("#playback-status-label");
+
+
+// =========================================================
+// SFX
+// =========================================================
+
+const scene06Hum =
+    document.querySelector("#scene-06-hum");
+
+const scene06UIClick =
+    document.querySelector("#scene-06-ui-click");
+
+const scene06SystemError =
+    document.querySelector("#scene-06-system-error");
+
+const scene06StaticShort =
+    document.querySelector("#scene-06-static-short");
+
+const scene06StaticLoop =
+    document.querySelector("#scene-06-static-loop");
+
+const scene06SignalLost =
+    document.querySelector("#scene-06-signal-lost");
+
+const scene06Electrical =
+    document.querySelector("#scene-06-electrical");
+
+const scene06GlitchMedium =
+    document.querySelector("#scene-06-glitch-medium");
+
+const scene06GlitchStrong =
+    document.querySelector("#scene-06-glitch-strong");
+
+const scene06DeepRumble =
+    document.querySelector("#scene-06-deep-rumble");
+
+const scene06LowImpact =
+    document.querySelector("#scene-06-low-impact");
 
 
 // =========================================================
@@ -170,7 +208,6 @@ let transcript02Shown = false;
 let transcript03Shown = false;
 let transcript04Shown = false;
 
-let log04Shown = false;
 let log05Shown = false;
 let log06Shown = false;
 
@@ -182,13 +219,17 @@ let log06Shown = false;
 const savedLanguage =
     localStorage.getItem("language");
 
+
 if (
     savedLanguage === "en" ||
     savedLanguage === "es"
 ) {
+
     currentLanguage =
         savedLanguage;
+
 }
+
 
 document.documentElement.lang =
     currentLanguage;
@@ -454,6 +495,251 @@ function wait(ms) {
 
 
 // =========================================================
+// AUDIO — UTILIDAD
+// =========================================================
+
+function safePlayAudio(
+    audio,
+    volume = 1,
+    restart = true
+) {
+
+    if (!audio) {
+        return;
+    }
+
+
+    if (restart) {
+
+        audio.currentTime =
+            0;
+
+    }
+
+
+    audio.volume =
+        volume;
+
+
+    audio
+        .play()
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// AMBIENTE INICIAL
+// =========================================================
+
+function startScene06Ambience() {
+
+    if (scene06Hum) {
+
+        scene06Hum.volume =
+            0.04;
+
+
+        scene06Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (scene06StaticLoop) {
+
+        scene06StaticLoop.volume =
+            0.035;
+
+
+        scene06StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (scene06DeepRumble) {
+
+        scene06DeepRumble.volume =
+            0.025;
+
+
+        scene06DeepRumble
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// DESBLOQUEAR AUDIO
+// =========================================================
+
+function unlockScene06Ambience() {
+
+    if (
+        scene06Hum &&
+        scene06Hum.paused
+    ) {
+
+        scene06Hum.volume =
+            0.04;
+
+
+        scene06Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (
+        scene06StaticLoop &&
+        scene06StaticLoop.paused
+    ) {
+
+        scene06StaticLoop.volume =
+            0.035;
+
+
+        scene06StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (
+        scene06DeepRumble &&
+        scene06DeepRumble.paused
+    ) {
+
+        scene06DeepRumble.volume =
+            0.025;
+
+
+        scene06DeepRumble
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// BAJAR AMBIENTE PARA VOZ
+// =========================================================
+
+function lowerAmbienceForTransmission() {
+
+    if (scene06Hum) {
+
+        scene06Hum.volume =
+            0.018;
+
+    }
+
+
+    if (scene06StaticLoop) {
+
+        scene06StaticLoop.volume =
+            0.018;
+
+    }
+
+
+    if (scene06DeepRumble) {
+
+        scene06DeepRumble.volume =
+            0.02;
+
+    }
+
+}
+
+
+// =========================================================
+// FADE AUDIO
+// =========================================================
+
+function fadeAmbientAudio(
+    audio,
+    duration = 600
+) {
+
+    if (
+        !audio ||
+        audio.paused
+    ) {
+
+        return;
+
+    }
+
+
+    const startVolume =
+        audio.volume;
+
+
+    const steps =
+        14;
+
+
+    let currentStep =
+        0;
+
+
+    const interval =
+        duration / steps;
+
+
+    const fade =
+        setInterval(
+
+            () => {
+
+                currentStep++;
+
+
+                audio.volume =
+                    Math.max(
+                        0,
+                        startVolume *
+                        (
+                            1 -
+                            currentStep /
+                            steps
+                        )
+                    );
+
+
+                if (
+                    currentStep >= steps
+                ) {
+
+                    clearInterval(
+                        fade
+                    );
+
+
+                    audio.pause();
+
+                }
+
+            },
+
+            interval
+        );
+
+}
+
+
+// =========================================================
 // ACTUALIZAR IDIOMA
 // =========================================================
 
@@ -466,11 +752,14 @@ function updateInterfaceLanguage() {
     connectionStatus.textContent =
         text.connected;
 
+
     signalLabel.textContent =
         text.signalLabel;
 
+
     dataLabel.textContent =
         text.dataLabel;
+
 
     dataStatus.textContent =
         text.active;
@@ -479,12 +768,14 @@ function updateInterfaceLanguage() {
     cameraPanelTitle.textContent =
         text.cameras;
 
+
     cameraDeniedMessage.textContent =
         text.accessDenied;
 
 
     transcriptTitle.textContent =
         text.transcriptTitle;
+
 
     transcriptStatus.textContent =
         text.transcriptStatus;
@@ -493,6 +784,7 @@ function updateInterfaceLanguage() {
     audioButtonText.textContent =
         text.playAudio;
 
+
     playbackStatusLabel.textContent =
         text.ready;
 
@@ -500,11 +792,14 @@ function updateInterfaceLanguage() {
     videoFeed01Label.textContent =
         text.videoFeed01;
 
+
     videoFeed02Label.textContent =
         text.videoFeed02;
 
+
     videoFeed01Status.textContent =
         text.standby;
+
 
     videoFeed02Status.textContent =
         text.standby;
@@ -513,6 +808,7 @@ function updateInterfaceLanguage() {
     videoError01.textContent =
         text.signalLoss;
 
+
     videoError02.textContent =
         text.signalLoss;
 
@@ -520,8 +816,10 @@ function updateInterfaceLanguage() {
     logsTitle.textContent =
         text.logsTitle;
 
+
     accessLogsButton.textContent =
         text.accessLogs;
+
 
     logsDeniedMessage.textContent =
         text.accessDenied;
@@ -529,6 +827,7 @@ function updateInterfaceLanguage() {
 
     transmissionLostPrimary.textContent =
         text.transmissionLost;
+
 
     transmissionLostSecondary.textContent =
         text.connectionTerminated;
@@ -546,7 +845,9 @@ function setSystemLog(
 ) {
 
     const element =
-        systemLogElements[index];
+        systemLogElements[
+            index
+        ];
 
 
     if (!element) {
@@ -584,7 +885,9 @@ async function playInitialLogs() {
         ].initialLogs;
 
 
-    await wait(400);
+    await wait(
+        400
+    );
 
 
     for (
@@ -597,6 +900,23 @@ async function playInitialLogs() {
             i,
             messages[i]
         );
+
+
+        /*
+            El tercer mensaje ya introduce
+            inestabilidad sonora.
+        */
+
+        if (
+            i === 2
+        ) {
+
+            safePlayAudio(
+                scene06Electrical,
+                0.18
+            );
+
+        }
 
 
         await wait(
@@ -624,6 +944,21 @@ cameraButtons.forEach(
 
             () => {
 
+                unlockScene06Ambience();
+
+
+                safePlayAudio(
+                    scene06SystemError,
+                    0.5
+                );
+
+
+                safePlayAudio(
+                    scene06StaticShort,
+                    0.22
+                );
+
+
                 window.Scene06Animations
                     .playDeniedControl(
                         button,
@@ -646,6 +981,21 @@ accessLogsButton.addEventListener(
 
     () => {
 
+        unlockScene06Ambience();
+
+
+        safePlayAudio(
+            scene06SystemError,
+            0.5
+        );
+
+
+        safePlayAudio(
+            scene06StaticShort,
+            0.2
+        );
+
+
         window.Scene06Animations
             .playDeniedControl(
                 accessLogsButton,
@@ -665,12 +1015,17 @@ function showTranscriptLine(
 ) {
 
     const line =
-        transcriptLines[index];
+        transcriptLines[
+            index
+        ];
+
 
     const text =
         translations[
             currentLanguage
-        ].transcript[index];
+        ].transcript[
+            index
+        ];
 
 
     if (!line) {
@@ -697,8 +1052,12 @@ function showTranscriptLine(
 
 function activateVideo01() {
 
-    if (feed01Started) {
+    if (
+        feed01Started
+    ) {
+
         return;
+
     }
 
 
@@ -707,11 +1066,30 @@ function activateVideo01() {
 
 
     const text =
-        translations[currentLanguage];
+        translations[
+            currentLanguage
+        ];
 
 
     videoFeed01Status.textContent =
         text.restoring;
+
+
+    /*
+        SFX sincronizado con la
+        restauración visual del feed.
+    */
+
+    safePlayAudio(
+        scene06StaticShort,
+        0.4
+    );
+
+
+    safePlayAudio(
+        scene06Electrical,
+        0.22
+    );
 
 
     window.Scene06Animations
@@ -727,6 +1105,7 @@ function activateVideo01() {
 
                 videoPlaceholder01.style.display =
                     "none";
+
 
                 videoFeed01Status.textContent =
                     text.activeFeed;
@@ -751,8 +1130,12 @@ function activateVideo01() {
 
 function activateVideo02() {
 
-    if (feed02Started) {
+    if (
+        feed02Started
+    ) {
+
         return;
+
     }
 
 
@@ -761,11 +1144,25 @@ function activateVideo02() {
 
 
     const text =
-        translations[currentLanguage];
+        translations[
+            currentLanguage
+        ];
 
 
     videoFeed02Status.textContent =
         text.restoring;
+
+
+    safePlayAudio(
+        scene06StaticShort,
+        0.48
+    );
+
+
+    safePlayAudio(
+        scene06Electrical,
+        0.26
+    );
 
 
     window.Scene06Animations
@@ -781,6 +1178,7 @@ function activateVideo02() {
 
                 videoPlaceholder02.style.display =
                     "none";
+
 
                 videoFeed02Status.textContent =
                     text.activeFeed;
@@ -815,15 +1213,21 @@ function startTransmissionPlayback() {
     }
 
 
+    unlockScene06Ambience();
+
+
     audioStarted =
         true;
+
 
     sequenceActive =
         true;
 
 
     const text =
-        translations[currentLanguage];
+        translations[
+            currentLanguage
+        ];
 
 
     playTransmissionAudio.disabled =
@@ -833,11 +1237,37 @@ function startTransmissionPlayback() {
     audioButtonText.textContent =
         text.playing;
 
+
     playbackStatusLabel.textContent =
         text.decoding;
 
+
     transcriptStatus.textContent =
         text.transcriptRecovering;
+
+
+    /*
+        Sonido del botón + inicio corrupto.
+    */
+
+    safePlayAudio(
+        scene06UIClick,
+        0.3
+    );
+
+
+    safePlayAudio(
+        scene06StaticShort,
+        0.32
+    );
+
+
+    /*
+        Bajamos ambiente para que
+        el audio narrativo tenga prioridad.
+    */
+
+    lowerAmbienceForTransmission();
 
 
     window.Scene06Animations
@@ -848,6 +1278,10 @@ function startTransmissionPlayback() {
         0;
 
 
+    transmissionAudio.volume =
+        0.9;
+
+
     transmissionAudio
         .play()
         .catch(
@@ -856,8 +1290,10 @@ function startTransmissionPlayback() {
                 audioStarted =
                     false;
 
+
                 sequenceActive =
                     false;
+
 
                 playTransmissionAudio.disabled =
                     false;
@@ -866,12 +1302,41 @@ function startTransmissionPlayback() {
                 audioButtonText.textContent =
                     text.playAudio;
 
+
                 playbackStatusLabel.textContent =
                     text.ready;
 
 
                 window.Scene06Animations
                     .stopPlaybackState();
+
+
+                /*
+                    Restauramos ambiente.
+                */
+
+                if (scene06Hum) {
+
+                    scene06Hum.volume =
+                        0.04;
+
+                }
+
+
+                if (scene06StaticLoop) {
+
+                    scene06StaticLoop.volume =
+                        0.035;
+
+                }
+
+
+                if (scene06DeepRumble) {
+
+                    scene06DeepRumble.volume =
+                        0.025;
+
+                }
 
             }
         );
@@ -911,8 +1376,10 @@ transmissionAudio.addEventListener(
         const duration =
             transmissionAudio.duration;
 
+
         const time =
             transmissionAudio.currentTime;
+
 
         const progress =
             (
@@ -926,22 +1393,15 @@ transmissionAudio.addEventListener(
             `${progress}%`;
 
 
-        /*
-            Usamos porcentajes del audio,
-            así no dependemos de que el
-            archivo final dure exactamente
-            cierta cantidad de segundos.
-        */
-
         const percentage =
             time /
             duration;
 
 
-        // -----------------------------------------
+        // =================================================
         // 10%
-        // Primera frase
-        // -----------------------------------------
+        // DO NOT OPEN THE—
+        // =================================================
 
         if (
             percentage >= 0.10 &&
@@ -957,16 +1417,26 @@ transmissionAudio.addEventListener(
             );
 
 
+            /*
+                Primer glitch todavía moderado.
+            */
+
+            safePlayAudio(
+                scene06GlitchMedium,
+                0.55
+            );
+
+
             window.Scene06Animations
                 .playMinorCorruption();
 
         }
 
 
-        // -----------------------------------------
+        // =================================================
         // 23%
-        // Video 01
-        // -----------------------------------------
+        // VIDEO FEED 01
+        // =================================================
 
         if (
             percentage >= 0.23 &&
@@ -986,10 +1456,10 @@ transmissionAudio.addEventListener(
         }
 
 
-        // -----------------------------------------
+        // =================================================
         // 37%
-        // Segunda frase
-        // -----------------------------------------
+        // DO NOT GO BACK...
+        // =================================================
 
         if (
             percentage >= 0.37 &&
@@ -1011,18 +1481,42 @@ transmissionAudio.addEventListener(
                 ].corruptedPlayback;
 
 
+            /*
+                El sonido acompaña exactamente
+                el cambio visual de nivel.
+            */
+
+            safePlayAudio(
+                scene06GlitchMedium,
+                0.72
+            );
+
+
             window.Scene06Animations
                 .increaseInstability(
                     2
                 );
 
+
+            setTimeout(
+                () => {
+
+                    safePlayAudio(
+                        scene06Electrical,
+                        0.22
+                    );
+
+                },
+                180
+            );
+
         }
 
 
-        // -----------------------------------------
+        // =================================================
         // 50%
-        // Video 02
-        // -----------------------------------------
+        // VIDEO FEED 02
+        // =================================================
 
         if (
             percentage >= 0.50 &&
@@ -1039,13 +1533,27 @@ transmissionAudio.addEventListener(
                 ].streamInstability
             );
 
+
+            /*
+                Empieza a crecer el rumble.
+            */
+
+            if (
+                scene06DeepRumble
+            ) {
+
+                scene06DeepRumble.volume =
+                    0.04;
+
+            }
+
         }
 
 
-        // -----------------------------------------
+        // =================================================
         // 63%
-        // Tercera frase
-        // -----------------------------------------
+        // IT'S NOT—
+        // =================================================
 
         if (
             percentage >= 0.63 &&
@@ -1067,6 +1575,16 @@ transmissionAudio.addEventListener(
                 ].unstable;
 
 
+            /*
+                Aquí ya entra glitch fuerte.
+            */
+
+            safePlayAudio(
+                scene06GlitchStrong,
+                0.8
+            );
+
+
             window.Scene06Animations
                 .increaseInstability(
                     3
@@ -1078,13 +1596,36 @@ transmissionAudio.addEventListener(
                     1
                 );
 
+
+            if (
+                scene06DeepRumble
+            ) {
+
+                scene06DeepRumble.volume =
+                    0.055;
+
+            }
+
+
+            setTimeout(
+                () => {
+
+                    safePlayAudio(
+                        scene06StaticShort,
+                        0.35
+                    );
+
+                },
+                120
+            );
+
         }
 
 
-        // -----------------------------------------
+        // =================================================
         // 74%
-        // Anomalía en segundo feed
-        // -----------------------------------------
+        // UNAUTHORIZED SIGNAL INJECTION
+        // =================================================
 
         if (
             percentage >= 0.74 &&
@@ -1103,6 +1644,23 @@ transmissionAudio.addEventListener(
             );
 
 
+            /*
+                Golpe bajo para marcar
+                que ya no es simple corrupción.
+            */
+
+            safePlayAudio(
+                scene06LowImpact,
+                0.5
+            );
+
+
+            safePlayAudio(
+                scene06Electrical,
+                0.4
+            );
+
+
             window.Scene06Animations
                 .showSystemError(
                     translations[
@@ -1116,13 +1674,23 @@ transmissionAudio.addEventListener(
                     2
                 );
 
+
+            if (
+                scene06DeepRumble
+            ) {
+
+                scene06DeepRumble.volume =
+                    0.07;
+
+            }
+
         }
 
 
-        // -----------------------------------------
+        // =================================================
         // 84%
-        // Transcript falla
-        // -----------------------------------------
+        // TRANSCRIPTION FAILURE
+        // =================================================
 
         if (
             percentage >= 0.84 &&
@@ -1149,10 +1717,28 @@ transmissionAudio.addEventListener(
                     currentLanguage
                 ].unstableFeed;
 
+
             videoFeed02Status.textContent =
                 translations[
                     currentLanguage
                 ].unstableFeed;
+
+
+            /*
+                Glitch fuerte sincronizado
+                con increaseInstability(4).
+            */
+
+            safePlayAudio(
+                scene06GlitchStrong,
+                1
+            );
+
+
+            safePlayAudio(
+                scene06StaticShort,
+                0.55
+            );
 
 
             window.Scene06Animations
@@ -1164,13 +1750,23 @@ transmissionAudio.addEventListener(
             window.Scene06Animations
                 .playBothFeedFailure();
 
+
+            if (
+                scene06DeepRumble
+            ) {
+
+                scene06DeepRumble.volume =
+                    0.085;
+
+            }
+
         }
 
 
-        // -----------------------------------------
+        // =================================================
         // 92%
-        // Integridad comprometida
-        // -----------------------------------------
+        // TRANSMISSION INTEGRITY COMPROMISED
+        // =================================================
 
         if (
             percentage >= 0.92 &&
@@ -1193,8 +1789,30 @@ transmissionAudio.addEventListener(
                 "ERR_██";
 
 
+            safePlayAudio(
+                scene06Electrical,
+                0.45
+            );
+
+
+            safePlayAudio(
+                scene06GlitchStrong,
+                0.8
+            );
+
+
             window.Scene06Animations
                 .playCriticalFailure();
+
+
+            if (
+                scene06DeepRumble
+            ) {
+
+                scene06DeepRumble.volume =
+                    0.10;
+
+            }
 
         }
 
@@ -1223,6 +1841,7 @@ transmissionAudio.addEventListener(
         sequenceFinished =
             true;
 
+
         sequenceActive =
             false;
 
@@ -1236,11 +1855,6 @@ transmissionAudio.addEventListener(
                 currentLanguage
             ].corruptedPlayback;
 
-
-        /*
-            El usuario ya no recupera
-            ningún control.
-        */
 
         cameraButtons.forEach(
             button => {
@@ -1261,6 +1875,8 @@ transmissionAudio.addEventListener(
 
 
         video01.pause();
+
+
         video02.pause();
 
 
@@ -1269,11 +1885,94 @@ transmissionAudio.addEventListener(
 
 
         /*
-            Corte final de transmisión.
+            Corte brusco del audio narrativo.
+        */
+
+        await wait(
+            100
+        );
+
+
+        /*
+            Pérdida de señal.
+
+            Este sonido es el que debe
+            marcar claramente el final
+            de la transmisión.
+        */
+
+        safePlayAudio(
+            scene06SignalLost,
+            0.85
+        );
+
+
+        setTimeout(
+            () => {
+
+                safePlayAudio(
+                    scene06GlitchStrong,
+                    1
+                );
+
+            },
+            80
+        );
+
+
+        setTimeout(
+            () => {
+
+                safePlayAudio(
+                    scene06StaticShort,
+                    0.6
+                );
+
+            },
+            130
+        );
+
+
+        if (
+            scene06DeepRumble
+        ) {
+
+            scene06DeepRumble.volume =
+                0.12;
+
+        }
+
+
+        /*
+            Hum desaparece.
+        */
+
+        fadeAmbientAudio(
+            scene06Hum,
+            450
+        );
+
+
+        /*
+            Dejamos algo de static y rumble
+            mientras aparece
+            TRANSMISSION LOST.
         */
 
         await window.Scene06Animations
             .playTransmissionLostSequence();
+
+
+        fadeAmbientAudio(
+            scene06StaticLoop,
+            300
+        );
+
+
+        fadeAmbientAudio(
+            scene06DeepRumble,
+            350
+        );
 
 
         window.location.href =
@@ -1292,13 +1991,18 @@ transmissionAudio.addEventListener(
 
     () => {
 
-        if (!audioStarted) {
+        if (
+            !audioStarted
+        ) {
+
             return;
+
         }
 
 
         sequenceActive =
             false;
+
 
         audioStarted =
             false;
@@ -1320,6 +2024,18 @@ transmissionAudio.addEventListener(
             ].ready;
 
 
+        safePlayAudio(
+            scene06SystemError,
+            0.55
+        );
+
+
+        safePlayAudio(
+            scene06StaticShort,
+            0.35
+        );
+
+
         window.Scene06Animations
             .stopPlaybackState();
 
@@ -1331,6 +2047,55 @@ transmissionAudio.addEventListener(
                 ].errorPlayback
             );
 
+
+        /*
+            Restaurar ambiente.
+        */
+
+        if (
+            scene06Hum
+        ) {
+
+            scene06Hum.volume =
+                0.04;
+
+        }
+
+
+        if (
+            scene06StaticLoop
+        ) {
+
+            scene06StaticLoop.volume =
+                0.035;
+
+        }
+
+
+        if (
+            scene06DeepRumble
+        ) {
+
+            scene06DeepRumble.volume =
+                0.025;
+
+        }
+
+    }
+);
+
+
+// =========================================================
+// PRIMERA INTERACCIÓN
+// =========================================================
+
+document.addEventListener(
+    "pointerdown",
+
+    unlockScene06Ambience,
+
+    {
+        once: true
     }
 );
 
@@ -1349,11 +2114,20 @@ async function initScene06() {
     */
 
     video01.pause();
+
+
     video02.pause();
 
 
     window.Scene06Animations
         .init();
+
+
+    /*
+        Ambiente desde entrada.
+    */
+
+    startScene06Ambience();
 
 
     await window.Scene06Animations

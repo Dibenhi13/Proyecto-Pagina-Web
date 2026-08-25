@@ -69,27 +69,37 @@ const resultSubtitle =
     );
 
 
-const hoverAudio =
+// =========================================================
+// SFX
+// =========================================================
+
+const scene09Hum =
     document.querySelector(
-        "#hover-audio"
+        "#scene-09-hum"
     );
 
 
-const confirmAudio =
+const scene09UIClick =
     document.querySelector(
-        "#confirm-audio"
+        "#scene-09-ui-click"
     );
 
 
-const authorizeAudio =
+const scene09Confirm =
     document.querySelector(
-        "#authorize-audio"
+        "#scene-09-confirm"
     );
 
 
-const denyAudio =
+const scene09GlitchSoft =
     document.querySelector(
-        "#deny-audio"
+        "#scene-09-glitch-soft"
+    );
+
+
+const scene09GlitchMedium =
+    document.querySelector(
+        "#scene-09-glitch-medium"
     );
 
 
@@ -97,9 +107,12 @@ const denyAudio =
 // ESTADO
 // =========================================================
 
-let currentLanguage = "en";
+let currentLanguage =
+    "en";
 
-let decisionMade = false;
+
+let decisionMade =
+    false;
 
 
 // =========================================================
@@ -209,7 +222,9 @@ function wait(ms) {
 // =========================================================
 
 function safePlayAudio(
-    audio
+    audio,
+    volume = 1,
+    restart = true
 ) {
 
     if (!audio) {
@@ -217,14 +232,149 @@ function safePlayAudio(
     }
 
 
-    audio.currentTime =
-        0;
+    if (restart) {
+
+        audio.currentTime =
+            0;
+
+    }
+
+
+    audio.volume =
+        volume;
 
 
     audio
         .play()
-        .catch(
-            () => {}
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// AMBIENTE
+// =========================================================
+
+function startScene09Ambience() {
+
+    /*
+        Scene 09 debe sentirse casi vacía
+        después del caos de Scene 08.
+    */
+
+    if (scene09Hum) {
+
+        scene09Hum.volume =
+            0.02;
+
+
+        scene09Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// DESBLOQUEAR AMBIENTE
+// =========================================================
+
+function unlockScene09Ambience() {
+
+    if (
+        scene09Hum &&
+        scene09Hum.paused
+    ) {
+
+        scene09Hum.volume =
+            0.02;
+
+
+        scene09Hum
+            .play()
+            .catch(() => {});
+
+    }
+
+}
+
+
+// =========================================================
+// FADE AUDIO
+// =========================================================
+
+function fadeAmbientAudio(
+    audio,
+    duration = 500
+) {
+
+    if (
+        !audio ||
+        audio.paused
+    ) {
+
+        return;
+
+    }
+
+
+    const startVolume =
+        audio.volume;
+
+
+    const steps =
+        12;
+
+
+    let step =
+        0;
+
+
+    const interval =
+        duration /
+        steps;
+
+
+    const fade =
+        setInterval(
+
+            () => {
+
+                step++;
+
+
+                audio.volume =
+                    Math.max(
+                        0,
+                        startVolume *
+                        (
+                            1 -
+                            step /
+                            steps
+                        )
+                    );
+
+
+                if (
+                    step >=
+                    steps
+                ) {
+
+                    clearInterval(
+                        fade
+                    );
+
+
+                    audio.pause();
+
+                }
+
+            },
+
+            interval
+
         );
 
 }
@@ -274,29 +424,15 @@ function handleDecisionHover(
 
 
     /*
-        Sonido opcional.
+        IMPORTANTE:
+
+        No reproducimos ningún SFX
+        durante hover.
+
+        Las dos decisiones deben sentirse
+        neutrales y tener exactamente
+        el mismo peso.
     */
-
-    if (
-        hoverAudio
-    ) {
-
-        hoverAudio.currentTime =
-            0;
-
-
-        hoverAudio.volume =
-            0.22;
-
-
-        hoverAudio
-            .play()
-            .catch(
-                () => {}
-            );
-
-    }
-
 
     window.Scene09Animations
         .playDecisionHover(
@@ -323,13 +459,16 @@ async function handleDecision(
     }
 
 
+    unlockScene09Ambience();
+
+
     decisionMade =
         true;
 
 
     /*
-        Inmediatamente bloqueamos ambas
-        opciones para evitar doble click.
+        Bloqueamos ambas opciones
+        inmediatamente.
     */
 
     decisionButtons.forEach(
@@ -342,8 +481,14 @@ async function handleDecision(
     );
 
 
+    /*
+        Ambos botones reciben exactamente
+        el mismo sonido de click.
+    */
+
     safePlayAudio(
-        confirmAudio
+        scene09UIClick,
+        0.32
     );
 
 
@@ -361,6 +506,18 @@ async function handleDecision(
         .playDecisionSelection(
             selectedButton
         );
+
+
+    /*
+        Confirmación del sistema.
+
+        Misma para AUTHORIZE y DENY.
+    */
+
+    safePlayAudio(
+        scene09Confirm,
+        0.55
+    );
 
 
     // =====================================================
@@ -409,10 +566,12 @@ async function handleDecision(
             text.authorizeSubtitle;
 
 
-        safePlayAudio(
-            authorizeAudio
-        );
+        /*
+            No usamos un SFX exclusivo.
 
+            La elección todavía debe sentirse
+            neutral.
+        */
 
         await window.Scene09Animations
             .showDecisionResult(
@@ -422,6 +581,24 @@ async function handleDecision(
 
         await wait(
             1300
+        );
+
+
+        /*
+            La transición authorize es bastante
+            limpia, así que usamos solo un
+            glitch suave.
+        */
+
+        safePlayAudio(
+            scene09GlitchSoft,
+            0.55
+        );
+
+
+        fadeAmbientAudio(
+            scene09Hum,
+            450
         );
 
 
@@ -450,10 +627,12 @@ async function handleDecision(
         text.denySubtitle;
 
 
-    safePlayAudio(
-        denyAudio
-    );
+    /*
+        Tampoco usamos system-error aquí.
 
+        DENY debe seguir pareciendo una
+        decisión perfectamente válida.
+    */
 
     await window.Scene09Animations
         .showDecisionResult(
@@ -463,6 +642,26 @@ async function handleDecision(
 
     await wait(
         1300
+    );
+
+
+    /*
+        La animación de DENY sí contiene
+        un pequeño glitch visual.
+
+        Por eso usamos glitch-medium,
+        pero sin convertirlo en un error.
+    */
+
+    safePlayAudio(
+        scene09GlitchMedium,
+        0.62
+    );
+
+
+    fadeAmbientAudio(
+        scene09Hum,
+        400
     );
 
 
@@ -513,6 +712,21 @@ decisionButtons.forEach(
 
 
 // =========================================================
+// PRIMERA INTERACCIÓN
+// =========================================================
+
+document.addEventListener(
+    "pointerdown",
+
+    unlockScene09Ambience,
+
+    {
+        once: true
+    }
+);
+
+
+// =========================================================
 // INIT
 // =========================================================
 
@@ -526,10 +740,17 @@ async function initScene09() {
 
 
     /*
+        Hum extremadamente bajo.
+    */
+
+    startScene09Ambience();
+
+
+    /*
         Venimos del caos de Scene 08.
 
-        Dejamos negro un momento para que
-        el contraste sea fuerte.
+        Dejamos negro un momento para
+        marcar el contraste.
     */
 
     await window.Scene09Animations
@@ -541,17 +762,19 @@ async function initScene09() {
     );
 
 
-    /*
-        AUTHORIZATION REQUIRED
-    */
+    // =====================================================
+    // AUTHORIZATION REQUIRED
+    // =====================================================
 
     await window.Scene09Animations
         .showAuthorizationTitle();
 
 
     /*
-        Pequeña pausa antes de revelar
-        que ahora sí existe una decisión.
+        Sin SFX.
+
+        Queremos que el silencio haga
+        el trabajo aquí.
     */
 
     await wait(
@@ -559,9 +782,9 @@ async function initScene09() {
     );
 
 
-    /*
-        AUTHORIZE / DENY
-    */
+    // =====================================================
+    // AUTHORIZE / DENY
+    // =====================================================
 
     await window.Scene09Animations
         .showDecisionOptions();

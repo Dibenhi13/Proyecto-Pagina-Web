@@ -14,21 +14,48 @@ const authorizeMessage =
     );
 
 
+// =========================================================
+// AUDIO — SFX
+// =========================================================
+
 const endingHum =
     document.querySelector(
         "#ending-hum"
     );
 
-
-const endingCorruption =
+const endingStatic =
     document.querySelector(
-        "#ending-corruption"
+        "#ending-static"
     );
 
-
-const endingWarning =
+const endingRumble =
     document.querySelector(
-        "#ending-warning"
+        "#ending-rumble"
+    );
+
+const endingGlitchMedium =
+    document.querySelector(
+        "#ending-glitch-medium"
+    );
+
+const endingGlitchStrong =
+    document.querySelector(
+        "#ending-glitch-strong"
+    );
+
+const endingElectrical =
+    document.querySelector(
+        "#ending-electrical"
+    );
+
+const endingLowImpact =
+    document.querySelector(
+        "#ending-low-impact"
+    );
+
+const endingWhiteoutRiser =
+    document.querySelector(
+        "#ending-whiteout-riser"
     );
 
 
@@ -36,7 +63,8 @@ const endingWarning =
 // STATE
 // =========================================================
 
-let currentLanguage = "en";
+let currentLanguage =
+    "en";
 
 
 // =========================================================
@@ -111,7 +139,8 @@ function wait(ms) {
 
 function safePlayAudio(
     audio,
-    volume = 1
+    volume = 1,
+    restart = true
 ) {
 
     if (!audio) {
@@ -119,8 +148,12 @@ function safePlayAudio(
     }
 
 
-    audio.currentTime =
-        0;
+    if (restart) {
+
+        audio.currentTime =
+            0;
+
+    }
 
 
     audio.volume =
@@ -129,9 +162,77 @@ function safePlayAudio(
 
     audio
         .play()
-        .catch(
-            () => {}
-        );
+        .catch(() => {});
+
+}
+
+
+// =========================================================
+// START AMBIENCE
+// =========================================================
+
+function startEndingAmbience() {
+
+    /*
+        AUTHORIZE empieza tranquilo.
+
+        Queremos que por unos segundos
+        parezca que todo salió bien.
+    */
+
+    if (endingHum) {
+
+        endingHum.volume =
+            0.025;
+
+
+        endingHum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    /*
+        Static y rumble no entran todavía.
+
+        Los dejamos preparados para cuando
+        empiece la corrupción.
+    */
+
+}
+
+
+// =========================================================
+// UNLOCK AMBIENCE
+// =========================================================
+
+function unlockEndingAmbience() {
+
+    if (
+        endingHum &&
+        endingHum.paused
+    ) {
+
+        endingHum.volume =
+            0.025;
+
+
+        endingHum
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (
+        endingStatic &&
+        !endingStatic.paused
+    ) {
+
+        return;
+
+    }
 
 }
 
@@ -174,6 +275,7 @@ function fadeAudioOut(
 
     const fade =
         setInterval(
+
             () => {
 
                 currentStep++;
@@ -211,6 +313,7 @@ function fadeAudioOut(
             },
 
             interval
+
         );
 
 }
@@ -222,10 +325,9 @@ function fadeAudioOut(
 
 async function runAuthorizeEnding() {
 
-
-    // -----------------------------------------------------
+    // =====================================================
     // APPLY TEXT
-    // -----------------------------------------------------
+    // =====================================================
 
     authorizeMessage.textContent =
         translations[
@@ -233,39 +335,25 @@ async function runAuthorizeEnding() {
         ].accessGranted;
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // INITIAL SILENCE
-    // -----------------------------------------------------
+    // =====================================================
 
     await wait(
         600
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // LOW HUM
-    // -----------------------------------------------------
+    // =====================================================
 
-    if (
-        endingHum
-    ) {
-
-        endingHum.volume =
-            0.1;
+    startEndingAmbience();
 
 
-        endingHum
-            .play()
-            .catch(
-                () => {}
-            );
-
-    }
-
-
-    // -----------------------------------------------------
+    // =====================================================
     // FRAME APPEARS
-    // -----------------------------------------------------
+    // =====================================================
 
     await window.Scene10Animations
         .playSceneEntry();
@@ -276,18 +364,32 @@ async function runAuthorizeEnding() {
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // ACCESS GRANTED...
-    // -----------------------------------------------------
+    // =====================================================
+
+    /*
+        Un golpe muy leve.
+
+        No queremos que parezca una
+        amenaza inmediatamente.
+    */
+
+    safePlayAudio(
+        endingLowImpact,
+        0.28
+    );
+
 
     await window.Scene10Animations
         .showAuthorizeMessage();
 
 
     /*
-        The system remains completely calm.
+        Todo queda calmado por un momento.
 
-        This pause is intentional.
+        El usuario cree que autorizar
+        simplemente funcionó.
     */
 
     await wait(
@@ -295,41 +397,13 @@ async function runAuthorizeEnding() {
     );
 
 
-    // -----------------------------------------------------
-    // FINAL CREW WARNING
-    // -----------------------------------------------------
+    // =====================================================
+    // CORRUPTION LEVEL 1
+    // =====================================================
 
     /*
-        This should sound like recovered audio
-        from the crew.
-
-        Suggested dialogue:
-
-        "Whatever you do...
-        don't let the ship reach Earth."
+        Primera falla casi imperceptible.
     */
-
-    safePlayAudio(
-        endingWarning,
-        0.62
-    );
-
-
-    /*
-        Let the warning breathe.
-
-        The user already authorized docking,
-        so the realization comes too late.
-    */
-
-    await wait(
-        3000
-    );
-
-
-    // -----------------------------------------------------
-    // FIRST FAILURE
-    // -----------------------------------------------------
 
     window.Scene10Animations
         .setCorruptionLevel(
@@ -337,14 +411,46 @@ async function runAuthorizeEnding() {
         );
 
 
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.025;
+
+
+        endingStatic
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.02;
+
+
+        endingRumble
+            .play()
+            .catch(() => {});
+
+    }
+
+
     await wait(
         850
     );
 
 
-    // -----------------------------------------------------
-    // SECOND FAILURE
-    // -----------------------------------------------------
+    // =====================================================
+    // CORRUPTION LEVEL 2
+    // =====================================================
+
+    safePlayAudio(
+        endingGlitchMedium,
+        0.5
+    );
+
 
     window.Scene10Animations
         .setCorruptionLevel(
@@ -352,18 +458,51 @@ async function runAuthorizeEnding() {
         );
 
 
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.045;
+
+    }
+
+
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.035;
+
+    }
+
+
     await wait(
         800
     );
 
 
-    // -----------------------------------------------------
-    // CORRUPTION AUDIO
-    // -----------------------------------------------------
+    // =====================================================
+    // CORRUPTION LEVEL 3
+    // =====================================================
+
+    /*
+        Primer colapso serio.
+    */
 
     safePlayAudio(
-        endingCorruption,
-        0.3
+        endingGlitchStrong,
+        0.78
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                endingElectrical,
+                0.3
+            );
+
+        },
+        100
     );
 
 
@@ -373,14 +512,42 @@ async function runAuthorizeEnding() {
         );
 
 
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.07;
+
+    }
+
+
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.055;
+
+    }
+
+
     await wait(
         850
     );
 
 
-    // -----------------------------------------------------
-    // CRITICAL STATE
-    // -----------------------------------------------------
+    // =====================================================
+    // CORRUPTION LEVEL 4
+    // =====================================================
+
+    safePlayAudio(
+        endingGlitchStrong,
+        1
+    );
+
+
+    safePlayAudio(
+        endingElectrical,
+        0.45
+    );
+
 
     window.Scene10Animations
         .setCorruptionLevel(
@@ -388,58 +555,107 @@ async function runAuthorizeEnding() {
         );
 
 
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.1;
+
+    }
+
+
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.085;
+
+    }
+
+
     await wait(
         700
     );
 
 
-    // -----------------------------------------------------
-    // FADE AUDIO
-    // -----------------------------------------------------
+    // =====================================================
+    // FINAL WHITEOUT
+    // =====================================================
 
-    fadeAudioOut(
-        endingHum,
-        900
+    /*
+        El riser inicia justo antes de
+        comenzar el whiteout visual.
+    */
+
+    safePlayAudio(
+        endingWhiteoutRiser,
+        0.85
+    );
+
+
+    /*
+        Último glitch antes de que
+        desaparezca todo.
+    */
+
+    safePlayAudio(
+        endingGlitchStrong,
+        0.85
     );
 
 
     fadeAudioOut(
-        endingCorruption,
+        endingHum,
+        700
+    );
+
+
+    fadeAudioOut(
+        endingStatic,
         800
     );
 
 
     fadeAudioOut(
-        endingWarning,
-        500
+        endingRumble,
+        1000
     );
 
-
-    // -----------------------------------------------------
-    // FINAL WHITEOUT
-    // -----------------------------------------------------
 
     await window.Scene10Animations
         .playFinalWhiteout();
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // HOLD ON WHITE
-    // -----------------------------------------------------
+    // =====================================================
 
     await wait(
         2500
     );
 
 
-    // -----------------------------------------------------
+    // =====================================================
     // RETURN TO START
-    // -----------------------------------------------------
+    // =====================================================
 
     window.location.href =
         "../../index.html";
 
 }
+
+
+// =========================================================
+// FIRST INTERACTION
+// =========================================================
+
+document.addEventListener(
+    "pointerdown",
+
+    unlockEndingAmbience,
+
+    {
+        once: true
+    }
+);
 
 
 // =========================================================
