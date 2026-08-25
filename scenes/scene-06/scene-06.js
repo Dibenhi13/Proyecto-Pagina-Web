@@ -204,11 +204,15 @@ let feed01Started = false;
 let feed02Started = false;
 
 let transcript01Shown = false;
+
 let transcript02Shown = false;
+
 let transcript03Shown = false;
+
 let transcript04Shown = false;
 
 let log05Shown = false;
+
 let log06Shown = false;
 
 
@@ -233,6 +237,82 @@ if (
 
 document.documentElement.lang =
     currentLanguage;
+
+
+// =========================================================
+// AUDIO NARRATIVO SEGÚN IDIOMA
+// AUDIO_05
+// =========================================================
+
+const scene06Recording = {
+
+    en:
+        "../../assets/audio/recordings/en/AUDIO_05.mp3",
+
+    es:
+        "../../assets/audio/recordings/es/AUDIO_05.mp3"
+
+};
+
+
+// =========================================================
+// CARGAR AUDIO NARRATIVO
+// =========================================================
+
+function loadScene06Recording() {
+
+    if (!transmissionAudio) {
+
+        console.error(
+            "No se encontró #transmission-audio."
+        );
+
+        return;
+
+    }
+
+
+    const audioPath =
+        scene06Recording[
+            currentLanguage
+        ];
+
+
+    transmissionAudio.pause();
+
+    transmissionAudio.currentTime =
+        0;
+
+
+    transmissionAudio.src =
+        audioPath;
+
+
+    transmissionAudio.preload =
+        "auto";
+
+
+    transmissionAudio.volume =
+        1;
+
+
+    transmissionAudio.muted =
+        false;
+
+
+    transmissionAudio.playbackRate =
+        1;
+
+
+    transmissionAudio.load();
+
+
+    console.log(
+        "Scene 06 audio cargado:",
+        audioPath
+    );
+
+}
 
 
 // =========================================================
@@ -537,7 +617,7 @@ function startScene06Ambience() {
     if (scene06Hum) {
 
         scene06Hum.volume =
-            0.04;
+            0.03;
 
 
         scene06Hum
@@ -550,7 +630,7 @@ function startScene06Ambience() {
     if (scene06StaticLoop) {
 
         scene06StaticLoop.volume =
-            0.035;
+            0.005;
 
 
         scene06StaticLoop
@@ -563,7 +643,7 @@ function startScene06Ambience() {
     if (scene06DeepRumble) {
 
         scene06DeepRumble.volume =
-            0.025;
+            0.018;
 
 
         scene06DeepRumble
@@ -587,7 +667,7 @@ function unlockScene06Ambience() {
     ) {
 
         scene06Hum.volume =
-            0.04;
+            0.03;
 
 
         scene06Hum
@@ -599,11 +679,12 @@ function unlockScene06Ambience() {
 
     if (
         scene06StaticLoop &&
-        scene06StaticLoop.paused
+        scene06StaticLoop.paused &&
+        !sequenceActive
     ) {
 
         scene06StaticLoop.volume =
-            0.035;
+            0.005;
 
 
         scene06StaticLoop
@@ -619,7 +700,7 @@ function unlockScene06Ambience() {
     ) {
 
         scene06DeepRumble.volume =
-            0.025;
+            0.018;
 
 
         scene06DeepRumble
@@ -640,15 +721,14 @@ function lowerAmbienceForTransmission() {
     if (scene06Hum) {
 
         scene06Hum.volume =
-            0.018;
+            0.008;
 
     }
 
 
     if (scene06StaticLoop) {
 
-        scene06StaticLoop.volume =
-            0.018;
+        scene06StaticLoop.pause();
 
     }
 
@@ -656,7 +736,47 @@ function lowerAmbienceForTransmission() {
     if (scene06DeepRumble) {
 
         scene06DeepRumble.volume =
-            0.02;
+            0.008;
+
+    }
+
+}
+
+
+// =========================================================
+// RESTAURAR AMBIENTE
+// =========================================================
+
+function restoreScene06Ambience() {
+
+    if (scene06Hum) {
+
+        scene06Hum.volume =
+            0.03;
+
+    }
+
+
+    if (
+        scene06StaticLoop &&
+        scene06StaticLoop.paused
+    ) {
+
+        scene06StaticLoop.volume =
+            0.005;
+
+
+        scene06StaticLoop
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    if (scene06DeepRumble) {
+
+        scene06DeepRumble.volume =
+            0.018;
 
     }
 
@@ -902,18 +1022,13 @@ async function playInitialLogs() {
         );
 
 
-        /*
-            El tercer mensaje ya introduce
-            inestabilidad sonora.
-        */
-
         if (
             i === 2
         ) {
 
             safePlayAudio(
                 scene06Electrical,
-                0.18
+                0.10
             );
 
         }
@@ -949,13 +1064,13 @@ cameraButtons.forEach(
 
                 safePlayAudio(
                     scene06SystemError,
-                    0.5
+                    0.40
                 );
 
 
                 safePlayAudio(
                     scene06StaticShort,
-                    0.22
+                    0.08
                 );
 
 
@@ -986,13 +1101,13 @@ accessLogsButton.addEventListener(
 
         safePlayAudio(
             scene06SystemError,
-            0.5
+            0.40
         );
 
 
         safePlayAudio(
             scene06StaticShort,
-            0.2
+            0.08
         );
 
 
@@ -1155,13 +1270,13 @@ function activateVideo02() {
 
     safePlayAudio(
         scene06StaticShort,
-        0.48
+        0.10
     );
 
 
     safePlayAudio(
         scene06Electrical,
-        0.26
+        0.12
     );
 
 
@@ -1201,7 +1316,7 @@ function activateVideo02() {
 // PLAY AUDIO
 // =========================================================
 
-function startTransmissionPlayback() {
+async function startTransmissionPlayback() {
 
     if (
         audioStarted ||
@@ -1209,6 +1324,38 @@ function startTransmissionPlayback() {
     ) {
 
         return;
+
+    }
+
+
+    const text =
+        translations[
+            currentLanguage
+        ];
+
+
+    const expectedAudio =
+        scene06Recording[
+            currentLanguage
+        ];
+
+
+    console.log(
+        "Intentando reproducir AUDIO_05:",
+        expectedAudio
+    );
+
+
+    if (
+        transmissionAudio.getAttribute("src") !==
+        expectedAudio
+    ) {
+
+        transmissionAudio.src =
+            expectedAudio;
+
+
+        transmissionAudio.load();
 
     }
 
@@ -1222,12 +1369,6 @@ function startTransmissionPlayback() {
 
     sequenceActive =
         true;
-
-
-    const text =
-        translations[
-            currentLanguage
-        ];
 
 
     playTransmissionAudio.disabled =
@@ -1246,26 +1387,11 @@ function startTransmissionPlayback() {
         text.transcriptRecovering;
 
 
-    /*
-        Sonido del botón + inicio corrupto.
-    */
-
     safePlayAudio(
         scene06UIClick,
-        0.3
+        0.18
     );
 
-
-    safePlayAudio(
-        scene06StaticShort,
-        0.32
-    );
-
-
-    /*
-        Bajamos ambiente para que
-        el audio narrativo tenga prioridad.
-    */
 
     lowerAmbienceForTransmission();
 
@@ -1279,67 +1405,68 @@ function startTransmissionPlayback() {
 
 
     transmissionAudio.volume =
-        0.9;
+        1;
 
 
-    transmissionAudio
-        .play()
-        .catch(
-            () => {
-
-                audioStarted =
-                    false;
+    transmissionAudio.muted =
+        false;
 
 
-                sequenceActive =
-                    false;
+    transmissionAudio.playbackRate =
+        1;
 
 
-                playTransmissionAudio.disabled =
-                    false;
+    try {
+
+        await transmissionAudio.play();
 
 
-                audioButtonText.textContent =
-                    text.playAudio;
-
-
-                playbackStatusLabel.textContent =
-                    text.ready;
-
-
-                window.Scene06Animations
-                    .stopPlaybackState();
-
-
-                /*
-                    Restauramos ambiente.
-                */
-
-                if (scene06Hum) {
-
-                    scene06Hum.volume =
-                        0.04;
-
-                }
-
-
-                if (scene06StaticLoop) {
-
-                    scene06StaticLoop.volume =
-                        0.035;
-
-                }
-
-
-                if (scene06DeepRumble) {
-
-                    scene06DeepRumble.volume =
-                        0.025;
-
-                }
-
-            }
+        console.log(
+            "AUDIO_05 reproduciendo:",
+            transmissionAudio.currentSrc
         );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "ERROR reproduciendo AUDIO_05:",
+            error
+        );
+
+
+        audioStarted =
+            false;
+
+
+        sequenceActive =
+            false;
+
+
+        playTransmissionAudio.disabled =
+            false;
+
+
+        audioButtonText.textContent =
+            text.playAudio;
+
+
+        playbackStatusLabel.textContent =
+            text.ready;
+
+
+        transcriptStatus.textContent =
+            text.transcriptStatus;
+
+
+        window.Scene06Animations
+            .stopPlaybackState();
+
+
+        restoreScene06Ambience();
+
+    }
 
 }
 
@@ -1417,13 +1544,9 @@ transmissionAudio.addEventListener(
             );
 
 
-            /*
-                Primer glitch todavía moderado.
-            */
-
             safePlayAudio(
                 scene06GlitchMedium,
-                0.55
+                0.28
             );
 
 
@@ -1481,14 +1604,9 @@ transmissionAudio.addEventListener(
                 ].corruptedPlayback;
 
 
-            /*
-                El sonido acompaña exactamente
-                el cambio visual de nivel.
-            */
-
             safePlayAudio(
                 scene06GlitchMedium,
-                0.72
+                0.38
             );
 
 
@@ -1503,7 +1621,7 @@ transmissionAudio.addEventListener(
 
                     safePlayAudio(
                         scene06Electrical,
-                        0.22
+                        0.10
                     );
 
                 },
@@ -1534,16 +1652,12 @@ transmissionAudio.addEventListener(
             );
 
 
-            /*
-                Empieza a crecer el rumble.
-            */
-
             if (
                 scene06DeepRumble
             ) {
 
                 scene06DeepRumble.volume =
-                    0.04;
+                    0.018;
 
             }
 
@@ -1575,13 +1689,9 @@ transmissionAudio.addEventListener(
                 ].unstable;
 
 
-            /*
-                Aquí ya entra glitch fuerte.
-            */
-
             safePlayAudio(
                 scene06GlitchStrong,
-                0.8
+                0.42
             );
 
 
@@ -1602,22 +1712,9 @@ transmissionAudio.addEventListener(
             ) {
 
                 scene06DeepRumble.volume =
-                    0.055;
+                    0.025;
 
             }
-
-
-            setTimeout(
-                () => {
-
-                    safePlayAudio(
-                        scene06StaticShort,
-                        0.35
-                    );
-
-                },
-                120
-            );
 
         }
 
@@ -1644,20 +1741,15 @@ transmissionAudio.addEventListener(
             );
 
 
-            /*
-                Golpe bajo para marcar
-                que ya no es simple corrupción.
-            */
-
             safePlayAudio(
                 scene06LowImpact,
-                0.5
+                0.34
             );
 
 
             safePlayAudio(
                 scene06Electrical,
-                0.4
+                0.16
             );
 
 
@@ -1680,7 +1772,7 @@ transmissionAudio.addEventListener(
             ) {
 
                 scene06DeepRumble.volume =
-                    0.07;
+                    0.032;
 
             }
 
@@ -1724,19 +1816,8 @@ transmissionAudio.addEventListener(
                 ].unstableFeed;
 
 
-            /*
-                Glitch fuerte sincronizado
-                con increaseInstability(4).
-            */
-
             safePlayAudio(
                 scene06GlitchStrong,
-                1
-            );
-
-
-            safePlayAudio(
-                scene06StaticShort,
                 0.55
             );
 
@@ -1756,7 +1837,7 @@ transmissionAudio.addEventListener(
             ) {
 
                 scene06DeepRumble.volume =
-                    0.085;
+                    0.04;
 
             }
 
@@ -1791,13 +1872,13 @@ transmissionAudio.addEventListener(
 
             safePlayAudio(
                 scene06Electrical,
-                0.45
+                0.20
             );
 
 
             safePlayAudio(
                 scene06GlitchStrong,
-                0.8
+                0.48
             );
 
 
@@ -1810,7 +1891,7 @@ transmissionAudio.addEventListener(
             ) {
 
                 scene06DeepRumble.volume =
-                    0.10;
+                    0.05;
 
             }
 
@@ -1884,26 +1965,14 @@ transmissionAudio.addEventListener(
             .stopPlaybackState();
 
 
-        /*
-            Corte brusco del audio narrativo.
-        */
-
         await wait(
             100
         );
 
 
-        /*
-            Pérdida de señal.
-
-            Este sonido es el que debe
-            marcar claramente el final
-            de la transmisión.
-        */
-
         safePlayAudio(
             scene06SignalLost,
-            0.85
+            0.72
         );
 
 
@@ -1912,7 +1981,7 @@ transmissionAudio.addEventListener(
 
                 safePlayAudio(
                     scene06GlitchStrong,
-                    1
+                    0.9
                 );
 
             },
@@ -1925,7 +1994,7 @@ transmissionAudio.addEventListener(
 
                 safePlayAudio(
                     scene06StaticShort,
-                    0.6
+                    0.30
                 );
 
             },
@@ -1938,14 +2007,10 @@ transmissionAudio.addEventListener(
         ) {
 
             scene06DeepRumble.volume =
-                0.12;
+                0.08;
 
         }
 
-
-        /*
-            Hum desaparece.
-        */
 
         fadeAmbientAudio(
             scene06Hum,
@@ -1953,20 +2018,21 @@ transmissionAudio.addEventListener(
         );
 
 
-        /*
-            Dejamos algo de static y rumble
-            mientras aparece
-            TRANSMISSION LOST.
-        */
-
         await window.Scene06Animations
             .playTransmissionLostSequence();
 
 
-        fadeAmbientAudio(
-            scene06StaticLoop,
-            300
-        );
+        if (
+            scene06StaticLoop &&
+            !scene06StaticLoop.paused
+        ) {
+
+            fadeAmbientAudio(
+                scene06StaticLoop,
+                300
+            );
+
+        }
 
 
         fadeAmbientAudio(
@@ -1990,6 +2056,14 @@ transmissionAudio.addEventListener(
     "error",
 
     () => {
+
+        console.error(
+            "Error cargando AUDIO_05:",
+            scene06Recording[
+                currentLanguage
+            ]
+        );
+
 
         if (
             !audioStarted
@@ -2024,15 +2098,15 @@ transmissionAudio.addEventListener(
             ].ready;
 
 
+        transcriptStatus.textContent =
+            translations[
+                currentLanguage
+            ].transcriptStatus;
+
+
         safePlayAudio(
             scene06SystemError,
-            0.55
-        );
-
-
-        safePlayAudio(
-            scene06StaticShort,
-            0.35
+            0.42
         );
 
 
@@ -2048,38 +2122,7 @@ transmissionAudio.addEventListener(
             );
 
 
-        /*
-            Restaurar ambiente.
-        */
-
-        if (
-            scene06Hum
-        ) {
-
-            scene06Hum.volume =
-                0.04;
-
-        }
-
-
-        if (
-            scene06StaticLoop
-        ) {
-
-            scene06StaticLoop.volume =
-                0.035;
-
-        }
-
-
-        if (
-            scene06DeepRumble
-        ) {
-
-            scene06DeepRumble.volume =
-                0.025;
-
-        }
+        restoreScene06Ambience();
 
     }
 );
@@ -2109,12 +2152,18 @@ async function initScene06() {
     updateInterfaceLanguage();
 
 
+    // CARGAR AUDIO_05
+
+    loadScene06Recording();
+
+
     /*
-        Videos preparados pero detenidos.
+        VIDEOS:
+        se respetan exactamente los src
+        que ya tienes puestos en el HTML.
     */
 
     video01.pause();
-
 
     video02.pause();
 
@@ -2122,10 +2171,6 @@ async function initScene06() {
     window.Scene06Animations
         .init();
 
-
-    /*
-        Ambiente desde entrada.
-    */
 
     startScene06Ambience();
 

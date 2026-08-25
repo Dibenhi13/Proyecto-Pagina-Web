@@ -205,6 +205,8 @@ let currentOpenLog = null;
 
 let cameraDeniedAttempts = 0;
 
+let sceneTransitioning = false;
+
 
 // =========================================================
 // CÁMARA FIJA
@@ -213,13 +215,13 @@ let cameraDeniedAttempts = 0;
 const lockedCamera = {
 
     src:
-        "../../assets/video/cam-01.mp4",
+        "../../assets/video/scene-04-cam-01.mp4",
 
     labelEN:
-        "EXTERNAL CAM 01",
+        "CORRIDOR CAM 01",
 
     labelES:
-        "CÁMARA EXTERIOR 01"
+        "CÁMARA PASILLO 01"
 
 };
 
@@ -393,7 +395,7 @@ const translations = {
 
 
 // =========================================================
-// DATOS DE LOS NUEVOS LOGS
+// DATOS DE LOS LOGS
 // =========================================================
 
 const archivedLogsData = {
@@ -732,6 +734,82 @@ document.documentElement.lang =
 
 
 // =========================================================
+// AUDIO NARRATIVO SEGÚN IDIOMA
+// AUDIO_02
+// =========================================================
+
+const scene04Recording = {
+
+    en:
+        "../../assets/audio/recordings/en/AUDIO_02.mp3",
+
+    es:
+        "../../assets/audio/recordings/es/AUDIO_02.mp3"
+
+};
+
+
+// =========================================================
+// CARGAR AUDIO NARRATIVO
+// =========================================================
+
+function loadScene04Recording() {
+
+    if (!corruptedAudio) {
+
+        console.error(
+            "No se encontró #corrupted-audio."
+        );
+
+        return;
+
+    }
+
+
+    const audioPath =
+        scene04Recording[
+            currentLanguage
+        ];
+
+
+    corruptedAudio.pause();
+
+    corruptedAudio.currentTime =
+        0;
+
+
+    corruptedAudio.src =
+        audioPath;
+
+
+    corruptedAudio.preload =
+        "auto";
+
+
+    corruptedAudio.volume =
+        1;
+
+
+    corruptedAudio.muted =
+        false;
+
+
+    corruptedAudio.playbackRate =
+        1;
+
+
+    corruptedAudio.load();
+
+
+    console.log(
+        "Scene 04 audio cargado:",
+        audioPath
+    );
+
+}
+
+
+// =========================================================
 // WAIT
 // =========================================================
 
@@ -793,7 +871,7 @@ function startScene04Ambience() {
     if (scene04Hum) {
 
         scene04Hum.volume =
-            0.06;
+            0.035;
 
 
         scene04Hum
@@ -806,7 +884,7 @@ function startScene04Ambience() {
     if (scene04StaticLoop) {
 
         scene04StaticLoop.volume =
-            0.035;
+            0.006;
 
 
         scene04StaticLoop
@@ -830,7 +908,7 @@ function unlockScene04Ambience() {
     ) {
 
         scene04Hum.volume =
-            0.06;
+            0.035;
 
 
         scene04Hum
@@ -842,11 +920,12 @@ function unlockScene04Ambience() {
 
     if (
         scene04StaticLoop &&
-        scene04StaticLoop.paused
+        scene04StaticLoop.paused &&
+        !audioIsPlaying
     ) {
 
         scene04StaticLoop.volume =
-            0.035;
+            0.006;
 
 
         scene04StaticLoop
@@ -859,29 +938,64 @@ function unlockScene04Ambience() {
 
 
 // =========================================================
-// BAJAR AMBIENTE DURANTE AUDIO NARRATIVO
+// BAJAR AMBIENTE DURANTE AUDIO
 // =========================================================
 
 function lowerAmbienceForDialogue() {
 
     if (
-        scene04Hum &&
-        !scene04Hum.paused
+        scene04Hum
     ) {
 
         scene04Hum.volume =
-            0.025;
+            0.008;
 
     }
 
 
     if (
-        scene04StaticLoop &&
-        !scene04StaticLoop.paused
+        scene04StaticLoop
+    ) {
+
+        scene04StaticLoop.pause();
+
+        scene04StaticLoop.currentTime =
+            0;
+
+    }
+
+}
+
+
+// =========================================================
+// RESTAURAR AMBIENTE
+// =========================================================
+
+function restoreScene04Ambience() {
+
+    if (
+        scene04Hum
+    ) {
+
+        scene04Hum.volume =
+            0.035;
+
+    }
+
+
+    if (
+        scene04StaticLoop
     ) {
 
         scene04StaticLoop.volume =
-            0.012;
+            0.006;
+
+
+        scene04StaticLoop
+            .play()
+            .catch(
+                () => {}
+            );
 
     }
 
@@ -972,7 +1086,9 @@ function fadeAmbientAudio(
 function updateInterfaceLanguage() {
 
     const text =
-        translations[currentLanguage];
+        translations[
+            currentLanguage
+        ];
 
 
     connectionStatus.textContent =
@@ -1044,10 +1160,14 @@ function updateInterfaceLanguage() {
                 );
 
 
-            description.textContent =
-                text.archiveItems[
-                    index
-                ];
+            if (description) {
+
+                description.textContent =
+                    text.archiveItems[
+                        index
+                    ];
+
+            }
 
         }
     );
@@ -1143,23 +1263,19 @@ async function playSystemLogs() {
             );
 
 
-        // -----------------------------------------
-        // CAMERA CONTROL UNAVAILABLE
-        // -----------------------------------------
-
         if (
             i === 1
         ) {
 
             safePlayAudio(
                 scene04StaticShort,
-                0.28
+                0.10
             );
 
 
             safePlayAudio(
                 scene04Electrical,
-                0.18
+                0.14
             );
 
 
@@ -1169,17 +1285,13 @@ async function playSystemLogs() {
         }
 
 
-        // -----------------------------------------
-        // ARCHIVE INTEGRITY COMPROMISED
-        // -----------------------------------------
-
         if (
             i === 2
         ) {
 
             safePlayAudio(
                 scene04Electrical,
-                0.32
+                0.20
             );
 
 
@@ -1238,19 +1350,15 @@ function attemptCameraChange(
         message;
 
 
-    // Error principal
-
     safePlayAudio(
         scene04SystemError,
-        0.5
+        0.42
     );
 
 
-    // Feed intenta responder
-
     safePlayAudio(
         scene04StaticShort,
-        0.3
+        0.10
     );
 
 
@@ -1264,18 +1372,13 @@ function attemptCameraChange(
         .showCameraDeniedMessage();
 
 
-    /*
-        Si insiste, el sistema
-        reacciona más agresivamente.
-    */
-
     if (
         cameraDeniedAttempts >= 3
     ) {
 
         safePlayAudio(
             scene04Glitch,
-            0.55
+            0.48
         );
 
 
@@ -1321,7 +1424,7 @@ function openArchivedLogs() {
 
     safePlayAudio(
         scene04UIClick,
-        0.28
+        0.24
     );
 
 
@@ -1344,18 +1447,13 @@ function openArchivedLogs() {
 function closeArchivedLogs() {
 
     if (
-        audioIsPlaying
+        audioIsPlaying ||
+        sceneTransitioning
     ) {
 
         safePlayAudio(
             scene04SystemError,
-            0.5
-        );
-
-
-        safePlayAudio(
-            scene04StaticShort,
-            0.22
+            0.42
         );
 
 
@@ -1370,8 +1468,14 @@ function closeArchivedLogs() {
 
     safePlayAudio(
         scene04UIClick,
-        0.2
+        0.18
     );
+
+
+    corruptedAudio.pause();
+
+    corruptedAudio.currentTime =
+        0;
 
 
     window.Scene04Animations
@@ -1401,12 +1505,13 @@ function showArchivedLog(
 ) {
 
     if (
-        audioIsPlaying
+        audioIsPlaying ||
+        sceneTransitioning
     ) {
 
         safePlayAudio(
             scene04SystemError,
-            0.5
+            0.42
         );
 
 
@@ -1421,7 +1526,7 @@ function showArchivedLog(
 
     safePlayAudio(
         scene04UIClick,
-        0.22
+        0.18
     );
 
 
@@ -1437,9 +1542,7 @@ function showArchivedLog(
         ];
 
 
-    if (
-        !log
-    ) {
+    if (!log) {
 
         return;
 
@@ -1551,9 +1654,7 @@ function showArchivedLog(
     }
 
 
-    // -----------------------------------------
-    // LOGS CON DISTINTA INTENSIDAD
-    // -----------------------------------------
+    // LOG 06 — estática mínima
 
     if (
         logNumber === "06"
@@ -1561,11 +1662,13 @@ function showArchivedLog(
 
         safePlayAudio(
             scene04StaticShort,
-            0.18
+            0.08
         );
 
     }
 
+
+    // LOG 07 — interferencia mínima
 
     if (
         logNumber === "07"
@@ -1573,28 +1676,19 @@ function showArchivedLog(
 
         safePlayAudio(
             scene04Electrical,
-            0.22
+            0.12
         );
 
     }
 
 
-    if (
-        logNumber === "08"
-    ) {
+    /*
+        LOG 08:
+        SIN STATIC
+        SIN ELECTRICAL
 
-        safePlayAudio(
-            scene04StaticShort,
-            0.38
-        );
-
-
-        safePlayAudio(
-            scene04Electrical,
-            0.28
-        );
-
-    }
+        Así AUDIO_02 entra limpio.
+    */
 
 
     window.Scene04Animations
@@ -1633,18 +1727,43 @@ archivedLogItems.forEach(
 
 
 // =========================================================
-// PLAY AUDIO
+// DESBLOQUEAR INTERFAZ AUDIO
 // =========================================================
 
-function playCorruptedAudio() {
+function unlockAudioInterface() {
+
+    closeLogsButton.classList.remove(
+        "audio-locked"
+    );
+
+
+    archivedLogItems.forEach(
+        item => {
+
+            item.classList.remove(
+                "audio-locked"
+            );
+
+        }
+    );
+
+}
+
+
+// =========================================================
+// PLAY AUDIO NARRATIVO
+// =========================================================
+
+async function playCorruptedAudio() {
 
     if (
-        audioIsPlaying
+        audioIsPlaying ||
+        sceneTransitioning
     ) {
 
         safePlayAudio(
             scene04SystemError,
-            0.4
+            0.35
         );
 
 
@@ -1653,34 +1772,74 @@ function playCorruptedAudio() {
     }
 
 
-    unlockScene04Ambience();
+    const text =
+        translations[
+            currentLanguage
+        ];
 
+
+    const expectedAudio =
+        scene04Recording[
+            currentLanguage
+        ];
+
+
+    console.log(
+        "Intentando reproducir AUDIO_02:",
+        expectedAudio
+    );
+
+
+    // =====================================================
+    // FORZAR SRC CORRECTO
+    // =====================================================
+
+    if (
+        corruptedAudio.getAttribute("src") !==
+        expectedAudio
+    ) {
+
+        corruptedAudio.src =
+            expectedAudio;
+
+
+        corruptedAudio.load();
+
+    }
+
+
+    // =====================================================
+    // ESTADO
+    // =====================================================
 
     audioIsPlaying =
         true;
 
 
     corruptedAudioText.textContent =
-        translations[
-            currentLanguage
-        ].playingAudio;
+        text.playingAudio;
 
 
-    // Click al iniciar
+    // =====================================================
+    // CLICK
+    // =====================================================
 
     safePlayAudio(
         scene04UIClick,
-        0.28
+        0.16
     );
 
 
-    /*
-        Bajamos el ambiente para que
-        el diálogo narrativo tenga prioridad.
-    */
+    // =====================================================
+    // QUITAR AMBIENTE
+    // =====================================================
 
     lowerAmbienceForDialogue();
 
+
+    // =====================================================
+    // BLOQUEO UI
+    // =====================================================
 
     closeLogsButton.classList.add(
         "audio-locked"
@@ -1706,90 +1865,70 @@ function playCorruptedAudio() {
         .playAudioButtonFeedback();
 
 
+    // =====================================================
+    // PREPARAR AUDIO
+    // =====================================================
+
     corruptedAudio.currentTime =
         0;
 
 
     corruptedAudio.volume =
-        0.88;
+        1;
 
 
-    corruptedAudio
-        .play()
-        .catch(
-            () => {
-
-                audioIsPlaying =
-                    false;
+    corruptedAudio.muted =
+        false;
 
 
-                corruptedAudioText.textContent =
-                    audioHasPlayed
-                        ? translations[
-                            currentLanguage
-                        ].replayAudio
-                        : translations[
-                            currentLanguage
-                        ].playAudio;
+    corruptedAudio.playbackRate =
+        1;
 
 
-                unlockAudioInterface();
+    // =====================================================
+    // PLAY
+    // =====================================================
+
+    try {
+
+        await corruptedAudio.play();
 
 
-                window.Scene04Animations
-                    .stopAudioVisualization();
-
-
-                /*
-                    Si falla el asset,
-                    restauramos el ambiente.
-                */
-
-                if (
-                    scene04Hum
-                ) {
-
-                    scene04Hum.volume =
-                        0.06;
-
-                }
-
-
-                if (
-                    scene04StaticLoop
-                ) {
-
-                    scene04StaticLoop.volume =
-                        0.035;
-
-                }
-
-            }
+        console.log(
+            "AUDIO_02 reproduciendo:",
+            corruptedAudio.currentSrc
         );
 
-}
+    }
+
+    catch (error) {
+
+        console.error(
+            "ERROR reproduciendo AUDIO_02:",
+            error
+        );
 
 
-// =========================================================
-// DESBLOQUEAR INTERFAZ DEL AUDIO
-// =========================================================
-
-function unlockAudioInterface() {
-
-    closeLogsButton.classList.remove(
-        "audio-locked"
-    );
+        audioIsPlaying =
+            false;
 
 
-    archivedLogItems.forEach(
-        item => {
+        corruptedAudioText.textContent =
+            audioHasPlayed
+                ? text.replayAudio
+                : text.playAudio;
 
-            item.classList.remove(
-                "audio-locked"
-            );
 
-        }
-    );
+        unlockAudioInterface();
+
+
+        window.Scene04Animations
+            .stopAudioVisualization();
+
+
+        restoreScene04Ambience();
+
+    }
 
 }
 
@@ -1819,14 +1958,20 @@ function createAudioDistortion() {
     }
 
 
+    /*
+        Distorsión ligera.
+        No usamos static-short para no tapar
+        el diálogo narrativo.
+    */
+
     const playbackRates = [
 
         1,
         1,
-        0.97,
         1,
-        0.94,
-        1.02
+        0.98,
+        1,
+        1.01
 
     ];
 
@@ -1840,63 +1985,20 @@ function createAudioDistortion() {
         ];
 
 
-    /*
-        Caída pequeña de volumen.
-    */
-
     if (
-        Math.random() > 0.72
-    ) {
-
-        corruptedAudio.volume =
-            0.48;
-
-
-        safePlayAudio(
-            scene04StaticShort,
-            0.14
-        );
-
-
-        setTimeout(
-            () => {
-
-                if (
-                    audioIsPlaying
-                ) {
-
-                    corruptedAudio.volume =
-                        0.88;
-
-                }
-
-            },
-
-            110
-        );
-
-    }
-
-
-    /*
-        Algunas distorsiones también
-        producen interferencia eléctrica.
-    */
-
-    if (
-        Math.random() > 0.72
+        Math.random() > 0.92
     ) {
 
         safePlayAudio(
             scene04Electrical,
-            0.12
+            0.05
         );
 
     }
 
 
     if (
-        Math.random() > 0.62
+        Math.random() > 0.72
     ) {
 
         window.Scene04Animations
@@ -1908,9 +2010,9 @@ function createAudioDistortion() {
     setTimeout(
         createAudioDistortion,
 
-        700 +
+        1100 +
         Math.random() *
-        1200
+        1500
     );
 
 }
@@ -1926,6 +2028,46 @@ corruptedAudio.addEventListener(
     () => {
 
         createAudioDistortion();
+
+    }
+);
+
+
+// =========================================================
+// AUDIO ERROR
+// =========================================================
+
+corruptedAudio.addEventListener(
+    "error",
+
+    () => {
+
+        console.error(
+            "No se pudo cargar:",
+            scene04Recording[
+                currentLanguage
+            ]
+        );
+
+
+        audioIsPlaying =
+            false;
+
+
+        unlockAudioInterface();
+
+
+        restoreScene04Ambience();
+
+
+        if (
+            window.Scene04Animations
+        ) {
+
+            window.Scene04Animations
+                .stopAudioVisualization();
+
+        }
 
     }
 );
@@ -1948,6 +2090,10 @@ corruptedAudio.addEventListener(
             true;
 
 
+        sceneTransitioning =
+            true;
+
+
         corruptedAudio.playbackRate =
             1;
 
@@ -1961,11 +2107,6 @@ corruptedAudio.addEventListener(
                 currentLanguage
             ].replayAudio;
 
-
-        /*
-            Desde este momento
-            el sistema toma control.
-        */
 
         corruptedAudioButton.disabled =
             true;
@@ -2003,21 +2144,14 @@ corruptedAudio.addEventListener(
             .stopAudioVisualization();
 
 
-        // -----------------------------------------
-        // SILENCIO / IMPACTO
-        // -----------------------------------------
+        // =====================================================
+        // IMPACTO FINAL
+        // =====================================================
 
         await wait(
             160
         );
 
-
-        /*
-            Un solo golpe metálico.
-
-            No lo usamos aleatoriamente
-            para que conserve peso.
-        */
 
         safePlayAudio(
             scene04MetalBang,
@@ -2030,31 +2164,23 @@ corruptedAudio.addEventListener(
         );
 
 
-        // -----------------------------------------
-        // COLAPSO
-        // -----------------------------------------
-
         safePlayAudio(
             scene04Electrical,
-            0.4
+            0.32
         );
 
 
         safePlayAudio(
             scene04Glitch,
-            0.9
+            0.82
         );
 
 
         safePlayAudio(
             scene04StaticShort,
-            0.5
+            0.22
         );
 
-
-        /*
-            Desaparece el ambiente.
-        */
 
         fadeAmbientAudio(
             scene04Hum,
@@ -2062,15 +2188,23 @@ corruptedAudio.addEventListener(
         );
 
 
-        fadeAmbientAudio(
-            scene04StaticLoop,
-            550
-        );
-
-
         /*
-            Glitch visual final.
+            Static loop ya está pausado
+            durante AUDIO_02.
         */
+
+        if (
+            scene04StaticLoop &&
+            !scene04StaticLoop.paused
+        ) {
+
+            fadeAmbientAudio(
+                scene04StaticLoop,
+                550
+            );
+
+        }
+
 
         await window.Scene04Animations
             .playScene05Transition();
@@ -2171,27 +2305,53 @@ document.addEventListener(
 
 async function initScene04() {
 
+    // =====================================================
+    // IDIOMA
+    // =====================================================
+
     updateInterfaceLanguage();
 
 
+    // =====================================================
+    // AUDIO_02
+    // =====================================================
+
+    loadScene04Recording();
+
+
+    // =====================================================
+    // VIDEO
+    // =====================================================
+
     loadLockedCamera();
 
+
+    // =====================================================
+    // ANIMACIONES
+    // =====================================================
 
     window.Scene04Animations
         .init();
 
 
-    /*
-        Intentamos iniciar ambiente desde
-        que entra la escena.
-    */
+    // =====================================================
+    // AMBIENTE
+    // =====================================================
 
     startScene04Ambience();
 
 
+    // =====================================================
+    // ENTRADA
+    // =====================================================
+
     await window.Scene04Animations
         .playSceneEntry();
 
+
+    // =====================================================
+    // LOGS
+    // =====================================================
 
     playSystemLogs();
 

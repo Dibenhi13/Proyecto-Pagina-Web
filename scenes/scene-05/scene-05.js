@@ -62,11 +62,13 @@ const logsTitle =
     document.querySelector("#logs-title");
 
 const systemLogElements = [
+
     document.querySelector("#system-log-01"),
     document.querySelector("#system-log-02"),
     document.querySelector("#system-log-03"),
     document.querySelector("#system-log-04"),
     document.querySelector("#system-log-05")
+
 ];
 
 
@@ -222,17 +224,24 @@ const securityAlertSecondary =
 // ESTADO
 // =========================================================
 
-let currentLanguage = "en";
+let currentLanguage =
+    "en";
 
-let currentPhase = 1;
+let currentPhase =
+    1;
 
-let currentFile = null;
+let currentFile =
+    null;
 
-let currentAudio = null;
+let currentAudio =
+    null;
 
-let audioPlaying = false;
+let audioPlaying =
+    false;
 
-let finalSequenceStarted = false;
+let finalSequenceStarted =
+    false;
+
 
 const visitedFiles =
     new Set();
@@ -245,10 +254,10 @@ const visitedFiles =
 const assets = {
 
     video01:
-        "../../assets/video/video-01.mp4",
+        "../../assets/video/VIDEO_01.mp4",
 
     video02:
-        "../../assets/video/video-02.mp4",
+        "../../assets/video/VIDEO_02.mp4",
 
     image01:
         "../../assets/images/image-01.jpg"
@@ -325,9 +334,13 @@ const translations = {
             "[CREW CHAT // INTERNAL]",
 
         systemLogs: [
+
             "Rewriting log entry...",
+
             "Correction applied",
+
             "Audio file integrity unstable"
+
         ],
 
         phaseTwoLog:
@@ -346,51 +359,73 @@ const translations = {
             "SYSTEM INTEGRITY COMPROMISED",
 
         chat01: [
+
             {
                 time: "[22:14]",
                 text: "Did you hear that?"
             },
+
             {
                 time: "[22:15]",
                 text: "It's probably interference..."
             },
+
             {
                 time: "[22:15]",
                 text: "No... that was inside."
             }
+
         ],
 
         chat02: [
+
             {
                 time: "[02:31]",
                 text: "Who is in corridor C?"
             },
+
             {
                 time: "[02:32]",
                 text: "Nobody."
             },
+
             {
                 time: "[02:33]",
                 text: "Then why did the door just open?"
             }
+
         ],
 
         archive01: [
+
             "INTERNAL RECOVERY REPORT",
+
             "Audio signatures detected outside registered crew channels.",
+
             "Source identification failed.",
+
             "Automatic correction protocol initiated.",
+
             "Crew notification suppressed.",
+
             "▒▒▒ RECORD ALTERED ▒▒▒"
+
         ],
 
         fragment01: [
+
             "RECOVERED SYSTEM FRAGMENT",
+
             "ACCESS LEVEL: UNKNOWN",
+
             "CREW RESPONSE LOG REMOVED",
+
             "SOURCE: INTERNAL SYSTEM",
+
             "LAST COMMAND: DO NOT ARCHIVE",
+
             "▒▒▒ UNAUTHORIZED PATHWAY OPEN ▒▒▒"
+
         ]
 
     },
@@ -459,9 +494,13 @@ const translations = {
             "[CHAT DE TRIPULACIÓN // INTERNO]",
 
         systemLogs: [
+
             "Reescribiendo entrada de registro...",
+
             "Corrección aplicada",
+
             "Integridad de archivo de audio inestable"
+
         ],
 
         phaseTwoLog:
@@ -480,51 +519,73 @@ const translations = {
             "INTEGRIDAD DEL SISTEMA COMPROMETIDA",
 
         chat01: [
+
             {
                 time: "[22:14]",
                 text: "¿Escuchaste eso?"
             },
+
             {
                 time: "[22:15]",
                 text: "Probablemente es interferencia..."
             },
+
             {
                 time: "[22:15]",
                 text: "No... eso estaba dentro."
             }
+
         ],
 
         chat02: [
+
             {
                 time: "[02:31]",
                 text: "¿Quién está en el corredor C?"
             },
+
             {
                 time: "[02:32]",
                 text: "Nadie."
             },
+
             {
                 time: "[02:33]",
                 text: "Entonces, ¿por qué acaba de abrirse la puerta?"
             }
+
         ],
 
         archive01: [
+
             "REPORTE INTERNO DE RECUPERACIÓN",
+
             "Firmas de audio detectadas fuera de los canales registrados de la tripulación.",
+
             "La identificación de la fuente falló.",
+
             "Protocolo de corrección automática iniciado.",
+
             "Notificación a la tripulación suprimida.",
+
             "▒▒▒ REGISTRO ALTERADO ▒▒▒"
+
         ],
 
         fragment01: [
+
             "FRAGMENTO DEL SISTEMA RECUPERADO",
+
             "NIVEL DE ACCESO: DESCONOCIDO",
+
             "REGISTRO DE RESPUESTA DE TRIPULACIÓN ELIMINADO",
+
             "FUENTE: SISTEMA INTERNO",
+
             "ÚLTIMO COMANDO: NO ARCHIVAR",
+
             "▒▒▒ RUTA NO AUTORIZADA ABIERTA ▒▒▒"
+
         ]
 
     }
@@ -537,7 +598,9 @@ const translations = {
 // =========================================================
 
 const savedLanguage =
-    localStorage.getItem("language");
+    localStorage.getItem(
+        "language"
+    );
 
 
 if (
@@ -553,6 +616,117 @@ if (
 
 document.documentElement.lang =
     currentLanguage;
+
+
+// =========================================================
+// AUDIOS NARRATIVOS SEGÚN IDIOMA
+//
+// audio01 de Scene 05 = AUDIO_03
+// audio02 de Scene 05 = AUDIO_04
+// =========================================================
+
+const scene05Recordings = {
+
+    en: {
+
+        audio01:
+            "../../assets/audio/recordings/en/AUDIO_03.mp3",
+
+        audio02:
+            "../../assets/audio/recordings/en/AUDIO_04.mp3"
+
+    },
+
+
+    es: {
+
+        audio01:
+            "../../assets/audio/recordings/es/AUDIO_03.mp3",
+
+        audio02:
+            "../../assets/audio/recordings/es/AUDIO_04.mp3"
+
+    }
+
+};
+
+
+// =========================================================
+// CARGAR AUDIOS NARRATIVOS
+// =========================================================
+
+function loadScene05Recordings() {
+
+    const recordings =
+        scene05Recordings[
+            currentLanguage
+        ];
+
+
+    if (
+        audioFile01
+    ) {
+
+        audioFile01.pause();
+
+        audioFile01.currentTime =
+            0;
+
+        audioFile01.src =
+            recordings.audio01;
+
+        audioFile01.preload =
+            "auto";
+
+        audioFile01.volume =
+            1;
+
+        audioFile01.muted =
+            false;
+
+        audioFile01.playbackRate =
+            1;
+
+        audioFile01.load();
+
+    }
+
+
+    if (
+        audioFile02
+    ) {
+
+        audioFile02.pause();
+
+        audioFile02.currentTime =
+            0;
+
+        audioFile02.src =
+            recordings.audio02;
+
+        audioFile02.preload =
+            "auto";
+
+        audioFile02.volume =
+            1;
+
+        audioFile02.muted =
+            false;
+
+        audioFile02.playbackRate =
+            1;
+
+        audioFile02.load();
+
+    }
+
+
+    console.log(
+        "Scene 05 recordings:",
+        recordings
+    );
+
+}
 
 
 // =========================================================
@@ -587,7 +761,9 @@ function safePlayAudio(
     }
 
 
-    if (restart) {
+    if (
+        restart
+    ) {
 
         audio.currentTime =
             0;
@@ -601,7 +777,9 @@ function safePlayAudio(
 
     audio
         .play()
-        .catch(() => {});
+        .catch(
+            () => {}
+        );
 
 }
 
@@ -612,28 +790,40 @@ function safePlayAudio(
 
 function startScene05Ambience() {
 
-    if (scene05Hum) {
+    if (
+        scene05Hum
+    ) {
 
         scene05Hum.volume =
-            0.05;
+            0.035;
 
 
         scene05Hum
             .play()
-            .catch(() => {});
+            .catch(
+                () => {}
+            );
 
     }
 
 
-    if (scene05StaticLoop) {
+    if (
+        scene05StaticLoop
+    ) {
+
+        /*
+            Mucho más bajo que antes.
+        */
 
         scene05StaticLoop.volume =
-            0.02;
+            0.005;
 
 
         scene05StaticLoop
             .play()
-            .catch(() => {});
+            .catch(
+                () => {}
+            );
 
     }
 
@@ -652,32 +842,37 @@ function unlockScene05Ambience() {
     ) {
 
         scene05Hum.volume =
-            0.05;
+            0.035;
 
 
         scene05Hum
             .play()
-            .catch(() => {});
+            .catch(
+                () => {}
+            );
 
     }
 
 
     if (
         scene05StaticLoop &&
-        scene05StaticLoop.paused
+        scene05StaticLoop.paused &&
+        !audioPlaying
     ) {
 
         scene05StaticLoop.volume =
             currentPhase === 1
-                ? 0.02
+                ? 0.005
                 : currentPhase === 2
-                    ? 0.035
-                    : 0.05;
+                    ? 0.008
+                    : 0.012;
 
 
         scene05StaticLoop
             .play()
-            .catch(() => {});
+            .catch(
+                () => {}
+            );
 
     }
 
@@ -689,12 +884,14 @@ function unlockScene05Ambience() {
     ) {
 
         scene05DeepRumble.volume =
-            0.04;
+            0.025;
 
 
         scene05DeepRumble
             .play()
-            .catch(() => {});
+            .catch(
+                () => {}
+            );
 
     }
 
@@ -711,10 +908,12 @@ function updatePhaseAmbience() {
         currentPhase === 1
     ) {
 
-        if (scene05StaticLoop) {
+        if (
+            scene05StaticLoop
+        ) {
 
             scene05StaticLoop.volume =
-                0.02;
+                0.005;
 
         }
 
@@ -728,10 +927,12 @@ function updatePhaseAmbience() {
         currentPhase === 2
     ) {
 
-        if (scene05StaticLoop) {
+        if (
+            scene05StaticLoop
+        ) {
 
             scene05StaticLoop.volume =
-                0.035;
+                0.008;
 
         }
 
@@ -745,18 +946,22 @@ function updatePhaseAmbience() {
         currentPhase >= 3
     ) {
 
-        if (scene05StaticLoop) {
+        if (
+            scene05StaticLoop
+        ) {
 
             scene05StaticLoop.volume =
-                0.05;
+                0.012;
 
         }
 
 
-        if (scene05DeepRumble) {
+        if (
+            scene05DeepRumble
+        ) {
 
             scene05DeepRumble.volume =
-                0.04;
+                0.025;
 
 
             if (
@@ -765,7 +970,9 @@ function updatePhaseAmbience() {
 
                 scene05DeepRumble
                     .play()
-                    .catch(() => {});
+                    .catch(
+                        () => {}
+                    );
 
             }
 
@@ -777,40 +984,42 @@ function updatePhaseAmbience() {
 
 
 // =========================================================
-// BAJAR AMBIENTE DURANTE AUDIO
+// BAJAR AMBIENTE DURANTE AUDIO NARRATIVO
 // =========================================================
 
 function lowerAmbienceForDialogue() {
 
     if (
-        scene05Hum &&
-        !scene05Hum.paused
+        scene05Hum
     ) {
 
         scene05Hum.volume =
-            0.022;
+            0.008;
 
     }
 
 
+    /*
+        Igual que Scene 04:
+        durante el diálogo quitamos por completo
+        la estática continua.
+    */
+
     if (
-        scene05StaticLoop &&
-        !scene05StaticLoop.paused
+        scene05StaticLoop
     ) {
 
-        scene05StaticLoop.volume =
-            0.01;
+        scene05StaticLoop.pause();
 
     }
 
 
     if (
-        scene05DeepRumble &&
-        !scene05DeepRumble.paused
+        scene05DeepRumble
     ) {
 
         scene05DeepRumble.volume =
-            0.02;
+            0.008;
 
     }
 
@@ -823,15 +1032,55 @@ function lowerAmbienceForDialogue() {
 
 function restorePhaseAmbience() {
 
-    if (scene05Hum) {
+    if (
+        finalSequenceStarted
+    ) {
 
-        scene05Hum.volume =
-            0.05;
+        return;
 
     }
 
 
-    updatePhaseAmbience();
+    if (
+        scene05Hum
+    ) {
+
+        scene05Hum.volume =
+            0.035;
+
+    }
+
+
+    if (
+        scene05StaticLoop
+    ) {
+
+        scene05StaticLoop.volume =
+            currentPhase === 1
+                ? 0.005
+                : currentPhase === 2
+                    ? 0.008
+                    : 0.012;
+
+
+        scene05StaticLoop
+            .play()
+            .catch(
+                () => {}
+            );
+
+    }
+
+
+    if (
+        currentPhase >= 3 &&
+        scene05DeepRumble
+    ) {
+
+        scene05DeepRumble.volume =
+            0.025;
+
+    }
 
 }
 
@@ -868,7 +1117,8 @@ function fadeAmbientAudio(
 
 
     const interval =
-        duration / steps;
+        duration /
+        steps;
 
 
     const fade =
@@ -919,7 +1169,9 @@ function fadeAmbientAudio(
 function updateInterfaceLanguage() {
 
     const text =
-        translations[currentLanguage];
+        translations[
+            currentLanguage
+        ];
 
 
     connectionStatus.textContent =
@@ -985,8 +1237,12 @@ function setSystemLog(
         ];
 
 
-    if (!log) {
+    if (
+        !log
+    ) {
+
         return;
+
     }
 
 
@@ -1041,7 +1297,7 @@ async function playInitialSystemLogs() {
 
             safePlayAudio(
                 scene05Electrical,
-                0.15
+                0.10
             );
 
         }
@@ -1077,7 +1333,7 @@ cameraButtons.forEach(
 
                 safePlayAudio(
                     scene05SystemError,
-                    0.45
+                    0.40
                 );
 
 
@@ -1110,7 +1366,7 @@ accessLogsButton.addEventListener(
 
         safePlayAudio(
             scene05SystemError,
-            0.45
+            0.40
         );
 
 
@@ -1133,17 +1389,20 @@ accessLogsButton.addEventListener(
 function hideAllFileContent() {
 
     [
+
         chatContent,
         audioContent,
         videoContent,
         imageContent,
         archiveContent
+
     ]
         .forEach(
             content => {
 
                 content.style.display =
                     "none";
+
 
                 content.style.opacity =
                     "0";
@@ -1181,7 +1440,9 @@ function openArchiveFile(
     if (
         !button ||
         button.disabled ||
-        button.classList.contains("locked")
+        button.classList.contains(
+            "locked"
+        )
     ) {
 
         return;
@@ -1198,29 +1459,42 @@ function openArchiveFile(
 
     safePlayAudio(
         scene05UIClick,
-        0.22
+        0.18
     );
 
 
+    /*
+        IMPORTANTE:
+        No reproducimos static al abrir
+        audio01 ni audio02.
+    */
+
+    const isNarrativeAudioFile =
+        fileId === "audio01" ||
+        fileId === "audio02";
+
+
     if (
+        !isNarrativeAudioFile &&
         currentPhase === 2
     ) {
 
         safePlayAudio(
             scene05StaticShort,
-            0.16
+            0.08
         );
 
     }
 
 
     if (
+        !isNarrativeAudioFile &&
         currentPhase >= 3
     ) {
 
         safePlayAudio(
             scene05StaticShort,
-            0.25
+            0.12
         );
 
     }
@@ -1232,7 +1506,7 @@ function openArchiveFile(
 
         safePlayAudio(
             scene05Electrical,
-            0.25
+            0.16
         );
 
     }
@@ -1244,13 +1518,13 @@ function openArchiveFile(
 
         safePlayAudio(
             scene05Electrical,
-            0.3
+            0.18
         );
 
 
         safePlayAudio(
             scene05StaticShort,
-            0.28
+            0.10
         );
 
     }
@@ -1582,6 +1856,18 @@ function showAudio(
         0;
 
 
+    currentAudio.volume =
+        1;
+
+
+    currentAudio.muted =
+        false;
+
+
+    currentAudio.playbackRate =
+        1;
+
+
     fileAudioButtonText.textContent =
         translations[
             currentLanguage
@@ -1597,10 +1883,10 @@ function showAudio(
 
 
 // =========================================================
-// PLAY AUDIO
+// PLAY AUDIO NARRATIVO
 // =========================================================
 
-function playCurrentAudio() {
+async function playCurrentAudio() {
 
     if (
         !currentAudio ||
@@ -1608,6 +1894,72 @@ function playCurrentAudio() {
     ) {
 
         return;
+
+    }
+
+
+    /*
+        Determinamos qué recording tiene
+        que usar este archivo.
+    */
+
+    let expectedAudio =
+        null;
+
+
+    if (
+        currentAudio === audioFile01
+    ) {
+
+        expectedAudio =
+            scene05Recordings[
+                currentLanguage
+            ].audio01;
+
+    }
+
+
+    if (
+        currentAudio === audioFile02
+    ) {
+
+        expectedAudio =
+            scene05Recordings[
+                currentLanguage
+            ].audio02;
+
+    }
+
+
+    if (
+        !expectedAudio
+    ) {
+
+        console.error(
+            "No se pudo identificar el audio narrativo."
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Forzamos la ruta correcta por si el
+        elemento perdió el src.
+    */
+
+    if (
+        currentAudio.getAttribute(
+            "src"
+        ) !== expectedAudio
+    ) {
+
+        currentAudio.src =
+            expectedAudio;
+
+
+        currentAudio.load();
 
     }
 
@@ -1622,18 +1974,18 @@ function playCurrentAudio() {
         ].playingAudio;
 
 
+    // Click discreto
+
     safePlayAudio(
         scene05UIClick,
-        0.25
+        0.14
     );
 
 
-    safePlayAudio(
-        scene05StaticShort,
-        currentPhase >= 2
-            ? 0.3
-            : 0.2
-    );
+    /*
+        SIN STATIC SHORT AQUÍ.
+        El audio narrativo entra limpio.
+    */
 
 
     lowerAmbienceForDialogue();
@@ -1642,6 +1994,11 @@ function playCurrentAudio() {
     window.Scene05Animations
         .startAudioVisualizer();
 
+
+    /*
+        Conservamos el glitch visual.
+        No necesita sonido adicional.
+    */
 
     window.Scene05Animations
         .playAudioDamageGlitch();
@@ -1652,32 +2009,56 @@ function playCurrentAudio() {
 
 
     currentAudio.volume =
-        0.88;
+        1;
 
 
-    currentAudio
-        .play()
-        .catch(
-            () => {
-
-                audioPlaying =
-                    false;
+    currentAudio.muted =
+        false;
 
 
-                fileAudioButtonText.textContent =
-                    translations[
-                        currentLanguage
-                    ].playAudio;
+    currentAudio.playbackRate =
+        1;
 
 
-                window.Scene05Animations
-                    .stopAudioVisualizer();
+    try {
+
+        await currentAudio.play();
 
 
-                restorePhaseAmbience();
-
-            }
+        console.log(
+            "Scene 05 audio reproduciendo:",
+            currentAudio.currentSrc
         );
+
+    }
+
+    catch (
+        error
+    ) {
+
+        console.error(
+            "ERROR reproduciendo audio Scene 05:",
+            error
+        );
+
+
+        audioPlaying =
+            false;
+
+
+        fileAudioButtonText.textContent =
+            translations[
+                currentLanguage
+            ].playAudio;
+
+
+        window.Scene05Animations
+            .stopAudioVisualizer();
+
+
+        restorePhaseAmbience();
+
+    }
 
 }
 
@@ -1702,9 +2083,18 @@ function onAudioEnded() {
         .stopAudioVisualizer();
 
 
+    /*
+        Glitch visual final.
+    */
+
     window.Scene05Animations
         .playAudioEndGlitch();
 
+
+    /*
+        Dejamos únicamente una respuesta
+        sonora muy pequeña después del diálogo.
+    */
 
     if (
         currentPhase >= 2
@@ -1712,21 +2102,12 @@ function onAudioEnded() {
 
         safePlayAudio(
             scene05Electrical,
-            0.25
+            0.10
         );
 
 
         safePlayAudio(
             scene05GlitchSoft,
-            0.35
-        );
-
-    }
-
-    else {
-
-        safePlayAudio(
-            scene05StaticShort,
             0.18
         );
 
@@ -1737,6 +2118,10 @@ function onAudioEnded() {
 
 }
 
+
+// =========================================================
+// AUDIO EVENTS
+// =========================================================
 
 playFileAudioButton.addEventListener(
     "click",
@@ -1753,6 +2138,42 @@ audioFile01.addEventListener(
 audioFile02.addEventListener(
     "ended",
     onAudioEnded
+);
+
+
+// =========================================================
+// AUDIO ERROR
+// =========================================================
+
+audioFile01.addEventListener(
+    "error",
+
+    () => {
+
+        console.error(
+            "Error cargando AUDIO_03:",
+            scene05Recordings[
+                currentLanguage
+            ].audio01
+        );
+
+    }
+);
+
+
+audioFile02.addEventListener(
+    "error",
+
+    () => {
+
+        console.error(
+            "Error cargando AUDIO_04:",
+            scene05Recordings[
+                currentLanguage
+            ].audio02
+        );
+
+    }
 );
 
 
@@ -1788,7 +2209,9 @@ function showVideo(
 
             recoveredVideo
                 .play()
-                .catch(() => {});
+                .catch(
+                    () => {}
+                );
 
         };
 
@@ -1802,11 +2225,15 @@ function showVideo(
         };
 
 
+    /*
+        Solo una interferencia pequeña.
+    */
+
     safePlayAudio(
         scene05StaticShort,
         currentPhase >= 2
-            ? 0.28
-            : 0.18
+            ? 0.12
+            : 0.07
     );
 
 
@@ -1870,7 +2297,7 @@ function showImage(
 
     safePlayAudio(
         scene05GlitchMedium,
-        0.38
+        0.32
     );
 
 
@@ -1912,7 +2339,9 @@ function showArchiveText(
 
 
             if (
-                line.includes("▒")
+                line.includes(
+                    "▒"
+                )
             ) {
 
                 paragraph.classList.add(
@@ -1950,7 +2379,7 @@ function closeFileModal() {
 
         safePlayAudio(
             scene05SystemError,
-            0.5
+            0.45
         );
 
 
@@ -1974,7 +2403,7 @@ function closeFileModal() {
 
     safePlayAudio(
         scene05UIClick,
-        0.18
+        0.16
     );
 
 
@@ -2298,12 +2727,6 @@ function checkPhaseProgress() {
         updatePhaseAmbience();
 
 
-        /*
-            IMPORTANTE:
-            El audio empieza exactamente
-            cuando comienza el glitch visual.
-        */
-
         safePlayAudio(
             scene05GlitchMedium,
             1
@@ -2316,17 +2739,12 @@ function checkPhaseProgress() {
             );
 
 
-        /*
-            La electricidad entra después
-            para no tapar el ataque del glitch.
-        */
-
         setTimeout(
             () => {
 
                 safePlayAudio(
                     scene05Electrical,
-                    0.25
+                    0.18
                 );
 
             },
@@ -2376,11 +2794,6 @@ function checkPhaseProgress() {
         updatePhaseAmbience();
 
 
-        /*
-            Glitch fuerte sincronizado
-            con el cambio visual.
-        */
-
         safePlayAudio(
             scene05GlitchStrong,
             1
@@ -2398,7 +2811,7 @@ function checkPhaseProgress() {
 
                 safePlayAudio(
                     scene05Electrical,
-                    0.32
+                    0.24
                 );
 
             },
@@ -2460,21 +2873,11 @@ function checkPhaseProgress() {
                 );
 
 
-                /*
-                    Impacto grave que anuncia
-                    que se abrió algo que no debía.
-                */
-
                 safePlayAudio(
                     scene05LowImpact,
                     0.6
                 );
 
-
-                /*
-                    GLITCH SONORO Y VISUAL
-                    AL MISMO TIEMPO.
-                */
 
                 safePlayAudio(
                     scene05GlitchStrong,
@@ -2540,19 +2943,10 @@ async function startFinalSequence() {
     }
 
 
-    /*
-        3 segundos para leer
-        el fragmento final.
-    */
-
     await wait(
         3000
     );
 
-
-    /*
-        Colapso sonoro.
-    */
 
     safePlayAudio(
         scene05GlitchStrong,
@@ -2562,7 +2956,7 @@ async function startFinalSequence() {
 
     safePlayAudio(
         scene05StaticShort,
-        0.55
+        0.30
     );
 
 
@@ -2571,7 +2965,7 @@ async function startFinalSequence() {
 
             safePlayAudio(
                 scene05Electrical,
-                0.4
+                0.32
             );
 
         },
@@ -2638,19 +3032,34 @@ document.addEventListener(
 
 async function initScene05() {
 
+    // IDIOMA
+
     updateInterfaceLanguage();
 
+
+    // AUDIO_03 + AUDIO_04
+
+    loadScene05Recordings();
+
+
+    // ANIMACIONES
 
     window.Scene05Animations
         .init();
 
 
+    // AMBIENTE
+
     startScene05Ambience();
 
+
+    // ENTRADA
 
     await window.Scene05Animations
         .playSceneEntry();
 
+
+    // LOGS
 
     playInitialSystemLogs();
 
