@@ -1112,6 +1112,29 @@ body {
 }
 
 
+/* =========================================================
+   SCENE 04 — DIFERENCIACIÓN VISUAL
+========================================================= */
+
+.corrupted-scene .logs-panel {
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(0, 255, 56, 0.022),
+            rgba(0, 255, 56, 0.004) 48%,
+            transparent
+        );
+
+    box-shadow:
+
+        inset 8px 0 18px
+        rgba(0, 255, 56, 0.018);
+
+}
+
+
 .logs-content {
 
     flex: 1;
@@ -1269,6 +1292,120 @@ body {
 
         1px solid
         var(--green);
+
+}
+
+
+/* =========================================================
+   NEW LOGS INDICATOR
+========================================================= */
+
+.new-logs-indicator {
+
+    margin-bottom:
+        10px;
+
+    color:
+        var(--green);
+
+    font-size:
+
+        clamp(
+            0.5rem,
+            0.68vw,
+            0.62rem
+        );
+
+    font-weight:
+        500;
+
+    letter-spacing:
+        0.08em;
+
+    text-align:
+        center;
+
+    text-shadow:
+
+        0 0 5px
+        rgba(0, 255, 56, 0.42);
+
+    opacity:
+        0.82;
+
+    animation:
+        newLogsPulse
+        1.8s
+        ease-in-out
+        infinite;
+
+}
+
+
+@keyframes newLogsPulse {
+
+    0%,
+    100% {
+
+        opacity:
+            0.45;
+
+    }
+
+    50% {
+
+        opacity:
+            1;
+
+    }
+
+}
+
+
+/* =========================================================
+   ACCESS LOGS — ATTENTION
+========================================================= */
+
+.access-logs-button.attention-required {
+
+    animation:
+        accessAttention
+        1.8s
+        ease-in-out
+        infinite;
+
+}
+
+
+@keyframes accessAttention {
+
+    0%,
+    100% {
+
+        box-shadow:
+
+            0 0 0
+            rgba(0, 255, 56, 0);
+
+        background:
+            rgba(0, 255, 56, 0.01);
+
+    }
+
+    50% {
+
+        box-shadow:
+
+            0 0 12px
+            rgba(0, 255, 56, 0.28),
+
+            inset 0 0 8px
+            rgba(0, 255, 56, 0.05);
+
+        background:
+            rgba(0, 255, 56, 0.055);
+
+    }
 
 }
 
@@ -1487,48 +1624,63 @@ body {
 
 }
 
+
 /* =========================================================
    CUSTOM SCROLLBAR — ARCHIVED LOGS
 ========================================================= */
 
 .archived-logs-window {
-    scrollbar-width: thin;
+
+    scrollbar-width:
+        thin;
+
     scrollbar-color:
+
         rgba(0, 255, 56, 0.55)
         rgba(0, 255, 56, 0.04);
+
 }
 
 
-/* Chrome / Edge / Safari */
-
 .archived-logs-window::-webkit-scrollbar {
-    width: 7px;
+
+    width:
+        7px;
+
 }
 
 
 .archived-logs-window::-webkit-scrollbar-track {
+
     background:
         rgba(0, 255, 56, 0.025);
 
     border-left:
+
         1px solid
         rgba(0, 255, 56, 0.12);
+
 }
 
 
 .archived-logs-window::-webkit-scrollbar-thumb {
+
     background:
         rgba(0, 255, 56, 0.42);
 
     border:
+
         1px solid
         rgba(0, 255, 56, 0.6);
+
 }
 
 
 .archived-logs-window::-webkit-scrollbar-thumb:hover {
+
     background:
         rgba(0, 255, 56, 0.65);
+
 }
 
 
@@ -1648,7 +1800,8 @@ body {
     grid-template-columns:
 
         90px
-        1fr;
+        1fr
+        64px;
 
     gap:
         14px;
@@ -1725,6 +1878,89 @@ body {
 
         0 0 4px
         rgba(0, 255, 56, 0.32);
+
+}
+
+
+/* =========================================================
+   ARCHIVED LOG STATES
+========================================================= */
+
+.log-state {
+
+    align-self:
+        center;
+
+    justify-self:
+        end;
+
+    color:
+        var(--green);
+
+    font-size:
+        0.58rem;
+
+    font-weight:
+        500;
+
+    letter-spacing:
+        0.08em;
+
+    opacity:
+        0.78;
+
+    text-align:
+        right;
+
+}
+
+
+.archived-log-item.new-log {
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(0, 255, 56, 0.035),
+            transparent 72%
+        );
+
+}
+
+
+.archived-log-item.new-log .log-state {
+
+    text-shadow:
+
+        0 0 5px
+        rgba(0, 255, 56, 0.48);
+
+}
+
+
+.archived-log-item.viewed-log {
+
+    opacity:
+        0.56;
+
+}
+
+
+.archived-log-item.viewed-log:hover {
+
+    opacity:
+        0.8;
+
+}
+
+
+.archived-log-item.viewed-log .log-state {
+
+    color:
+        var(--green-medium);
+
+    text-shadow:
+        none;
 
 }
 
@@ -2577,10 +2813,19 @@ button:focus-visible {
         grid-template-columns:
 
             76px
-            1fr;
+            1fr
+            54px;
 
         gap:
-            10px;
+            8px;
+
+    }
+
+
+    .log-state {
+
+        font-size:
+            0.52rem;
 
     }
 

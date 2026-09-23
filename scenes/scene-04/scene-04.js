@@ -98,6 +98,9 @@ const closeLogsButton =
 const archivedLogItems =
     document.querySelectorAll(".archived-log-item");
 
+const newLogsIndicator =
+    document.querySelector("#new-logs-indicator");
+
 
 // =========================================================
 // ELEMENTOS — LOG DETAILS
@@ -208,6 +211,15 @@ let cameraDeniedAttempts = 0;
 let sceneTransitioning = false;
 
 
+/*
+    Guarda qué archivos ya revisó
+    el usuario durante Scene 04.
+*/
+
+const viewedLogs =
+    new Set();
+
+
 // =========================================================
 // CÁMARA FIJA
 // =========================================================
@@ -260,6 +272,15 @@ const translations = {
 
         archivedLogs:
             "ARCHIVED LOGS",
+
+        newLogs:
+            "NEW LOGS DETECTED",
+
+        new:
+            "NEW",
+
+        viewed:
+            "VIEWED",
 
         cameraDenied:
             "ACCESS DENIED",
@@ -340,6 +361,15 @@ const translations = {
 
         archivedLogs:
             "REGISTROS ARCHIVADOS",
+
+        newLogs:
+            "NUEVOS REGISTROS DETECTADOS",
+
+        new:
+            "NUEVO",
+
+        viewed:
+            "VISTO",
 
         cameraDenied:
             "ACCESO DENEGADO",
@@ -1080,6 +1110,121 @@ function fadeAmbientAudio(
 
 
 // =========================================================
+// ESTADOS VISUALES DE LOS LOGS
+// =========================================================
+
+function updateArchivedLogStates() {
+
+    const text =
+        translations[
+            currentLanguage
+        ];
+
+
+    archivedLogItems.forEach(
+        item => {
+
+            const logNumber =
+                item.dataset.log;
+
+
+            const state =
+                item.querySelector(
+                    ".log-state"
+                );
+
+
+            if (
+                viewedLogs.has(
+                    logNumber
+                )
+            ) {
+
+                item.classList.remove(
+                    "new-log"
+                );
+
+
+                item.classList.add(
+                    "viewed-log"
+                );
+
+
+                if (state) {
+
+                    state.textContent =
+                        text.viewed;
+
+                }
+
+            }
+
+            else {
+
+                item.classList.add(
+                    "new-log"
+                );
+
+
+                item.classList.remove(
+                    "viewed-log"
+                );
+
+
+                if (state) {
+
+                    state.textContent =
+                        text.new;
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /*
+        Cuando todos fueron abiertos,
+        desaparece "NEW LOGS DETECTED".
+    */
+
+    if (
+        newLogsIndicator
+    ) {
+
+        const allLogsViewed =
+            archivedLogItems.length > 0 &&
+            viewedLogs.size >=
+                archivedLogItems.length;
+
+
+        if (
+            allLogsViewed
+        ) {
+
+            newLogsIndicator.style.display =
+                "none";
+
+        }
+
+        else {
+
+            newLogsIndicator.style.display =
+                "block";
+
+
+            newLogsIndicator.textContent =
+                text.newLogs;
+
+        }
+
+    }
+
+}
+
+
+// =========================================================
 // ACTUALIZAR IDIOMA
 // =========================================================
 
@@ -1122,6 +1267,16 @@ function updateInterfaceLanguage() {
 
     archivedLogsTitle.textContent =
         text.archivedLogs;
+
+
+    if (
+        newLogsIndicator
+    ) {
+
+        newLogsIndicator.textContent =
+            text.newLogs;
+
+    }
 
 
     feedErrorMessage.textContent =
@@ -1171,6 +1326,9 @@ function updateInterfaceLanguage() {
 
         }
     );
+
+
+    updateArchivedLogStates();
 
 }
 
@@ -1422,6 +1580,17 @@ function openArchivedLogs() {
     unlockScene04Ambience();
 
 
+    /*
+        El usuario ya encontró la acción
+        principal, así que retiramos
+        la llamada de atención.
+    */
+
+    accessLogsButton.classList.remove(
+        "attention-required"
+    );
+
+
     safePlayAudio(
         scene04UIClick,
         0.24
@@ -1553,6 +1722,19 @@ function showArchivedLog(
         logNumber;
 
 
+    /*
+        NUEVO:
+        marcamos este archivo como visto.
+    */
+
+    viewedLogs.add(
+        logNumber
+    );
+
+
+    updateArchivedLogStates();
+
+
     corruptedAudio.pause();
 
     corruptedAudio.currentTime =
@@ -1654,7 +1836,9 @@ function showArchivedLog(
     }
 
 
-    // LOG 06 — estática mínima
+    // =====================================================
+    // LOG 06 — ESTÁTICA MÍNIMA
+    // =====================================================
 
     if (
         logNumber === "06"
@@ -1668,7 +1852,9 @@ function showArchivedLog(
     }
 
 
-    // LOG 07 — interferencia mínima
+    // =====================================================
+    // LOG 07 — INTERFERENCIA MÍNIMA
+    // =====================================================
 
     if (
         logNumber === "07"
@@ -2310,6 +2496,19 @@ async function initScene04() {
     // =====================================================
 
     updateInterfaceLanguage();
+
+
+    /*
+        Al iniciar Scene 04 hay archivos
+        nuevos disponibles.
+    */
+
+    accessLogsButton.classList.add(
+        "attention-required"
+    );
+
+
+    updateArchivedLogStates();
 
 
     // =====================================================

@@ -407,7 +407,7 @@ body {
 
 
 /* =========================================================
-   DENY — QUESTION
+   DENY — ACCESS DENIED
 ========================================================= */
 
 .ending-message-question {
@@ -430,7 +430,7 @@ body {
 
 
 /* =========================================================
-   DENY — ACCESS
+   DENY — AUTHORIZATION REVOKED
 ========================================================= */
 
 .ending-message-access {
@@ -442,13 +442,17 @@ body {
 
 
 /* =========================================================
-   DENY — INTEGRATION
+   DENY — OVERRIDE ACCEPTED
 ========================================================= */
 
 .ending-message-integration {
 
     color:
         var(--green-soft);
+
+    text-shadow:
+        0 0 6px
+        rgba(0, 255, 56, 0.3);
 
 }
 
@@ -743,13 +747,199 @@ body {
 }
 
 
-/* =========================================================
-   OPTIONAL END STATE
-========================================================= */
-
 .ending-whiteout.is-complete {
 
     opacity: 1;
+
+}
+
+
+/* =========================================================
+   JUMPSCARE CONTAINER
+   Hidden until JS activates it
+========================================================= */
+
+.jumpscare-container {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 150;
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #000000;
+
+    opacity: 0;
+
+    visibility:
+        hidden;
+
+    pointer-events:
+        none;
+
+    overflow:
+        hidden;
+
+    will-change:
+        opacity,
+        visibility,
+        filter,
+        transform;
+
+}
+
+
+/* =========================================================
+   JUMPSCARE ACTIVE STATE
+========================================================= */
+
+.jumpscare-container.is-active {
+
+    opacity: 1;
+
+    visibility:
+        visible;
+
+}
+
+
+/* =========================================================
+   JUMPSCARE VIDEO
+========================================================= */
+
+.jumpscare-video {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit:
+        cover;
+
+    display:
+        block;
+
+    opacity: 1;
+
+    transform:
+        scale(1.02);
+
+    filter:
+        contrast(1.08)
+        brightness(0.95);
+
+    will-change:
+        transform,
+        filter,
+        opacity;
+
+}
+
+
+/* =========================================================
+   JUMPSCARE GLITCH STATE
+========================================================= */
+
+.jumpscare-container.is-glitching
+.jumpscare-video {
+
+    animation:
+        jumpscare-glitch
+        90ms
+        steps(2, end)
+        infinite;
+
+}
+
+
+@keyframes jumpscare-glitch {
+
+    0% {
+
+        transform:
+            scale(1.02)
+            translate(
+                0,
+                0
+            );
+
+        filter:
+            contrast(1.1)
+            brightness(0.95);
+
+    }
+
+
+    25% {
+
+        transform:
+            scale(1.035)
+            translate(
+                -4px,
+                2px
+            );
+
+        filter:
+            contrast(1.3)
+            brightness(1.05);
+
+    }
+
+
+    50% {
+
+        transform:
+            scale(1.025)
+            translate(
+                5px,
+                -2px
+            );
+
+        filter:
+            contrast(1.18)
+            brightness(0.82);
+
+    }
+
+
+    75% {
+
+        transform:
+            scale(1.04)
+            translate(
+                -2px,
+                -3px
+            );
+
+        filter:
+            contrast(1.4)
+            brightness(1.12);
+
+    }
+
+
+    100% {
+
+        transform:
+            scale(1.02)
+            translate(
+                0,
+                0
+            );
+
+        filter:
+            contrast(1.1)
+            brightness(0.95);
+
+    }
 
 }
 
@@ -781,6 +971,7 @@ body {
 
     }
 
+
     50% {
 
         text-shadow:
@@ -794,7 +985,6 @@ body {
 
 /* =========================================================
    CORRUPTION LEVEL 1
-   JS can add class to body / scene
 ========================================================= */
 
 .ending-scene.corruption-1
@@ -877,6 +1067,37 @@ body {
 
     opacity:
         0.36;
+
+}
+
+
+/* =========================================================
+   DENY ENDING — EXTRA INSTABILITY
+========================================================= */
+
+.ending-deny.corruption-3
+.ending-frame {
+
+    box-shadow:
+        0 0 15px
+        rgba(0, 255, 56, 0.2),
+        inset 0 0 12px
+        rgba(0, 255, 56, 0.04);
+
+}
+
+
+.ending-deny.corruption-4
+.ending-frame {
+
+    border-color:
+        rgba(0, 255, 56, 0.78);
+
+    box-shadow:
+        0 0 22px
+        rgba(0, 255, 56, 0.3),
+        inset 0 0 16px
+        rgba(0, 255, 56, 0.07);
 
 }
 
@@ -971,6 +1192,14 @@ body {
 
     }
 
+
+    .jumpscare-video {
+
+        object-fit:
+            cover;
+
+    }
+
 }
 
 
@@ -1041,6 +1270,15 @@ body {
 
         animation-iteration-count:
             1 !important;
+
+    }
+
+
+    .jumpscare-container.is-glitching
+    .jumpscare-video {
+
+        animation:
+            none;
 
     }
 

@@ -427,6 +427,85 @@ body {
     will-change: opacity, transform;
 }
 
+/* =========================
+   MOSTRAR TEXTO COMPLETO
+========================= */
+
+.skip-text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 38px;
+
+    margin-bottom: 10px;
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity 180ms ease,
+        visibility 180ms ease;
+}
+
+
+.show-full-text {
+    border: 0;
+    background: transparent;
+
+    color: var(--terminal-green-dim);
+
+    font-family: inherit;
+
+    font-size: clamp(
+        0.68rem,
+        0.9vw,
+        0.78rem
+    );
+
+    font-weight: 400;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    padding:
+        6px
+        10px;
+
+    transition:
+        color 160ms ease,
+        text-shadow 160ms ease,
+        opacity 160ms ease;
+}
+
+
+.show-full-text:hover {
+    color: var(--terminal-green);
+
+    text-shadow:
+        0 0 5px rgba(
+            0,
+            255,
+            56,
+            0.45
+        );
+}
+
+
+.show-full-text:active {
+    opacity: 0.65;
+}
+
+
+.skip-text-container.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
 
 .accept-transmission {
     position: relative;

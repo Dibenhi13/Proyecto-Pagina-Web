@@ -424,14 +424,10 @@ function handleDecisionHover(
 
 
     /*
-        IMPORTANTE:
-
-        No reproducimos ningún SFX
-        durante hover.
+        No reproducimos SFX durante hover.
 
         Las dos decisiones deben sentirse
-        neutrales y tener exactamente
-        el mismo peso.
+        neutrales y tener el mismo peso.
     */
 
     window.Scene09Animations
@@ -464,6 +460,16 @@ async function handleDecision(
 
     decisionMade =
         true;
+
+
+    // =====================================================
+    // GUARDAR DECISIÓN FINAL
+    // =====================================================
+
+    localStorage.setItem(
+        "finalDecision",
+        decision
+    );
 
 
     /*
@@ -566,13 +572,6 @@ async function handleDecision(
             text.authorizeSubtitle;
 
 
-        /*
-            No usamos un SFX exclusivo.
-
-            La elección todavía debe sentirse
-            neutral.
-        */
-
         await window.Scene09Animations
             .showDecisionResult(
                 "authorize"
@@ -585,9 +584,8 @@ async function handleDecision(
 
 
         /*
-            La transición authorize es bastante
-            limpia, así que usamos solo un
-            glitch suave.
+            La transición authorize es
+            deliberadamente más limpia.
         */
 
         safePlayAudio(
@@ -628,10 +626,11 @@ async function handleDecision(
 
 
     /*
-        Tampoco usamos system-error aquí.
+        DENY continúa sintiéndose como
+        una decisión válida en Scene 09.
 
-        DENY debe seguir pareciendo una
-        decisión perfectamente válida.
+        La consecuencia agresiva aparecerá
+        en su final de Scene 10.
     */
 
     await window.Scene09Animations
@@ -646,11 +645,8 @@ async function handleDecision(
 
 
     /*
-        La animación de DENY sí contiene
-        un pequeño glitch visual.
-
-        Por eso usamos glitch-medium,
-        pero sin convertirlo en un error.
+        DENY tiene una transición
+        ligeramente más inestable.
     */
 
     safePlayAudio(
@@ -732,16 +728,24 @@ document.addEventListener(
 
 async function initScene09() {
 
+    // =====================================================
+    // IDIOMA
+    // =====================================================
+
     applyLanguage();
 
+
+    // =====================================================
+    // ANIMACIONES
+    // =====================================================
 
     window.Scene09Animations
         .init();
 
 
-    /*
-        Hum extremadamente bajo.
-    */
+    // =====================================================
+    // AMBIENTE
+    // =====================================================
 
     startScene09Ambience();
 
@@ -779,6 +783,24 @@ async function initScene09() {
 
     await wait(
         1100
+    );
+
+
+    // =====================================================
+    // GARANTIZAR OPCIONES DISPONIBLES
+    // =====================================================
+
+    decisionButtons.forEach(
+        button => {
+
+            button.disabled =
+                false;
+
+
+            button.style.display =
+                "flex";
+
+        }
     );
 
 

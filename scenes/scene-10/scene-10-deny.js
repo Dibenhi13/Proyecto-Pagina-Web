@@ -1,5 +1,6 @@
 // =========================================================
 // SCENE 10 — DENY ENDING
+// Forced Override / Loss of Control
 // The Lost Ship
 // =========================================================
 
@@ -29,6 +30,22 @@ const denyMessage03 =
 const denyMessage04 =
     document.querySelector(
         "#deny-message-04"
+    );
+
+
+// =========================================================
+// JUMPSCARE
+// =========================================================
+
+const jumpscareContainer =
+    document.querySelector(
+        "#jumpscare-container"
+    );
+
+
+const jumpscareVideo =
+    document.querySelector(
+        "#jumpscare-video"
     );
 
 
@@ -98,6 +115,10 @@ let currentLanguage =
     "en";
 
 
+let endingStarted =
+    false;
+
+
 // =========================================================
 // LANGUAGE
 // =========================================================
@@ -132,16 +153,16 @@ const translations = {
     en: {
 
         line01:
-            "What makes you think you have a choice?",
+            "ACCESS DENIED.",
 
         line02:
-            "Access granted...",
+            "USER AUTHORIZATION REVOKED.",
 
         line03:
-            "Integration complete",
+            "DOCKING SEQUENCE OVERRIDE ACCEPTED.",
 
         line04:
-            "Welcome back."
+            "WHAT MAKES YOU THINK YOU HAVE A CHOICE?"
 
     },
 
@@ -149,16 +170,16 @@ const translations = {
     es: {
 
         line01:
-            "¿Qué te hace pensar que tienes una elección?",
+            "ACCESO DENEGADO.",
 
         line02:
-            "Acceso concedido...",
+            "AUTORIZACIÓN DEL USUARIO REVOCADA.",
 
         line03:
-            "Integración completa",
+            "ANULACIÓN DE SECUENCIA DE ACOPLAMIENTO ACEPTADA.",
 
         line04:
-            "Bienvenido de vuelta."
+            "¿QUÉ TE HACE PENSAR QUE TIENES UNA ELECCIÓN?"
 
     }
 
@@ -193,7 +214,9 @@ function safePlayAudio(
 ) {
 
     if (!audio) {
+
         return;
+
     }
 
 
@@ -334,6 +357,7 @@ function fadeAudioOut(
 
                     audio.pause();
 
+
                     audio.currentTime =
                         0;
 
@@ -342,6 +366,7 @@ function fadeAudioOut(
             },
 
             interval
+
         );
 
 }
@@ -378,10 +403,202 @@ function applyText() {
 
 
 // =========================================================
+// PRELOAD JUMPSCARE
+// =========================================================
+
+function prepareJumpscare() {
+
+    if (!jumpscareVideo) {
+
+        return;
+
+    }
+
+
+    jumpscareVideo.src =
+        "../../assets/video/final-jumpscare.mp4";
+
+
+    /*
+        El video va muteado porque el impacto
+        sonoro lo controlamos nosotros con SFX.
+        Esto también ayuda a evitar bloqueos
+        de autoplay del navegador.
+    */
+
+    jumpscareVideo.muted =
+        false;
+
+    jumpscareVideo.volume =
+    1;
+
+
+    jumpscareVideo.load();
+
+}
+
+
+// =========================================================
+// PLAY JUMPSCARE
+// =========================================================
+
+async function playJumpscare() {
+
+    if (
+        !jumpscareContainer ||
+        !jumpscareVideo
+    ) {
+
+        return;
+
+    }
+
+
+    // =====================================================
+    // FALSA CALMA
+    // =====================================================
+
+    await wait(
+        850
+    );
+
+
+    // =====================================================
+    // MOSTRAR CONTENEDOR
+    // =====================================================
+
+    jumpscareContainer.classList.add(
+        "is-active"
+    );
+
+
+    jumpscareContainer.classList.add(
+        "is-glitching"
+    );
+
+
+    jumpscareContainer.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    // =====================================================
+    // REINICIAR VIDEO
+    // =====================================================
+
+    jumpscareVideo.currentTime =
+        0;
+
+
+    // =====================================================
+    // IMPACTO SONORO
+    // =====================================================
+
+    safePlayAudio(
+        endingLowImpact,
+        1
+    );
+
+
+    safePlayAudio(
+        endingGlitchStrong,
+        1
+    );
+
+
+    // =====================================================
+    // PLAY VIDEO
+    // =====================================================
+
+    jumpscareVideo
+        .play()
+        .catch(() => {});
+
+
+    /*
+        Esperamos a que termine el video.
+
+        El timeout de respaldo evita que la
+        escena se quede atorada si por algún
+        motivo el evento "ended" no ocurre.
+    */
+
+    await Promise.race([
+
+        new Promise(
+            resolve => {
+
+                jumpscareVideo.addEventListener(
+                    "ended",
+                    resolve,
+                    {
+                        once: true
+                    }
+                );
+
+            }
+        ),
+
+        wait(
+            4000
+        )
+
+    ]);
+
+
+    // =====================================================
+    // OCULTAR VIDEO
+    // =====================================================
+
+    jumpscareContainer.classList.remove(
+        "is-glitching"
+    );
+
+
+    jumpscareContainer.classList.remove(
+        "is-active"
+    );
+
+
+    jumpscareContainer.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    jumpscareVideo.pause();
+
+
+    jumpscareVideo.currentTime =
+        0;
+
+
+    await wait(
+        180
+    );
+
+}
+
+
+// =========================================================
 // ENDING SEQUENCE
 // =========================================================
 
 async function runDenyEnding() {
+
+    if (
+        endingStarted
+    ) {
+
+        return;
+
+    }
+
+
+    endingStarted =
+        true;
+
 
     // =====================================================
     // APPLY TEXT
@@ -395,7 +612,7 @@ async function runDenyEnding() {
     // =====================================================
 
     await wait(
-        600
+        750
     );
 
 
@@ -420,18 +637,12 @@ async function runDenyEnding() {
 
 
     // =====================================================
-    // WHAT MAKES YOU THINK...
+    // ACCESS DENIED
     // =====================================================
-
-    /*
-        Primera revelación.
-
-        Golpe grave, pero sin glitch todavía.
-    */
 
     safePlayAudio(
         endingLowImpact,
-        0.58
+        0.42
     );
 
 
@@ -443,7 +654,8 @@ async function runDenyEnding() {
 
 
     /*
-        Dejamos respirar la frase.
+        Por un momento parece que
+        DENY funcionó.
     */
 
     await wait(
@@ -452,19 +664,12 @@ async function runDenyEnding() {
 
 
     // =====================================================
-    // ACCESS GRANTED...
+    // USER AUTHORIZATION REVOKED
     // =====================================================
-
-    /*
-        Aquí confirmamos que el botón DENY
-        fue ignorado.
-
-        Por primera vez usamos system-error.
-    */
 
     safePlayAudio(
         endingSystemError,
-        0.55
+        0.58
     );
 
 
@@ -472,12 +677,12 @@ async function runDenyEnding() {
         () => {
 
             safePlayAudio(
-                endingGlitchMedium,
-                0.55
+                endingElectrical,
+                0.22
             );
 
         },
-        90
+        100
     );
 
 
@@ -489,37 +694,8 @@ async function runDenyEnding() {
 
 
     await wait(
-        1350
+        1450
     );
-
-
-    // =====================================================
-    // INTEGRATION COMPLETE
-    // =====================================================
-
-    /*
-        La integración empieza.
-
-        El ambiente corrupto entra aquí.
-    */
-
-    safePlayAudio(
-        endingElectrical,
-        0.35
-    );
-
-
-    safePlayAudio(
-        endingGlitchMedium,
-        0.62
-    );
-
-
-    await window.Scene10Animations
-        .showDenyMessage(
-            denyMessage03,
-            3
-        );
 
 
     // =====================================================
@@ -535,7 +711,7 @@ async function runDenyEnding() {
     if (endingStatic) {
 
         endingStatic.volume =
-            0.035;
+            0.025;
 
 
         endingStatic
@@ -548,7 +724,7 @@ async function runDenyEnding() {
     if (endingRumble) {
 
         endingRumble.volume =
-            0.035;
+            0.025;
 
 
         endingRumble
@@ -558,22 +734,13 @@ async function runDenyEnding() {
     }
 
 
-    await wait(
-        1400
-    );
-
-
     // =====================================================
-    // WELCOME BACK.
+    // DOCKING OVERRIDE ACCEPTED
     // =====================================================
-
-    /*
-        Momento más pesado del final DENY.
-    */
 
     safePlayAudio(
-        endingLowImpact,
-        0.82
+        endingGlitchMedium,
+        0.62
     );
 
 
@@ -581,31 +748,26 @@ async function runDenyEnding() {
         () => {
 
             safePlayAudio(
-                endingGlitchStrong,
-                0.72
+                endingSystemError,
+                0.42
             );
 
         },
-        90
+        80
     );
 
 
     await window.Scene10Animations
         .showDenyMessage(
-            denyMessage04,
-            4
+            denyMessage03,
+            3
         );
 
-
-    /*
-        El rumble se vuelve claramente
-        perceptible después de la frase.
-    */
 
     if (endingRumble) {
 
         endingRumble.volume =
-            0.06;
+            0.045;
 
     }
 
@@ -613,13 +775,13 @@ async function runDenyEnding() {
     if (endingStatic) {
 
         endingStatic.volume =
-            0.055;
+            0.045;
 
     }
 
 
     await wait(
-        1800
+        1650
     );
 
 
@@ -642,7 +804,58 @@ async function runDenyEnding() {
     if (endingRumble) {
 
         endingRumble.volume =
-            0.07;
+            0.06;
+
+    }
+
+
+    if (endingStatic) {
+
+        endingStatic.volume =
+            0.06;
+
+    }
+
+
+    await wait(
+        700
+    );
+
+
+    // =====================================================
+    // WHAT MAKES YOU THINK...
+    // =====================================================
+
+    safePlayAudio(
+        endingLowImpact,
+        0.82
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                endingGlitchStrong,
+                0.72
+            );
+
+        },
+        100
+    );
+
+
+    await window.Scene10Animations
+        .showDenyMessage(
+            denyMessage04,
+            4
+        );
+
+
+    if (endingRumble) {
+
+        endingRumble.volume =
+            0.075;
 
     }
 
@@ -656,7 +869,7 @@ async function runDenyEnding() {
 
 
     await wait(
-        800
+        2100
     );
 
 
@@ -666,7 +879,7 @@ async function runDenyEnding() {
 
     safePlayAudio(
         endingGlitchStrong,
-        0.85
+        0.84
     );
 
 
@@ -675,7 +888,7 @@ async function runDenyEnding() {
 
             safePlayAudio(
                 endingElectrical,
-                0.4
+                0.38
             );
 
         },
@@ -692,7 +905,7 @@ async function runDenyEnding() {
     if (endingRumble) {
 
         endingRumble.volume =
-            0.085;
+            0.09;
 
     }
 
@@ -700,13 +913,13 @@ async function runDenyEnding() {
     if (endingStatic) {
 
         endingStatic.volume =
-            0.085;
+            0.09;
 
     }
 
 
     await wait(
-        850
+        900
     );
 
 
@@ -735,7 +948,7 @@ async function runDenyEnding() {
     if (endingRumble) {
 
         endingRumble.volume =
-            0.11;
+            0.115;
 
     }
 
@@ -754,13 +967,21 @@ async function runDenyEnding() {
 
 
     // =====================================================
-    // FINAL WHITEOUT
+    // JUMPSCARE
     // =====================================================
 
     /*
-        Riser sincronizado con
-        playFinalWhiteout().
+        Después del colapso dejamos una
+        falsa pausa antes de mostrar
+        la entidad.
     */
+
+    await playJumpscare();
+
+
+    // =====================================================
+    // FINAL WHITEOUT
+    // =====================================================
 
     safePlayAudio(
         endingWhiteoutRiser,
@@ -838,6 +1059,9 @@ function initDenyEnding() {
 
     window.Scene10Animations
         .init();
+
+
+    prepareJumpscare();
 
 
     runDenyEnding();

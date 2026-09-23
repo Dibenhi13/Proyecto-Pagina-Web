@@ -273,14 +273,13 @@
 
                         <!-- ======================================
                              FASE 01
-                             DESBLOQUEADOS DESDE EL INICIO
                         ======================================= -->
 
 
                         <!-- CHAT 01 -->
 
                         <button
-                            class="archive-file unlocked"
+                            class="archive-file unlocked new-file"
                             type="button"
                             data-file="chat01"
                             data-phase="1"
@@ -304,6 +303,12 @@
                                 RECOVERED
                             </span>
 
+                            <span
+                                class="file-visit-state"
+                            >
+                                NEW
+                            </span>
+
                         </button>
 
 
@@ -311,7 +316,7 @@
                         <!-- AUDIO 01 -->
 
                         <button
-                            class="archive-file unlocked"
+                            class="archive-file unlocked new-file"
                             type="button"
                             data-file="audio01"
                             data-phase="1"
@@ -335,6 +340,12 @@
                                 RECOVERED
                             </span>
 
+                            <span
+                                class="file-visit-state"
+                            >
+                                NEW
+                            </span>
+
                         </button>
 
 
@@ -342,7 +353,7 @@
                         <!-- VIDEO 01 -->
 
                         <button
-                            class="archive-file unlocked"
+                            class="archive-file unlocked new-file"
                             type="button"
                             data-file="video01"
                             data-phase="1"
@@ -366,13 +377,18 @@
                                 RECOVERED
                             </span>
 
+                            <span
+                                class="file-visit-state"
+                            >
+                                NEW
+                            </span>
+
                         </button>
 
 
 
                         <!-- ======================================
                              FASE 02
-                             BLOQUEADOS AL INICIO
                         ======================================= -->
 
 
@@ -403,6 +419,10 @@
                             >
                                 LOCKED
                             </span>
+
+                            <span
+                                class="file-visit-state"
+                            ></span>
 
                         </button>
 
@@ -436,6 +456,10 @@
                                 LOCKED
                             </span>
 
+                            <span
+                                class="file-visit-state"
+                            ></span>
+
                         </button>
 
 
@@ -467,6 +491,10 @@
                             >
                                 LOCKED
                             </span>
+
+                            <span
+                                class="file-visit-state"
+                            ></span>
 
                         </button>
 
@@ -505,6 +533,10 @@
                                 CORRUPTED
                             </span>
 
+                            <span
+                                class="file-visit-state"
+                            ></span>
+
                         </button>
 
 
@@ -537,11 +569,15 @@
                                 CORRUPTED
                             </span>
 
+                            <span
+                                class="file-visit-state"
+                            ></span>
+
                         </button>
 
 
 
-                        <!-- SLOT / FRAGMENTO FINAL -->
+                        <!-- FRAGMENTO FINAL -->
 
                         <button
                             class="archive-file locked final-file"
@@ -568,6 +604,10 @@
                             >
                                 LOCKED
                             </span>
+
+                            <span
+                                class="file-visit-state"
+                            ></span>
 
                         </button>
 
@@ -735,21 +775,24 @@
                         </button>
 
 
+                        <!-- PROGRESO DE EXPLORACIÓN -->
+
                         <div
                             id="recovery-progress"
                             class="recovery-progress"
+                            aria-live="polite"
                         >
 
                             <span
                                 id="recovery-progress-label"
                             >
-                                ARCHIVE RECOVERY
+                                FILES ACCESSED
                             </span>
 
                             <span
                                 id="recovery-progress-value"
                             >
-                                0%
+                                0/8
                             </span>
 
                         </div>
@@ -1139,7 +1182,7 @@
 
 
         <!-- ==================================================
-             AUDIOS
+             AUDIOS NARRATIVOS
         =================================================== -->
 
         <audio
@@ -1153,132 +1196,134 @@
             preload="metadata"
         ></audio>
 
+
+
         <!-- ==================================================
-     SFX — SCENE 05
-=================================================== -->
+             SFX — SCENE 05
+        =================================================== -->
 
-<audio
-    id="scene-05-hum"
-    preload="auto"
-    loop
->
-    <source
-        src="../../assets/audio/sfx/spaceship-hum.mp3"
-        type="audio/mpeg"
-    >
-</audio>
-
-
-<audio
-    id="scene-05-ui-click"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/ui-click.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-hum"
+            preload="auto"
+            loop
+        >
+            <source
+                src="../../assets/audio/sfx/spaceship-hum.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-system-error"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/system-error.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-ui-click"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/ui-click.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-static-short"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/static-short.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-system-error"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/system-error.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-static-loop"
-    preload="auto"
-    loop
->
-    <source
-        src="../../assets/audio/sfx/static-loop.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-static-short"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/static-short.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-electrical"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/electrical-interference.wav"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-static-loop"
+            preload="auto"
+            loop
+        >
+            <source
+                src="../../assets/audio/sfx/static-loop.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-glitch-soft"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/glitch-soft.wav"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-electrical"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/electrical-interference.wav"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-glitch-medium"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/glitch-medium.wav"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-glitch-soft"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/glitch-soft.wav"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-glitch-strong"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/glitch-strong.wav"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-glitch-medium"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/glitch-medium.wav"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-deep-rumble"
-    preload="auto"
-    loop
->
-    <source
-        src="../../assets/audio/sfx/deep-rumble.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-glitch-strong"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/glitch-strong.wav"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-05-low-impact"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/low-impact.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-05-deep-rumble"
+            preload="auto"
+            loop
+        >
+            <source
+                src="../../assets/audio/sfx/deep-rumble.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
+
+
+        <audio
+            id="scene-05-low-impact"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/low-impact.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
 

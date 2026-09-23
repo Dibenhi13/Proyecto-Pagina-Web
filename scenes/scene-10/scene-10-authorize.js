@@ -1,5 +1,6 @@
 // =========================================================
 // SCENE 10 — AUTHORIZE ENDING
+// Connection / Transfer
 // The Lost Ship
 // =========================================================
 
@@ -15,6 +16,22 @@ const authorizeMessage =
 
 
 // =========================================================
+// JUMPSCARE
+// =========================================================
+
+const jumpscareContainer =
+    document.querySelector(
+        "#jumpscare-container"
+    );
+
+
+const jumpscareVideo =
+    document.querySelector(
+        "#jumpscare-video"
+    );
+
+
+// =========================================================
 // AUDIO — SFX
 // =========================================================
 
@@ -23,35 +40,42 @@ const endingHum =
         "#ending-hum"
     );
 
+
 const endingStatic =
     document.querySelector(
         "#ending-static"
     );
+
 
 const endingRumble =
     document.querySelector(
         "#ending-rumble"
     );
 
+
 const endingGlitchMedium =
     document.querySelector(
         "#ending-glitch-medium"
     );
+
 
 const endingGlitchStrong =
     document.querySelector(
         "#ending-glitch-strong"
     );
 
+
 const endingElectrical =
     document.querySelector(
         "#ending-electrical"
     );
 
+
 const endingLowImpact =
     document.querySelector(
         "#ending-low-impact"
     );
+
 
 const endingWhiteoutRiser =
     document.querySelector(
@@ -65,6 +89,10 @@ const endingWhiteoutRiser =
 
 let currentLanguage =
     "en";
+
+
+let endingStarted =
+    false;
 
 
 // =========================================================
@@ -100,16 +128,46 @@ const translations = {
 
     en: {
 
-        accessGranted:
-            "ACCESS GRANTED..."
+        dockingAuthorized:
+            "DOCKING AUTHORIZED.",
+
+        connectionEstablished:
+            "CONNECTION ESTABLISHED.",
+
+        crewCount:
+            "CREW COUNT: 0",
+
+        externalHost:
+            "EXTERNAL HOST DETECTED: 1",
+
+        transferComplete:
+            "TRANSFER COMPLETE.",
+
+        finalMessage:
+            "YOU WERE NEVER OBSERVING THE SHIP."
 
     },
 
 
     es: {
 
-        accessGranted:
-            "ACCESO CONCEDIDO..."
+        dockingAuthorized:
+            "ACOPLAMIENTO AUTORIZADO.",
+
+        connectionEstablished:
+            "CONEXIÓN ESTABLECIDA.",
+
+        crewCount:
+            "TRIPULACIÓN ACTIVA: 0",
+
+        externalHost:
+            "HOST EXTERNO DETECTADO: 1",
+
+        transferComplete:
+            "TRANSFERENCIA COMPLETA.",
+
+        finalMessage:
+            "NUNCA ESTUVISTE OBSERVANDO LA NAVE."
 
     }
 
@@ -144,7 +202,9 @@ function safePlayAudio(
 ) {
 
     if (!audio) {
+
         return;
+
     }
 
 
@@ -176,8 +236,9 @@ function startEndingAmbience() {
     /*
         AUTHORIZE empieza tranquilo.
 
-        Queremos que por unos segundos
-        parezca que todo salió bien.
+        El usuario permitió la conexión,
+        así que todo debe parecer estable
+        durante los primeros segundos.
     */
 
     if (endingHum) {
@@ -191,14 +252,6 @@ function startEndingAmbience() {
             .catch(() => {});
 
     }
-
-
-    /*
-        Static y rumble no entran todavía.
-
-        Los dejamos preparados para cuando
-        empiece la corrupción.
-    */
 
 }
 
@@ -221,16 +274,6 @@ function unlockEndingAmbience() {
         endingHum
             .play()
             .catch(() => {});
-
-    }
-
-
-    if (
-        endingStatic &&
-        !endingStatic.paused
-    ) {
-
-        return;
 
     }
 
@@ -305,6 +348,7 @@ function fadeAudioOut(
 
                     audio.pause();
 
+
                     audio.currentTime =
                         0;
 
@@ -320,19 +364,264 @@ function fadeAudioOut(
 
 
 // =========================================================
+// CHANGE AUTHORIZE MESSAGE
+// =========================================================
+
+async function showAuthorizeText(
+    text,
+    hold = 1200,
+    glitch = false
+) {
+
+    await gsap.to(
+        authorizeMessage,
+        {
+            opacity: 0,
+            y: -4,
+            filter: glitch
+                ? "blur(2px)"
+                : "blur(0px)",
+            duration: 0.18,
+            ease: "power1.out"
+        }
+    );
+
+
+    authorizeMessage.textContent =
+        text;
+
+
+    await gsap.fromTo(
+        authorizeMessage,
+
+        {
+            opacity: 0,
+            y: 5,
+            filter: glitch
+                ? "blur(2px)"
+                : "blur(0px)"
+        },
+
+        {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.3,
+            ease: "power1.out"
+        }
+    );
+
+
+    await wait(
+        hold
+    );
+
+}
+
+
+// =========================================================
+// PRELOAD JUMPSCARE
+// =========================================================
+
+function prepareJumpscare() {
+
+    if (!jumpscareVideo) {
+
+        return;
+
+    }
+
+
+    jumpscareVideo.src =
+        "../../assets/video/final-jumpscare.mp4";
+
+
+    /*
+        Usamos el video muteado y dejamos
+        el impacto sonoro en manos de los SFX.
+    */
+
+    jumpscareVideo.muted =
+        false;
+
+    jumpscareVideo.volume =
+    1;
+
+
+    jumpscareVideo.load();
+
+}
+
+
+// =========================================================
+// PLAY JUMPSCARE
+// =========================================================
+
+async function playJumpscare() {
+
+    if (
+        !jumpscareContainer ||
+        !jumpscareVideo
+    ) {
+
+        return;
+
+    }
+
+
+    // =====================================================
+    // FALSA CALMA
+    // =====================================================
+
+    /*
+        AUTHORIZE debe sentirse un poco
+        más tranquilo antes del susto.
+
+        La transferencia ya terminó y
+        parece que todo se estabilizó.
+    */
+
+    await wait(
+        1100
+    );
+
+
+    // =====================================================
+    // MOSTRAR VIDEO
+    // =====================================================
+
+    jumpscareContainer.classList.add(
+        "is-active"
+    );
+
+
+    jumpscareContainer.classList.add(
+        "is-glitching"
+    );
+
+
+    jumpscareContainer.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    jumpscareVideo.currentTime =
+        0;
+
+
+    // =====================================================
+    // IMPACTO SONORO
+    // =====================================================
+
+    safePlayAudio(
+        endingLowImpact,
+        1
+    );
+
+
+    safePlayAudio(
+        endingGlitchStrong,
+        1
+    );
+
+
+    // =====================================================
+    // PLAY
+    // =====================================================
+
+    jumpscareVideo
+        .play()
+        .catch(() => {});
+
+
+    /*
+        Esperamos al final real del video.
+
+        El timeout evita que la escena
+        se quede detenida si falla "ended".
+    */
+
+    await Promise.race([
+
+        new Promise(
+            resolve => {
+
+                jumpscareVideo.addEventListener(
+                    "ended",
+                    resolve,
+                    {
+                        once: true
+                    }
+                );
+
+            }
+        ),
+
+        wait(
+            4000
+        )
+
+    ]);
+
+
+    // =====================================================
+    // OCULTAR VIDEO
+    // =====================================================
+
+    jumpscareContainer.classList.remove(
+        "is-glitching"
+    );
+
+
+    jumpscareContainer.classList.remove(
+        "is-active"
+    );
+
+
+    jumpscareContainer.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    jumpscareVideo.pause();
+
+
+    jumpscareVideo.currentTime =
+        0;
+
+
+    await wait(
+        180
+    );
+
+}
+
+
+// =========================================================
 // ENDING SEQUENCE
 // =========================================================
 
 async function runAuthorizeEnding() {
 
-    // =====================================================
-    // APPLY TEXT
-    // =====================================================
+    if (
+        endingStarted
+    ) {
 
-    authorizeMessage.textContent =
+        return;
+
+    }
+
+
+    endingStarted =
+        true;
+
+
+    const text =
         translations[
             currentLanguage
-        ].accessGranted;
+        ];
 
 
     // =====================================================
@@ -340,12 +629,12 @@ async function runAuthorizeEnding() {
     // =====================================================
 
     await wait(
-        600
+        700
     );
 
 
     // =====================================================
-    // LOW HUM
+    // AMBIENCE
     // =====================================================
 
     startEndingAmbience();
@@ -360,20 +649,17 @@ async function runAuthorizeEnding() {
 
 
     await wait(
-        650
+        600
     );
 
 
     // =====================================================
-    // ACCESS GRANTED...
+    // DOCKING AUTHORIZED
     // =====================================================
 
-    /*
-        Un golpe muy leve.
+    authorizeMessage.textContent =
+        text.dockingAuthorized;
 
-        No queremos que parezca una
-        amenaza inmediatamente.
-    */
 
     safePlayAudio(
         endingLowImpact,
@@ -385,25 +671,41 @@ async function runAuthorizeEnding() {
         .showAuthorizeMessage();
 
 
-    /*
-        Todo queda calmado por un momento.
-
-        El usuario cree que autorizar
-        simplemente funcionó.
-    */
-
     await wait(
-        2200
+        1700
+    );
+
+
+    // =====================================================
+    // CONNECTION ESTABLISHED
+    // =====================================================
+
+    await showAuthorizeText(
+        text.connectionEstablished,
+        1400
+    );
+
+
+    // =====================================================
+    // CREW COUNT: 0
+    // =====================================================
+
+    safePlayAudio(
+        endingGlitchMedium,
+        0.25
+    );
+
+
+    await showAuthorizeText(
+        text.crewCount,
+        1500,
+        true
     );
 
 
     // =====================================================
     // CORRUPTION LEVEL 1
     // =====================================================
-
-    /*
-        Primera falla casi imperceptible.
-    */
 
     window.Scene10Animations
         .setCorruptionLevel(
@@ -414,7 +716,7 @@ async function runAuthorizeEnding() {
     if (endingStatic) {
 
         endingStatic.volume =
-            0.025;
+            0.02;
 
 
         endingStatic
@@ -427,7 +729,7 @@ async function runAuthorizeEnding() {
     if (endingRumble) {
 
         endingRumble.volume =
-            0.02;
+            0.018;
 
 
         endingRumble
@@ -438,7 +740,24 @@ async function runAuthorizeEnding() {
 
 
     await wait(
-        850
+        500
+    );
+
+
+    // =====================================================
+    // EXTERNAL HOST DETECTED
+    // =====================================================
+
+    safePlayAudio(
+        endingElectrical,
+        0.25
+    );
+
+
+    await showAuthorizeText(
+        text.externalHost,
+        1700,
+        true
     );
 
 
@@ -469,13 +788,30 @@ async function runAuthorizeEnding() {
     if (endingRumble) {
 
         endingRumble.volume =
-            0.035;
+            0.04;
 
     }
 
 
     await wait(
-        800
+        550
+    );
+
+
+    // =====================================================
+    // TRANSFER COMPLETE
+    // =====================================================
+
+    safePlayAudio(
+        endingLowImpact,
+        0.58
+    );
+
+
+    await showAuthorizeText(
+        text.transferComplete,
+        1600,
+        true
     );
 
 
@@ -483,13 +819,9 @@ async function runAuthorizeEnding() {
     // CORRUPTION LEVEL 3
     // =====================================================
 
-    /*
-        Primer colapso serio.
-    */
-
     safePlayAudio(
         endingGlitchStrong,
-        0.78
+        0.72
     );
 
 
@@ -502,7 +834,7 @@ async function runAuthorizeEnding() {
             );
 
         },
-        100
+        90
     );
 
 
@@ -523,13 +855,43 @@ async function runAuthorizeEnding() {
     if (endingRumble) {
 
         endingRumble.volume =
-            0.055;
+            0.065;
 
     }
 
 
     await wait(
-        850
+        700
+    );
+
+
+    // =====================================================
+    // FINAL MESSAGE
+    // =====================================================
+
+    safePlayAudio(
+        endingLowImpact,
+        0.82
+    );
+
+
+    setTimeout(
+        () => {
+
+            safePlayAudio(
+                endingGlitchStrong,
+                0.65
+            );
+
+        },
+        110
+    );
+
+
+    await showAuthorizeText(
+        text.finalMessage,
+        2300,
+        true
     );
 
 
@@ -566,7 +928,7 @@ async function runAuthorizeEnding() {
     if (endingRumble) {
 
         endingRumble.volume =
-            0.085;
+            0.1;
 
     }
 
@@ -577,24 +939,29 @@ async function runAuthorizeEnding() {
 
 
     // =====================================================
-    // FINAL WHITEOUT
+    // JUMPSCARE
     // =====================================================
 
     /*
-        El riser inicia justo antes de
-        comenzar el whiteout visual.
+        El usuario ya aceptó la conexión.
+
+        La transferencia termina, parece
+        que todo se estabiliza y después
+        aparece la entidad.
     */
+
+    await playJumpscare();
+
+
+    // =====================================================
+    // FINAL WHITEOUT
+    // =====================================================
 
     safePlayAudio(
         endingWhiteoutRiser,
         0.85
     );
 
-
-    /*
-        Último glitch antes de que
-        desaparezca todo.
-    */
 
     safePlayAudio(
         endingGlitchStrong,
@@ -666,6 +1033,9 @@ function initAuthorizeEnding() {
 
     window.Scene10Animations
         .init();
+
+
+    prepareJumpscare();
 
 
     runAuthorizeEnding();

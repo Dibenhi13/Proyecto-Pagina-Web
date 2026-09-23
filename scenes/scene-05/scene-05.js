@@ -73,11 +73,14 @@ const systemLogElements = [
 
 
 // =========================================================
-// ACCESS LOGS
+// ACCESS LOGS / PROGRESS
 // =========================================================
 
 const accessLogsButton =
     document.querySelector("#access-logs-button");
+
+const recoveryProgress =
+    document.querySelector("#recovery-progress");
 
 const recoveryProgressLabel =
     document.querySelector("#recovery-progress-label");
@@ -248,6 +251,28 @@ const visitedFiles =
 
 
 // =========================================================
+// ARCHIVOS QUE CUENTAN PARA EL PROGRESO
+//
+// El fragmento final NO entra en 0/8.
+// =========================================================
+
+const explorationFiles = [
+
+    "chat01",
+    "audio01",
+    "video01",
+
+    "chat02",
+    "audio02",
+    "video02",
+
+    "image01",
+    "archive01"
+
+];
+
+
+// =========================================================
 // ASSETS
 // =========================================================
 
@@ -294,8 +319,8 @@ const translations = {
         accessLogs:
             "ACCESS LOGS",
 
-        recovery:
-            "ARCHIVE RECOVERY",
+        filesAccessed:
+            "FILES ACCESSED",
 
         recovered:
             "RECOVERED",
@@ -305,6 +330,12 @@ const translations = {
 
         corrupted:
             "CORRUPTED",
+
+        locked:
+            "LOCKED",
+
+        new:
+            "NEW",
 
         viewed:
             "VIEWED",
@@ -362,37 +393,69 @@ const translations = {
 
             {
                 time: "[22:14]",
-                text: "Did you hear that?"
+                text: "Maintenance says Deck C is drawing power again."
             },
 
             {
                 time: "[22:15]",
-                text: "It's probably interference..."
+                text: "That section has been sealed for six hours."
             },
 
             {
-                time: "[22:15]",
-                text: "No... that was inside."
+                time: "[22:16]",
+                text: "I know. The system says someone opened the door from inside."
+            },
+
+            {
+                time: "[22:17]",
+                text: "There is no one on Deck C."
+            },
+
+            {
+                time: "[22:18]",
+                text: "Then stop checking the camera."
             }
 
         ],
+
 
         chat02: [
 
             {
                 time: "[02:31]",
-                text: "Who is in corridor C?"
+                text: "Who changed the crew manifest?"
             },
 
             {
                 time: "[02:32]",
-                text: "Nobody."
+                text: "No one. Why?"
             },
 
             {
                 time: "[02:33]",
-                text: "Then why did the door just open?"
+                text: "It says there are four people on board."
+            },
+
+            {
+                time: "[02:33]",
+                text: "There are only three of us left."
+            },
+
+            {
+                time: "[02:34]",
+                text: "Don't correct it."
+            },
+
+            {
+                time: "[02:35]",
+                text: "Why?"
+            },
+
+            {
+                time: "[02:35]",
+                text: "Because every time I do, it adds them back."
             }
+
 
         ],
 
@@ -400,15 +463,21 @@ const translations = {
 
             "INTERNAL RECOVERY REPORT",
 
-            "Audio signatures detected outside registered crew channels.",
+            "Unregistered activity detected in sealed areas of the ship.",
 
-            "Source identification failed.",
+            "Multiple system logs were modified without crew authorization.",
 
-            "Automatic correction protocol initiated.",
+            "Biometric records no longer match the number of active crew members.",
 
-            "Crew notification suppressed.",
+            "Attempts to restore previous records were automatically overwritten.",
 
-            "▒▒▒ RECORD ALTERED ▒▒▒"
+            "Surveillance feeds continue to identify movement in restricted sectors.",
+
+            "Crew notification protocol has been disabled by an unknown process.",
+
+            "SOURCE OF MODIFICATIONS: INTERNAL SYSTEM",
+
+            "▒▒▒ DO NOT TRUST THE CREW MANIFEST ▒▒▒"
 
         ],
 
@@ -454,8 +523,8 @@ const translations = {
         accessLogs:
             "ACCEDER A REGISTROS",
 
-        recovery:
-            "RECUPERACIÓN DE ARCHIVOS",
+        filesAccessed:
+            "ARCHIVOS REVISADOS",
 
         recovered:
             "RECUPERADO",
@@ -465,6 +534,12 @@ const translations = {
 
         corrupted:
             "CORRUPTO",
+
+        locked:
+            "BLOQUEADO",
+
+        new:
+            "NUEVO",
 
         viewed:
             "VISTO",
@@ -522,17 +597,27 @@ const translations = {
 
             {
                 time: "[22:14]",
-                text: "¿Escuchaste eso?"
+                text: "Mantenimiento dice que la cubierta C está consumiendo energía otra vez."
             },
 
             {
                 time: "[22:15]",
-                text: "Probablemente es interferencia..."
+                text: "Esa sección lleva seis horas sellada."
             },
 
             {
-                time: "[22:15]",
-                text: "No... eso estaba dentro."
+                time: "[22:16]",
+                text: "Lo sé. El sistema dice que alguien abrió la puerta desde adentro."
+            },
+
+            {
+                time: "[22:17]",
+                text: "No hay nadie en la cubierta C."
+            },
+
+            {
+                time: "[22:18]",
+                text: "Entonces deja de revisar la cámara."
             }
 
         ],
@@ -541,17 +626,37 @@ const translations = {
 
             {
                 time: "[02:31]",
-                text: "¿Quién está en el corredor C?"
+                text: "¿Quién modificó el registro de la tripulación?"
             },
 
             {
                 time: "[02:32]",
-                text: "Nadie."
+                text: "Nadie. ¿Por qué?"
             },
 
             {
                 time: "[02:33]",
-                text: "Entonces, ¿por qué acaba de abrirse la puerta?"
+                text: "Dice que hay cuatro personas a bordo."
+            },
+
+            {
+                time: "[02:33]",
+                text: "Solo quedamos tres."
+            },
+
+            {
+                time: "[02:34]",
+                text: "No lo corrijas."
+            },
+
+            {
+                time: "[02:35]",
+                text: "¿Por qué?"
+            },
+
+            {
+                time: "[02:35]",
+                text: "Porque cada vez que lo hago, vuelve a agregarlo."
             }
 
         ],
@@ -560,15 +665,21 @@ const translations = {
 
             "REPORTE INTERNO DE RECUPERACIÓN",
 
-            "Firmas de audio detectadas fuera de los canales registrados de la tripulación.",
+            "Se detectó actividad no registrada en áreas selladas de la nave.",
 
-            "La identificación de la fuente falló.",
+            "Múltiples registros del sistema fueron modificados sin autorización de la tripulación.",
 
-            "Protocolo de corrección automática iniciado.",
+            "Los registros biométricos ya no coinciden con el número de tripulantes activos.",
 
-            "Notificación a la tripulación suprimida.",
+            "Los intentos por restaurar registros anteriores fueron sobrescritos automáticamente.",
 
-            "▒▒▒ REGISTRO ALTERADO ▒▒▒"
+            "Las cámaras continúan detectando movimiento en sectores restringidos.",
+
+            "El protocolo de notificación a la tripulación fue desactivado por un proceso desconocido.",
+
+            "ORIGEN DE LAS MODIFICACIONES: SISTEMA INTERNO",
+
+            "▒▒▒ NO CONFÍES EN EL REGISTRO DE TRIPULACIÓN ▒▒▒"
 
         ],
 
@@ -811,10 +922,6 @@ function startScene05Ambience() {
         scene05StaticLoop
     ) {
 
-        /*
-            Mucho más bajo que antes.
-        */
-
         scene05StaticLoop.volume =
             0.005;
 
@@ -999,12 +1106,6 @@ function lowerAmbienceForDialogue() {
     }
 
 
-    /*
-        Igual que Scene 04:
-        durante el diálogo quitamos por completo
-        la estática continua.
-    */
-
     if (
         scene05StaticLoop
     ) {
@@ -1163,6 +1264,112 @@ function fadeAmbientAudio(
 
 
 // =========================================================
+// ACTUALIZAR ESTADO NEW / VIEWED
+// =========================================================
+
+function updateFileVisitStates() {
+
+    const text =
+        translations[
+            currentLanguage
+        ];
+
+
+    archiveFiles.forEach(
+        file => {
+
+            const fileId =
+                file.dataset.file;
+
+
+            const visitState =
+                file.querySelector(
+                    ".file-visit-state"
+                );
+
+
+            if (
+                !visitState
+            ) {
+
+                return;
+
+            }
+
+
+            // -----------------------------------------
+            // BLOQUEADO
+            // -----------------------------------------
+
+            if (
+                file.classList.contains(
+                    "locked"
+                )
+            ) {
+
+                visitState.textContent =
+                    "";
+
+                file.classList.remove(
+                    "new-file"
+                );
+
+                return;
+
+            }
+
+
+            // -----------------------------------------
+            // YA VISTO
+            // -----------------------------------------
+
+            if (
+                visitedFiles.has(
+                    fileId
+                )
+            ) {
+
+                file.classList.remove(
+                    "new-file"
+                );
+
+                file.classList.add(
+                    "visited"
+                );
+
+
+                visitState.textContent =
+                    text.viewed;
+
+
+                return;
+
+            }
+
+
+            // -----------------------------------------
+            // DISPONIBLE Y NO VISTO
+            // -----------------------------------------
+
+            file.classList.remove(
+                "visited"
+            );
+
+            file.classList.add(
+                "new-file"
+            );
+
+
+            visitState.textContent =
+                text.new;
+
+        }
+    );
+
+}
+
+
+// =========================================================
 // IDIOMA INTERFAZ
 // =========================================================
 
@@ -1196,7 +1403,7 @@ function updateInterfaceLanguage() {
         text.accessLogs;
 
     recoveryProgressLabel.textContent =
-        text.recovery;
+        text.filesAccessed;
 
     chatHeader.textContent =
         text.chatHeader;
@@ -1218,6 +1425,13 @@ function updateInterfaceLanguage() {
 
     securityAlertSecondary.textContent =
         text.finalSecondary;
+
+
+    updateFileVisitStates();
+
+    updateRecoveryProgress(
+        false
+    );
 
 }
 
@@ -1251,7 +1465,7 @@ function setSystemLog(
             ".system-log-text"
         )
         .textContent =
-        text;
+            text;
 
 
     window.Scene05Animations
@@ -1464,7 +1678,6 @@ function openArchiveFile(
 
 
     /*
-        IMPORTANTE:
         No reproducimos static al abrir
         audio01 ni audio02.
     */
@@ -1898,11 +2111,6 @@ async function playCurrentAudio() {
     }
 
 
-    /*
-        Determinamos qué recording tiene
-        que usar este archivo.
-    */
-
     let expectedAudio =
         null;
 
@@ -1944,11 +2152,6 @@ async function playCurrentAudio() {
     }
 
 
-    /*
-        Forzamos la ruta correcta por si el
-        elemento perdió el src.
-    */
-
     if (
         currentAudio.getAttribute(
             "src"
@@ -1974,8 +2177,6 @@ async function playCurrentAudio() {
         ].playingAudio;
 
 
-    // Click discreto
-
     safePlayAudio(
         scene05UIClick,
         0.14
@@ -1983,10 +2184,9 @@ async function playCurrentAudio() {
 
 
     /*
-        SIN STATIC SHORT AQUÍ.
-        El audio narrativo entra limpio.
+        SIN STATIC SHORT.
+        El audio narrativo debe escucharse limpio.
     */
-
 
     lowerAmbienceForDialogue();
 
@@ -1994,11 +2194,6 @@ async function playCurrentAudio() {
     window.Scene05Animations
         .startAudioVisualizer();
 
-
-    /*
-        Conservamos el glitch visual.
-        No necesita sonido adicional.
-    */
 
     window.Scene05Animations
         .playAudioDamageGlitch();
@@ -2083,18 +2278,9 @@ function onAudioEnded() {
         .stopAudioVisualizer();
 
 
-    /*
-        Glitch visual final.
-    */
-
     window.Scene05Animations
         .playAudioEndGlitch();
 
-
-    /*
-        Dejamos únicamente una respuesta
-        sonora muy pequeña después del diálogo.
-    */
 
     if (
         currentPhase >= 2
@@ -2224,10 +2410,6 @@ function showVideo(
 
         };
 
-
-    /*
-        Solo una interferencia pequeña.
-    */
 
     safePlayAudio(
         scene05StaticShort,
@@ -2526,21 +2708,10 @@ function markFileVisited(
     fileId
 ) {
 
-    if (
-        visitedFiles.has(
-            fileId
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    visitedFiles.add(
-        fileId
-    );
-
+    /*
+        Fragment01 no forma parte del contador 0/8,
+        pero sí puede recibir el estado visual VIEWED.
+    */
 
     const button =
         document.querySelector(
@@ -2548,21 +2719,59 @@ function markFileVisited(
         );
 
 
+    if (
+        !button
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !visitedFiles.has(
+            fileId
+        )
+    ) {
+
+        visitedFiles.add(
+            fileId
+        );
+
+    }
+
+
+    button.classList.remove(
+        "new-file"
+    );
+
+
+    button.classList.remove(
+        "newly-unlocked"
+    );
+
+
     button.classList.add(
         "visited"
     );
 
 
-    const status =
+    const visitState =
         button.querySelector(
-            ".file-status"
+            ".file-visit-state"
         );
 
 
-    status.textContent =
-        translations[
-            currentLanguage
-        ].viewed;
+    if (
+        visitState
+    ) {
+
+        visitState.textContent =
+            translations[
+                currentLanguage
+            ].viewed;
+
+    }
 
 
     updateRecoveryProgress();
@@ -2580,31 +2789,85 @@ function markFileVisited(
 
 
 // =========================================================
-// RECOVERY PROGRESS
+// RECOVERY / EXPLORATION PROGRESS
 // =========================================================
 
-function updateRecoveryProgress() {
+function updateRecoveryProgress(
+    animate = true
+) {
 
     const totalFiles =
-        9;
+        explorationFiles.length;
 
 
-    const progress =
-        Math.round(
-            (
-                visitedFiles.size /
-                totalFiles
-            ) *
-            100
-        );
+    const accessedFiles =
+        explorationFiles.filter(
+            fileId =>
+                visitedFiles.has(
+                    fileId
+                )
+        ).length;
 
 
     recoveryProgressValue.textContent =
-        `${progress}%`;
+        `${accessedFiles}/${totalFiles}`;
 
 
-    window.Scene05Animations
-        .pulseRecoveryProgress();
+    if (
+        !animate ||
+        !recoveryProgress
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+        Pequeño pulso visual del contador.
+    */
+
+    recoveryProgress.classList.remove(
+        "progress-updated"
+    );
+
+
+    void recoveryProgress.offsetWidth;
+
+
+    recoveryProgress.classList.add(
+        "progress-updated"
+    );
+
+
+    setTimeout(
+        () => {
+
+            recoveryProgress.classList.remove(
+                "progress-updated"
+            );
+
+        },
+        550
+    );
+
+
+    /*
+        Conservamos la animación que
+        ya tenías, si existe.
+    */
+
+    if (
+        window.Scene05Animations &&
+        typeof window.Scene05Animations
+            .pulseRecoveryProgress ===
+            "function"
+    ) {
+
+        window.Scene05Animations
+            .pulseRecoveryProgress();
+
+    }
 
 }
 
@@ -2657,7 +2920,8 @@ function unlockPhase(
 
                 file.classList.add(
                     "unlocked",
-                    "newly-unlocked"
+                    "newly-unlocked",
+                    "new-file"
                 );
 
 
@@ -2667,16 +2931,46 @@ function unlockPhase(
                     );
 
 
-                status.textContent =
-                    file.classList.contains(
-                        "corrupted-file"
-                    )
-                        ? translations[
+                /*
+                    Conservamos el estado técnico:
+                    CORRUPTED para archivos corruptos,
+                    UNLOCKED para los demás.
+                */
+
+                if (
+                    status
+                ) {
+
+                    status.textContent =
+                        file.classList.contains(
+                            "corrupted-file"
+                        )
+                            ? translations[
+                                currentLanguage
+                            ].corrupted
+                            : translations[
+                                currentLanguage
+                            ].unlocked;
+
+                }
+
+
+                const visitState =
+                    file.querySelector(
+                        ".file-visit-state"
+                    );
+
+
+                if (
+                    visitState
+                ) {
+
+                    visitState.textContent =
+                        translations[
                             currentLanguage
-                        ].corrupted
-                        : translations[
-                            currentLanguage
-                        ].unlocked;
+                        ].new;
+
+                }
 
 
                 window.Scene05Animations
@@ -2929,8 +3223,13 @@ async function startFinalSequence() {
         true;
 
 
+    /*
+        Ya se revisaron los ocho archivos
+        principales de exploración.
+    */
+
     recoveryProgressValue.textContent =
-        "100%";
+        "8/8";
 
 
     if (
@@ -3032,34 +3331,57 @@ document.addEventListener(
 
 async function initScene05() {
 
+    // =====================================================
     // IDIOMA
+    // =====================================================
 
     updateInterfaceLanguage();
 
 
+    // =====================================================
+    // ESTADOS INICIALES NEW / LOCKED
+    // =====================================================
+
+    updateFileVisitStates();
+
+    updateRecoveryProgress(
+        false
+    );
+
+
+    // =====================================================
     // AUDIO_03 + AUDIO_04
+    // =====================================================
 
     loadScene05Recordings();
 
 
+    // =====================================================
     // ANIMACIONES
+    // =====================================================
 
     window.Scene05Animations
         .init();
 
 
+    // =====================================================
     // AMBIENTE
+    // =====================================================
 
     startScene05Ambience();
 
 
+    // =====================================================
     // ENTRADA
+    // =====================================================
 
     await window.Scene05Animations
         .playSceneEntry();
 
 
+    // =====================================================
     // LOGS
+    // =====================================================
 
     playInitialSystemLogs();
 

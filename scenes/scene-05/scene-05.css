@@ -2336,3 +2336,464 @@ button:focus-visible {
     }
 
 }
+
+/* =========================================================
+   IMPLEMENTACIÓN — ORIENTACIÓN DE ARCHIVOS
+   NEW / VIEWED + PROGRESO
+========================================================= */
+
+
+/* =========================================================
+   ESTADO DE VISITA
+========================================================= */
+
+.file-visit-state {
+
+    position: absolute;
+
+    top:
+        10px;
+
+    right:
+        10px;
+
+    font-size:
+
+        clamp(
+            0.44rem,
+            0.58vw,
+            0.54rem
+        );
+
+    font-weight:
+        500;
+
+    letter-spacing:
+        0.08em;
+
+    color:
+        var(--green);
+
+    text-align:
+        right;
+
+    opacity:
+        0.82;
+
+    pointer-events:
+        none;
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.38);
+
+}
+
+
+/* =========================================================
+   ARCHIVO NUEVO
+========================================================= */
+
+.archive-file.new-file {
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(0, 255, 56, 0.035),
+            rgba(0, 255, 56, 0.008)
+        );
+
+    box-shadow:
+
+        inset 0 0 10px
+        rgba(0, 255, 56, 0.018);
+
+}
+
+
+.archive-file.new-file .file-visit-state {
+
+    color:
+        var(--green);
+
+    opacity:
+        1;
+
+    animation:
+        newFilePulse
+        1.8s
+        ease-in-out
+        infinite;
+
+}
+
+
+@keyframes newFilePulse {
+
+    0%,
+    100% {
+
+        opacity:
+            0.55;
+
+        text-shadow:
+
+            0 0 3px
+            rgba(0, 255, 56, 0.25);
+
+    }
+
+    50% {
+
+        opacity:
+            1;
+
+        text-shadow:
+
+            0 0 7px
+            rgba(0, 255, 56, 0.55);
+
+    }
+
+}
+
+
+/* =========================================================
+   ARCHIVO VISTO
+========================================================= */
+
+.archive-file.visited {
+
+    background:
+        rgba(0, 255, 56, 0.018);
+
+    opacity:
+        0.58;
+
+}
+
+
+.archive-file.visited:hover:not(:disabled) {
+
+    opacity:
+        0.82;
+
+}
+
+
+.archive-file.visited .file-visit-state {
+
+    color:
+        var(--green-medium);
+
+    opacity:
+        0.7;
+
+    animation:
+        none;
+
+    text-shadow:
+        none;
+
+}
+
+
+/*
+    El estado técnico del archivo
+    permanece visible.
+
+    Ejemplo:
+
+    RECOVERED
+    VIEWED
+
+    en vez de sustituir RECOVERED
+    por VIEWED.
+*/
+
+.archive-file.visited .file-status {
+
+    opacity:
+        0.78;
+
+}
+
+
+/* =========================================================
+   LOCKED
+========================================================= */
+
+.archive-file.locked .file-visit-state {
+
+    display:
+        none;
+
+}
+
+
+/* =========================================================
+   ARCHIVO RECIÉN DESBLOQUEADO
+========================================================= */
+
+.archive-file.newly-unlocked {
+
+    box-shadow:
+
+        0 0 15px
+        rgba(0, 255, 56, 0.35),
+
+        inset 0 0 10px
+        rgba(0, 255, 56, 0.05);
+
+}
+
+
+.archive-file.newly-unlocked .file-visit-state {
+
+    display:
+        block;
+
+    color:
+        var(--green);
+
+    opacity:
+        1;
+
+}
+
+
+/* =========================================================
+   PROGRESO DE EXPLORACIÓN
+========================================================= */
+
+.recovery-progress {
+
+    position:
+        relative;
+
+    margin-top:
+        12px;
+
+    padding-top:
+        10px;
+
+    border-top:
+
+        1px solid
+        rgba(0, 255, 56, 0.18);
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        8px;
+
+    font-size:
+
+        clamp(
+            0.46rem,
+            0.62vw,
+            0.58rem
+        );
+
+    letter-spacing:
+        0.04em;
+
+    color:
+        var(--green-medium);
+
+}
+
+
+#recovery-progress-label {
+
+    color:
+        var(--green-medium);
+
+}
+
+
+#recovery-progress-value {
+
+    min-width:
+        32px;
+
+    color:
+        var(--green);
+
+    font-weight:
+        500;
+
+    text-align:
+        right;
+
+    text-shadow:
+
+        0 0 4px
+        rgba(0, 255, 56, 0.34);
+
+}
+
+
+/* =========================================================
+   PROGRESO ACTUALIZADO
+========================================================= */
+
+.recovery-progress.progress-updated
+#recovery-progress-value {
+
+    animation:
+        progressPulse
+        0.5s
+        ease;
+
+}
+
+
+@keyframes progressPulse {
+
+    0% {
+
+        opacity:
+            0.45;
+
+        transform:
+            scale(0.94);
+
+    }
+
+    50% {
+
+        opacity:
+            1;
+
+        transform:
+            scale(1.08);
+
+        text-shadow:
+
+            0 0 8px
+            rgba(0, 255, 56, 0.65);
+
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+
+/* =========================================================
+   CORRUPTED + NEW
+========================================================= */
+
+.archive-file.corrupted-file.new-file {
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(0, 255, 56, 0.045),
+            rgba(0, 255, 56, 0.01)
+        );
+
+}
+
+
+.archive-file.corrupted-file.new-file
+.file-visit-state {
+
+    text-shadow:
+
+        0 0 6px
+        rgba(0, 255, 56, 0.55);
+
+}
+
+
+/* =========================================================
+   FINAL FILE
+========================================================= */
+
+.archive-file.final-file.new-file {
+
+    box-shadow:
+
+        0 0 14px
+        rgba(0, 255, 56, 0.26),
+
+        inset 0 0 10px
+        rgba(0, 255, 56, 0.04);
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+    .file-visit-state {
+
+        top:
+            8px;
+
+        right:
+            8px;
+
+        font-size:
+            0.48rem;
+
+    }
+
+
+    .recovery-progress {
+
+        margin-top:
+            10px;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .archive-file.new-file
+    .file-visit-state {
+
+        animation:
+            none;
+
+    }
+
+
+    .recovery-progress.progress-updated
+    #recovery-progress-value {
+
+        animation:
+            none;
+
+    }
+
+}

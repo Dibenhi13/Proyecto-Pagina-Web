@@ -191,8 +191,18 @@ const translations = {
         processing:
             "PROCESSING...",
 
-        response:
-            "I am the one asking the questions.",
+        responses:{
+
+            meaning:
+                "The mission ended long before you received the signal. What remains is only its continuation.",
+
+            identity:
+                "Names are for crew members. I am the process they tried to shut down.",
+
+            crew:
+                "Their biometric records are still active. Their bodies are not."
+
+        },
 
         controlMessages: [
             "USER INPUT DISABLED",
@@ -230,8 +240,16 @@ const translations = {
         processing:
             "PROCESANDO...",
 
-        response:
-            "Yo soy quien hace las preguntas.",
+        responses:{
+            meaning:
+                "La misión terminó mucho antes de que recibieras la señal. Lo que queda es solo su continuación.",
+
+            identity:
+                "Los nombres son para los miembros de la tripulación. Yo soy el proceso que intentaron apagar.",
+
+            crew:
+                "Sus registros biométricos siguen activos. Sus cuerpos no."
+        },
 
         controlMessages: [
             "ENTRADA DEL USUARIO DESHABILITADA",
@@ -798,7 +816,9 @@ async function selectQuestion(
 
 
     systemResponse.textContent =
-        text.response;
+        text.responses[
+            questionType
+        ];
 
 
     /*

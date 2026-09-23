@@ -543,9 +543,18 @@
                         class="access-logs-container"
                     >
 
+                        <div
+                            id="new-logs-indicator"
+                            class="new-logs-indicator"
+                            aria-live="polite"
+                        >
+                            NEW LOGS DETECTED
+                        </div>
+
+
                         <button
                             id="access-logs-button"
-                            class="access-logs-button"
+                            class="access-logs-button attention-required"
                             type="button"
                         >
                             ACCESS LOGS
@@ -643,7 +652,7 @@
                     <!-- LOG 05 -->
 
                     <button
-                        class="archived-log-item"
+                        class="archived-log-item new-log"
                         type="button"
                         data-log="05"
                     >
@@ -660,6 +669,12 @@
                             MISSION REPORT
                         </span>
 
+                        <span
+                            class="log-state"
+                        >
+                            NEW
+                        </span>
+
                     </button>
 
 
@@ -667,7 +682,7 @@
                     <!-- LOG 06 -->
 
                     <button
-                        class="archived-log-item"
+                        class="archived-log-item new-log"
                         type="button"
                         data-log="06"
                     >
@@ -684,6 +699,12 @@
                             NAVIGATION UPDATE
                         </span>
 
+                        <span
+                            class="log-state"
+                        >
+                            NEW
+                        </span>
+
                     </button>
 
 
@@ -691,7 +712,7 @@
                     <!-- LOG 07 -->
 
                     <button
-                        class="archived-log-item"
+                        class="archived-log-item new-log"
                         type="button"
                         data-log="07"
                     >
@@ -708,6 +729,12 @@
                             CREW STATUS
                         </span>
 
+                        <span
+                            class="log-state"
+                        >
+                            NEW
+                        </span>
+
                     </button>
 
 
@@ -715,7 +742,7 @@
                     <!-- LOG 08 -->
 
                     <button
-                        class="archived-log-item corrupted"
+                        class="archived-log-item corrupted new-log"
                         type="button"
                         data-log="08"
                     >
@@ -730,6 +757,12 @@
                             class="log-description"
                         >
                             [CORRUPTED]
+                        </span>
+
+                        <span
+                            class="log-state"
+                        >
+                            NEW
                         </span>
 
                     </button>
@@ -936,107 +969,108 @@
 
 
         <!-- ==================================================
-     AUDIO NARRATIVO TEMPORAL
-=================================================== -->
+             AUDIO NARRATIVO
+        =================================================== -->
 
-<audio
-    id="corrupted-audio"
-    preload="metadata"
-></audio>
-
-
-<!-- ==================================================
-     SFX — SCENE 04
-=================================================== -->
-
-<audio
-    id="scene-04-hum"
-    preload="auto"
-    loop
->
-    <source
-        src="../../assets/audio/sfx/spaceship-hum.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="corrupted-audio"
+            preload="metadata"
+        ></audio>
 
 
-<audio
-    id="scene-04-ui-click"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/ui-click.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+
+        <!-- ==================================================
+             SFX — SCENE 04
+        =================================================== -->
+
+        <audio
+            id="scene-04-hum"
+            preload="auto"
+            loop
+        >
+            <source
+                src="../../assets/audio/sfx/spaceship-hum.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-04-system-error"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/system-error.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-04-ui-click"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/ui-click.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-04-static-short"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/static-short.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-04-system-error"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/system-error.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-04-static-loop"
-    preload="auto"
-    loop
->
-    <source
-        src="../../assets/audio/sfx/static-loop.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-04-static-short"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/static-short.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-04-electrical"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/electrical-interference.wav"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-04-static-loop"
+            preload="auto"
+            loop
+        >
+            <source
+                src="../../assets/audio/sfx/static-loop.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
 
 
-<audio
-    id="scene-04-metal-bang"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/metal-bang.mp3"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-04-electrical"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/electrical-interference.wav"
+                type="audio/wav"
+            >
+        </audio>
 
 
-<audio
-    id="scene-04-glitch"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/glitch-medium.wav"
-        type="audio/mpeg"
-    >
-</audio>
+        <audio
+            id="scene-04-metal-bang"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/metal-bang.mp3"
+                type="audio/mpeg"
+            >
+        </audio>
+
+
+        <audio
+            id="scene-04-glitch"
+            preload="auto"
+        >
+            <source
+                src="../../assets/audio/sfx/glitch-medium.wav"
+                type="audio/wav"
+            >
+        </audio>
 
 
 
@@ -1079,7 +1113,7 @@
 
 
         <!-- ==================================================
-             TRANSICIÓN FUTURA
+             TRANSICIÓN
         =================================================== -->
 
         <div

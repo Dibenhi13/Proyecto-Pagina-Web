@@ -45,9 +45,32 @@ const acceptButton =
         "#accept-transmission"
     );
 
+
 const acceptText =
     document.querySelector(
         "#accept-text"
+    );
+
+
+// =========================================================
+// MOSTRAR TEXTO COMPLETO
+// =========================================================
+
+const showFullTextButton =
+    document.querySelector(
+        "#show-full-text"
+    );
+
+
+const showFullTextLabel =
+    document.querySelector(
+        "#show-full-text-label"
+    );
+
+
+const skipTextContainer =
+    document.querySelector(
+        "#skip-text-container"
     );
 
 
@@ -83,11 +106,28 @@ const scene01Glitch =
 // ESTADO GENERAL
 // =========================================================
 
-let currentLanguage = "en";
+let currentLanguage =
+    "en";
 
-let sequenceFinished = false;
 
-let transitionStarted = false;
+let sequenceFinished =
+    false;
+
+
+let transitionStarted =
+    false;
+
+
+/*
+    Se activa cuando el usuario presiona
+    SHOW FULL TEXT.
+
+    Esto permite detener tanto el typewriter
+    como las pausas narrativas restantes.
+*/
+
+let skipRequested =
+    false;
 
 
 // =========================================================
@@ -115,6 +155,9 @@ const translations = {
 
         awaiting:
             "Awaiting operator response...",
+
+        showFullText:
+            "SHOW FULL TEXT",
 
         accept:
             "ACCEPT TRANSMISSION",
@@ -144,6 +187,9 @@ const translations = {
 
         awaiting:
             "Esperando respuesta del operador...",
+
+        showFullText:
+            "MOSTRAR TEXTO COMPLETO",
 
         accept:
             "ACEPTAR TRANSMISIÓN",
@@ -182,7 +228,7 @@ document.documentElement.lang =
 
 
 // =========================================================
-// ACTUALIZAR BOTÓN
+// ACTUALIZAR BOTONES
 // =========================================================
 
 function updateButtonLanguage() {
@@ -191,6 +237,18 @@ function updateButtonLanguage() {
         translations[
             currentLanguage
         ].accept;
+
+
+    if (
+        showFullTextLabel
+    ) {
+
+        showFullTextLabel.textContent =
+            translations[
+                currentLanguage
+            ].showFullText;
+
+    }
 
 }
 
@@ -218,6 +276,64 @@ function wait(
 
 
 // =========================================================
+// ESPERA INTERRUMPIBLE
+// =========================================================
+
+async function waitUnlessSkipped(
+    milliseconds
+) {
+
+    const step =
+        40;
+
+
+    let elapsed =
+        0;
+
+
+    while (
+        elapsed <
+        milliseconds
+    ) {
+
+        if (
+            skipRequested
+        ) {
+
+            return false;
+
+        }
+
+
+        const remaining =
+            milliseconds -
+            elapsed;
+
+
+        const delay =
+            Math.min(
+                step,
+                remaining
+            );
+
+
+        await wait(
+            delay
+        );
+
+
+        elapsed +=
+            delay;
+
+    }
+
+
+    return true;
+
+}
+
+
+// =========================================================
 // AUDIO SEGURO
 // =========================================================
 
@@ -227,7 +343,9 @@ function safePlayAudio(
 ) {
 
     if (!audio) {
+
         return;
+
     }
 
 
@@ -251,16 +369,11 @@ function safePlayAudio(
 function startAmbientHum() {
 
     if (!scene01Hum) {
+
         return;
+
     }
 
-
-    /*
-        Lo mantenemos muy bajo.
-
-        No debe competir con el teclado
-        ni con la información de pantalla.
-    */
 
     scene01Hum.volume =
         0.07;
@@ -310,16 +423,15 @@ function unlockAmbientHum() {
 
 function startKeyboardSound() {
 
-    if (!scene01Keyboard) {
+    if (
+        !scene01Keyboard ||
+        skipRequested
+    ) {
+
         return;
+
     }
 
-
-    /*
-        Reiniciamos el loop para que cada
-        línea tenga un inicio ligeramente
-        definido.
-    */
 
     scene01Keyboard.currentTime =
         0;
@@ -341,11 +453,14 @@ function startKeyboardSound() {
 function stopKeyboardSound() {
 
     if (!scene01Keyboard) {
+
         return;
+
     }
 
 
     scene01Keyboard.pause();
+
 
     scene01Keyboard.currentTime =
         0;
@@ -430,6 +545,41 @@ function fadeHumOut(
 
 
 // =========================================================
+// OCULTAR TODOS LOS CURSORES
+// =========================================================
+
+function hideAllCursors() {
+
+    document
+        .querySelectorAll(
+            ".terminal-cursor"
+        )
+        .forEach(
+            cursor => {
+
+                if (
+                    window.Scene01Animations
+                ) {
+
+                    window.Scene01Animations
+                        .hideCursor(
+                            cursor
+                        );
+
+                } else {
+
+                    cursor.style.opacity =
+                        "0";
+
+                }
+
+            }
+        );
+
+}
+
+
+// =========================================================
 // TYPEWRITER
 // =========================================================
 
@@ -445,14 +595,26 @@ async function typeText(
     } = options;
 
 
+    /*
+        Si ya se pidió mostrar todo,
+        no iniciamos otra animación.
+    */
+
+    if (
+        skipRequested
+    ) {
+
+        element.textContent =
+            text;
+
+        return;
+
+    }
+
+
     element.textContent =
         "";
 
-
-    /*
-        El cursor pertenece al <p>
-        que contiene este .typed-text.
-    */
 
     const line =
         element.closest(
@@ -495,14 +657,27 @@ async function typeText(
         i++
     ) {
 
+        /*
+            Si el usuario presiona SHOW FULL TEXT
+            durante esta misma línea, completamos
+            la línea instantáneamente.
+        */
+
+        if (
+            skipRequested
+        ) {
+
+            element.textContent =
+                text;
+
+            break;
+
+        }
+
+
         element.textContent +=
             text[i];
 
-
-        /*
-            Velocidad irregular para evitar
-            un typewriter demasiado mecánico.
-        */
 
         let delay =
             randomBetween(
@@ -510,11 +685,6 @@ async function typeText(
                 maxSpeed
             );
 
-
-        /*
-            Pequeña pausa adicional después
-            de signos de puntuación.
-        */
 
         if (
             text[i] === "." ||
@@ -528,21 +698,50 @@ async function typeText(
         }
 
 
-        await wait(
-            delay
-        );
+        const continued =
+            await waitUnlessSkipped(
+                delay
+            );
+
+
+        if (
+            !continued
+        ) {
+
+            element.textContent =
+                text;
+
+            break;
+
+        }
 
     }
 
 
-    // -----------------------------------------------------
-    // TERMINA TECLADO
-    // -----------------------------------------------------
-
     stopKeyboardSound();
 
 
-    await wait(
+    if (
+        skipRequested
+    ) {
+
+        if (
+            window.Scene01Animations
+        ) {
+
+            window.Scene01Animations
+                .hideCursor(
+                    cursor
+                );
+
+        }
+
+        return;
+
+    }
+
+
+    await waitUnlessSkipped(
         120
     );
 
@@ -583,25 +782,161 @@ function randomBetween(
 
 
 // =========================================================
+// TERMINAR SECUENCIA
+// =========================================================
+
+function finishTerminalSequence() {
+
+    if (
+        sequenceFinished
+    ) {
+
+        return;
+
+    }
+
+
+    sequenceFinished =
+        true;
+
+
+    acceptButton.disabled =
+        false;
+
+
+    if (
+        skipTextContainer
+    ) {
+
+        skipTextContainer
+            .classList
+            .add(
+                "is-hidden"
+            );
+
+    }
+
+
+    if (
+        window.Scene01Animations
+    ) {
+
+        window.Scene01Animations
+            .showAcceptButton();
+
+    }
+
+}
+
+
+// =========================================================
+// MOSTRAR TODO EL TEXTO
+// =========================================================
+
+function showFullTerminalText() {
+
+    if (
+        sequenceFinished ||
+        transitionStarted
+    ) {
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------------
+    // DETENER SECUENCIA
+    // -----------------------------------------------------
+
+    skipRequested =
+        true;
+
+
+    stopKeyboardSound();
+
+
+    // -----------------------------------------------------
+    // MOSTRAR TODAS LAS LÍNEAS
+    // -----------------------------------------------------
+
+    const text =
+        translations[
+            currentLanguage
+        ];
+
+
+    lineIncoming.textContent =
+        text.incoming;
+
+
+    lineVessel.textContent =
+        text.vessel;
+
+
+    lineOrigin.textContent =
+        text.origin;
+
+
+    lineRegistered.textContent =
+        text.registered;
+
+
+    lineCrew.textContent =
+        text.crew;
+
+
+    lineAwaiting.textContent =
+        text.awaiting;
+
+
+    // -----------------------------------------------------
+    // OCULTAR CURSORES
+    // -----------------------------------------------------
+
+    hideAllCursors();
+
+
+    // -----------------------------------------------------
+    // HABILITAR ACCEPT
+    // -----------------------------------------------------
+
+    finishTerminalSequence();
+
+}
+
+
+// =========================================================
 // SECUENCIA COMPLETA DE MENSAJES
 // =========================================================
 
 async function playTerminalSequence() {
 
-    /*
-        Primero dejamos respirar
-        la pantalla negra.
-    */
+    // -----------------------------------------------------
+    // PANTALLA NEGRA
+    // -----------------------------------------------------
 
-    await wait(
-        700
-    );
+    const initialWait =
+        await waitUnlessSkipped(
+            700
+        );
 
 
-    /*
-        El frame aparece antes
-        del texto.
-    */
+    if (
+        !initialWait ||
+        skipRequested
+    ) {
+
+        showFullTerminalText();
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------------
+    // FRAME
+    // -----------------------------------------------------
 
     if (
         window.Scene01Animations
@@ -613,14 +948,38 @@ async function playTerminalSequence() {
     }
 
 
-    await wait(
-        350
-    );
+    if (
+        skipRequested
+    ) {
+
+        showFullTerminalText();
+
+        return;
+
+    }
 
 
-    // -----------------------------------------
-    // Incoming transmission...
-    // -----------------------------------------
+    const frameWait =
+        await waitUnlessSkipped(
+            350
+        );
+
+
+    if (
+        !frameWait ||
+        skipRequested
+    ) {
+
+        showFullTerminalText();
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------------
+    // INCOMING TRANSMISSION
+    // -----------------------------------------------------
 
     await typeText(
         lineIncoming,
@@ -634,14 +993,29 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(
-        550
-    );
+    if (
+        skipRequested
+    ) {
+
+        return;
+
+    }
 
 
-    // -----------------------------------------
-    // Unidentified vessel...
-    // -----------------------------------------
+    if (
+        !await waitUnlessSkipped(
+            550
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------------
+    // UNIDENTIFIED VESSEL
+    // -----------------------------------------------------
 
     await typeText(
         lineVessel,
@@ -655,14 +1029,29 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(
-        650
-    );
+    if (
+        skipRequested
+    ) {
+
+        return;
+
+    }
 
 
-    // -----------------------------------------
-    // Signal origin...
-    // -----------------------------------------
+    if (
+        !await waitUnlessSkipped(
+            650
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------------
+    // SIGNAL ORIGIN
+    // -----------------------------------------------------
 
     await typeText(
         lineOrigin,
@@ -676,14 +1065,29 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(
-        180
-    );
+    if (
+        skipRequested
+    ) {
+
+        return;
+
+    }
 
 
-    // -----------------------------------------
-    // Last registered...
-    // -----------------------------------------
+    if (
+        !await waitUnlessSkipped(
+            180
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------------
+    // LAST REGISTERED
+    // -----------------------------------------------------
 
     await typeText(
         lineRegistered,
@@ -697,21 +1101,39 @@ async function playTerminalSequence() {
     );
 
 
+    if (
+        skipRequested
+    ) {
+
+        return;
+
+    }
+
+
     /*
         Pausa narrativa importante.
 
-        Dejamos que el usuario procese:
-        "30 years ago".
+        Si el usuario quiere conservar
+        el ritmo, esperamos normalmente.
+
+        Si presiona SHOW FULL TEXT,
+        la espera termina inmediatamente.
     */
 
-    await wait(
-        2300
-    );
+    if (
+        !await waitUnlessSkipped(
+            2300
+        )
+    ) {
+
+        return;
+
+    }
 
 
-    // -----------------------------------------
-    // No record of current crew...
-    // -----------------------------------------
+    // -----------------------------------------------------
+    // NO RECORD OF CURRENT CREW
+    // -----------------------------------------------------
 
     if (
         window.Scene01Animations
@@ -735,14 +1157,29 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(
-        1100
-    );
+    if (
+        skipRequested
+    ) {
+
+        return;
+
+    }
 
 
-    // -----------------------------------------
-    // Awaiting operator response...
-    // -----------------------------------------
+    if (
+        !await waitUnlessSkipped(
+            1100
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------------
+    // AWAITING OPERATOR RESPONSE
+    // -----------------------------------------------------
 
     await typeText(
         lineAwaiting,
@@ -756,31 +1193,47 @@ async function playTerminalSequence() {
     );
 
 
-    await wait(
-        650
-    );
+    if (
+        skipRequested
+    ) {
 
+        return;
 
-    // -----------------------------------------
-    // MOSTRAR BOTÓN
-    // -----------------------------------------
-
-    sequenceFinished =
-        true;
-
-
-    acceptButton.disabled =
-        false;
+    }
 
 
     if (
-        window.Scene01Animations
+        !await waitUnlessSkipped(
+            650
+        )
     ) {
 
-        window.Scene01Animations
-            .showAcceptButton();
+        return;
 
     }
+
+
+    // -----------------------------------------------------
+    // MOSTRAR ACCEPT
+    // -----------------------------------------------------
+
+    finishTerminalSequence();
+
+}
+
+
+// =========================================================
+// CLICK — SHOW FULL TEXT
+// =========================================================
+
+if (
+    showFullTextButton
+) {
+
+    showFullTextButton.addEventListener(
+        "click",
+        showFullTerminalText
+    );
 
 }
 
@@ -813,8 +1266,14 @@ function acceptTransmission() {
     // CONFIRMACIÓN
     // -----------------------------------------------------
 
-    scene01Confirm.currentTime =
-        0;
+    if (
+        scene01Confirm
+    ) {
+
+        scene01Confirm.currentTime =
+            0;
+
+    }
 
 
     safePlayAudio(
@@ -827,15 +1286,15 @@ function acceptTransmission() {
     // GLITCH
     // -----------------------------------------------------
 
-    scene01Glitch.currentTime =
-        0;
+    if (
+        scene01Glitch
+    ) {
 
+        scene01Glitch.currentTime =
+            0;
 
-    /*
-        Lo dejamos bastante alto porque
-        este glitch acompaña directamente
-        el cambio de escena.
-    */
+    }
+
 
     safePlayAudio(
         scene01Glitch,
@@ -893,12 +1352,6 @@ acceptButton.addEventListener(
 // =========================================================
 // PRIMERA INTERACCIÓN
 // =========================================================
-
-/*
-    Si el navegador no permitió el hum
-    al cargar Scene 01, cualquier primera
-    interacción puede desbloquearlo.
-*/
 
 document.addEventListener(
     "pointerdown",

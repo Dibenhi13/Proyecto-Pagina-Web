@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Access Granted | The Lost Ship</title>
+    <title>Connection Established | The Lost Ship</title>
 
 
     <!-- Montserrat temporal -->
@@ -47,6 +47,7 @@
 
     <!-- ==================================================
          SCENE 10 — AUTHORIZE ENDING
+         Connection / Transfer
     =================================================== -->
 
     <main
@@ -108,6 +109,12 @@
                 >
 
 
+                    <!--
+                        Este elemento será reutilizado
+                        por JS para mostrar cada mensaje
+                        del final AUTHORIZE.
+                    -->
+
                     <p
                         id="authorize-message"
                         class="ending-main-message"
@@ -127,7 +134,7 @@
 
         <!-- ==================================================
              GHOST TEXT
-             Used during corruption
+             Appears during transfer / corruption
         =================================================== -->
 
         <div
@@ -135,7 +142,7 @@
             class="ending-ghost-text ending-ghost-text-01"
             aria-hidden="true"
         >
-            ACCESS GRANTED...
+            EXTERNAL HOST DETECTED
         </div>
 
 
@@ -144,7 +151,7 @@
             class="ending-ghost-text ending-ghost-text-02"
             aria-hidden="true"
         >
-            ACCESS GRANTED...
+            TRANSFER COMPLETE
         </div>
 
 
@@ -231,103 +238,126 @@
         ></div>
 
 
+
+        <!-- ==================================================
+             JUMPSCARE VIDEO
+             Asset AI will be added later
+        =================================================== -->
+
+        <div
+            id="jumpscare-container"
+            class="jumpscare-container"
+            aria-hidden="true"
+        >
+
+            <video
+                id="jumpscare-video"
+                class="jumpscare-video"
+                preload="auto"
+                playsinline
+            >
+            </video>
+
+        </div>
+
+
     </main>
 
 
 
     <!-- ==================================================
-     SFX — SCENE 10 AUTHORIZE
-=================================================== -->
+         SFX — SCENE 10 AUTHORIZE
+    =================================================== -->
 
-<audio
-    id="ending-hum"
-    preload="auto"
-    loop
->
-    <source
-        src="../../assets/audio/sfx/spaceship-hum.mp3"
-        type="audio/mpeg"
+    <audio
+        id="ending-hum"
+        preload="auto"
+        loop
     >
-</audio>
+        <source
+            src="../../assets/audio/sfx/spaceship-hum.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
 
 
-<audio
-    id="ending-static"
-    preload="auto"
-    loop
->
-    <source
-        src="../../assets/audio/sfx/static-loop.mp3"
-        type="audio/mpeg"
+    <audio
+        id="ending-static"
+        preload="auto"
+        loop
     >
-</audio>
+        <source
+            src="../../assets/audio/sfx/static-loop.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
 
 
-<audio
-    id="ending-rumble"
-    preload="auto"
-    loop
->
-    <source
-        src="../../assets/audio/sfx/deep-rumble.mp3"
-        type="audio/mpeg"
+    <audio
+        id="ending-rumble"
+        preload="auto"
+        loop
     >
-</audio>
+        <source
+            src="../../assets/audio/sfx/deep-rumble.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
 
 
-<audio
-    id="ending-glitch-medium"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/glitch-medium.wav"
-        type="audio/mpeg"
+    <audio
+        id="ending-glitch-medium"
+        preload="auto"
     >
-</audio>
+        <source
+            src="../../assets/audio/sfx/glitch-medium.wav"
+            type="audio/mpeg"
+        >
+    </audio>
 
 
-<audio
-    id="ending-glitch-strong"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/glitch-strong.wav"
-        type="audio/mpeg"
+    <audio
+        id="ending-glitch-strong"
+        preload="auto"
     >
-</audio>
+        <source
+            src="../../assets/audio/sfx/glitch-strong.wav"
+            type="audio/mpeg"
+        >
+    </audio>
 
 
-<audio
-    id="ending-electrical"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/electrical-interference.wav"
-        type="audio/mpeg"
+    <audio
+        id="ending-electrical"
+        preload="auto"
     >
-</audio>
+        <source
+            src="../../assets/audio/sfx/electrical-interference.wav"
+            type="audio/mpeg"
+        >
+    </audio>
 
 
-<audio
-    id="ending-low-impact"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/low-impact.mp3"
-        type="audio/mpeg"
+    <audio
+        id="ending-low-impact"
+        preload="auto"
     >
-</audio>
+        <source
+            src="../../assets/audio/sfx/low-impact.mp3"
+            type="audio/mpeg"
+        >
+    </audio>
 
 
-<audio
-    id="ending-whiteout-riser"
-    preload="auto"
->
-    <source
-        src="../../assets/audio/sfx/whiteout-riser.wav"
-        type="audio/mpeg"
+    <audio
+        id="ending-whiteout-riser"
+        preload="auto"
     >
-</audio>
+        <source
+            src="../../assets/audio/sfx/whiteout-riser.wav"
+            type="audio/mpeg"
+        >
+    </audio>
 
 
 

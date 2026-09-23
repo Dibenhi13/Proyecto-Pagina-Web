@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Integration Complete | The Lost Ship</title>
+    <title>Override Accepted | The Lost Ship</title>
 
 
     <!-- Montserrat temporal -->
@@ -47,6 +47,7 @@
 
     <!-- ==================================================
          SCENE 10 — DENY ENDING
+         Forced Override / Loss of Control
     =================================================== -->
 
     <main
@@ -110,6 +111,7 @@
 
                     <!-- ======================================
                          LINE 01
+                         ACCESS DENIED
                     ======================================= -->
 
                     <p
@@ -122,6 +124,7 @@
 
                     <!-- ======================================
                          LINE 02
+                         USER AUTHORIZATION REVOKED
                     ======================================= -->
 
                     <p
@@ -134,6 +137,7 @@
 
                     <!-- ======================================
                          LINE 03
+                         OVERRIDE ACCEPTED
                     ======================================= -->
 
                     <p
@@ -146,6 +150,7 @@
 
                     <!-- ======================================
                          LINE 04
+                         FINAL SYSTEM MESSAGE
                     ======================================= -->
 
                     <p
@@ -167,7 +172,7 @@
 
         <!-- ==================================================
              GHOST TEXT
-             Used during final corruption
+             Used during corruption
         =================================================== -->
 
         <div
@@ -175,7 +180,7 @@
             class="ending-ghost-text ending-ghost-text-01"
             aria-hidden="true"
         >
-            WELCOME BACK.
+            OVERRIDE ACCEPTED
         </div>
 
 
@@ -184,7 +189,7 @@
             class="ending-ghost-text ending-ghost-text-02"
             aria-hidden="true"
         >
-            INTEGRATION COMPLETE
+            CONTROL LOST
         </div>
 
 
@@ -271,12 +276,34 @@
         ></div>
 
 
+        <!-- ==================================================
+             JUMPSCARE VIDEO
+             Se activará después cuando tengamos el asset AI
+        =================================================== -->
+
+        <div
+            id="jumpscare-container"
+            class="jumpscare-container"
+            aria-hidden="true"
+        >
+
+            <video
+                id="jumpscare-video"
+                class="jumpscare-video"
+                preload="auto"
+                playsinline
+            >
+            </video>
+
+        </div>
+
+
     </main>
 
 
 
     <!-- ==================================================
-        SFX — SCENE 10 DENY
+         SFX — SCENE 10 DENY
     =================================================== -->
 
     <audio
@@ -379,6 +406,7 @@
             type="audio/mpeg"
         >
     </audio>
+
 
 
     <!-- ==================================================
